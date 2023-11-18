@@ -8,7 +8,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["Lato", "Helvetica", "sans-serif"],
+                lato: ["Lato", "Helvetica", "sans-serif"],
             },
             colors: {
                 "mealshub-cream": "#FBD8AA",
