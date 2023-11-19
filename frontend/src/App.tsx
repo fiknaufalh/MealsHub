@@ -1,29 +1,10 @@
-import Confirm from "./confirm.css";
+import React from 'react'
+import Confirm from './pages/Confirm Payment/confirm'
 
 const App = () => {
-  const [showConfirm, setShowConfirm] = React.useState(false);
-
-  const handleConfirm = () => {
-    // Do something when the user confirms
-  };
-
-  const handleCancel = () => {
-    setShowConfirm(false);
-  };
-
   return (
-    <div>
-      <button onClick={() => setShowConfirm(true)}>Confirm</button>
+    <div><Confirm /></div>
+  )
+}
 
-      {showConfirm && (
-        <Confirm
-          message="Are you sure you want to confirm?"
-          onCancel={handleCancel}
-          onConfirm={handleConfirm}
-        />
-      )}
-    </div>
-  );
-};
-
-export default App;
+export default App
