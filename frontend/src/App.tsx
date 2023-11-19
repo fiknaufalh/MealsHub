@@ -1,7 +1,14 @@
+import Sidebar from "./components/Sidebar";
+import TenantCard from "./components/TenantCard";
+import Search from "./components/Search";
+//import ProductCard from "./components/ProductCard";
+import Payment from "./pages/Payment/payment";
+
+
 export default function App() {
     return (
-        <div className="bg-blue-500 grid place-content-center min-h-screen">
-            <h1 className="text-xl">Hello, world!</h1>
+        <div>
+            <Payment />
         </div>
     );
 }
