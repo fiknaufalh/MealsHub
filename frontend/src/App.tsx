@@ -1,7 +1,14 @@
+import TenantInfo from "./pages/TenantInfo"
+import ShoppingCart from "./pages/ShoppingCart";
+import { ShoppingCartProvider } from "./contexts/ShoppingCartContext";
+
 export default function App() {
     return (
-        <div className="bg-blue-500 grid place-content-center min-h-screen">
-            <h1 className="text-xl">Hello, world!</h1>
+        <div>
+            <ShoppingCartProvider>
+                <TenantInfo />
+                {/* <ShoppingCart /> */}
+            </ShoppingCartProvider>
         </div>
     );
 }
