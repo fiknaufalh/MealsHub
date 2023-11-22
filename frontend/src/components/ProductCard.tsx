@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 interface ProductCardProps {
     id : number,
@@ -56,13 +57,18 @@ const Product: ProductCardProps[] = [
 
 export default function ProductCard() {
     const productlist = Product.map(({id, image, name, description, price}) => {
-        const { increaseItemQuantity, decreaseItemQuantity } = useShoppingCart();
+        const { getItemQuantity, increaseItemQuantity, removeItem } = useShoppingCart();
         
-        const [isAdded, setIsAdded] = useState(false);
+        const [isAdded, setIsAdded] = useLocalStorage<boolean>(`product-${id}`, false);
+
+        useEffect(() => {
+            const quantity = getItemQuantity(id);
+            setIsAdded(quantity > 0);
+        }, [getItemQuantity]);
 
         const handleClick = () => {
             if (isAdded) {
-                decreaseItemQuantity(id);
+                removeItem(id);
             } else {
                 increaseItemQuantity(id);
             }

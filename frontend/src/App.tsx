@@ -7,7 +7,7 @@ export default function App() {
         <div>
             <ShoppingCartProvider>
                 <TenantInfo />
-                {/* <ShoppingCart /> */}
+                <ShoppingCart />
             </ShoppingCartProvider>
         </div>
     );
