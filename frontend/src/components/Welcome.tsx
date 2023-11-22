@@ -7,7 +7,7 @@ interface WelcomeProps {
 }
 
 const Welcome: React.FC<WelcomeProps> = ({ fontSize, margin, user }) => {
-    return <h1 className="font-nunito font-bold text-3xl text-black-1000" style={{ fontSize, margin }}>Welcome, {user}</h1>;
+    return <h1 className="font-nunito font-bold text-3xl text-black-1000" style={{ fontSize, margin }}>Welcome, {user}!</h1>;
 };
 
 export default Welcome;
