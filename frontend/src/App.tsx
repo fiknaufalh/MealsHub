@@ -1,11 +1,14 @@
-import Homepage from "./pages/Homepage";
-import TenantInfo from "./pages/TenantInfo";
+import TenantInfo from "./pages/TenantInfo"
+import ShoppingCart from "./pages/ShoppingCart";
+import { ShoppingCartProvider } from "./contexts/ShoppingCartContext";
 
 export default function App() {
     return (
         <div>
-            <Homepage />
-            {/* <TenantInfo /> */}
+            <ShoppingCartProvider>
+                <TenantInfo />
+                {/* <ShoppingCart /> */}
+            </ShoppingCartProvider>
         </div>
     );
 }
