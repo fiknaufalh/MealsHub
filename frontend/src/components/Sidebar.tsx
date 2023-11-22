@@ -14,7 +14,7 @@ export default function Sidebar(props: any) {
                                 <path fill-rule="evenodd" clip-rule="evenodd" d={props[`path${index + 1}`]} fill="currentcolor" />
                             </svg>
                         </div>
-                        <span className="flex ms-14 whitespace-nowrap text-lg text-left">{props[`menu${index + 1}`]}</span>
+                    <span className="flex ms-14 whitespace-nowrap text-lg text-left">{props[`menu${index + 1}`]}</span>
                     </a>
                 </div>
             </button>}
@@ -30,7 +30,7 @@ export default function Sidebar(props: any) {
                             <path fill-rule="evenodd" clip-rule="evenodd" d={props[`path${props.current}`]} fill="currentcolor" />
                         </svg>
                     </div>
-                    <span className="flex-1 ms-14 whitespace-nowrap text-lg text-left">{props[`menu${props.current}`]}</span>
+                <span className="flex-1 ms-14 whitespace-nowrap text-lg text-left">{props[`menu${props.current}`]}</span>
                 </a>
             </div>
         </button>}
