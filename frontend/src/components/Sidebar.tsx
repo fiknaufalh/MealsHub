@@ -8,10 +8,10 @@ export default function Sidebar(props: any) {
                     <a href="#" className="flex items-center rounded-lg group">
                         <div className="absolute group text-mealshub-orange">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 33" className="h-auto w-7 text-mealshub-orange group-hover:hidden">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d={props[`path${index + 1}`]} fill="currentcolor"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d={props[`path${index + 1}`]} fill="currentcolor" />
                             </svg>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 33" className="h-auto w-7 text-white hidden group-hover:block group-hover:shadow-xl">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d={props[`path${index + 1}`]} fill="currentcolor"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d={props[`path${index + 1}`]} fill="currentcolor" />
                             </svg>
                         </div>
                     <span className="flex ms-14 whitespace-nowrap text-lg text-left">{props[`menu${index + 1}`]}</span>
@@ -27,7 +27,7 @@ export default function Sidebar(props: any) {
                 <a href="#" className="flex items-center rounded-lg group">
                     <div className="absolute group text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 33" className="h-auto w-7 text-white">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d={props[`path${props.current}`]} fill="currentcolor"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d={props[`path${props.current}`]} fill="currentcolor" />
                         </svg>
                     </div>
                 <span className="flex-1 ms-14 whitespace-nowrap text-lg text-left">{props[`menu${props.current}`]}</span>

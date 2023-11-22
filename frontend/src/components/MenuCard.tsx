@@ -1,8 +1,10 @@
 export default function MenuCard(props: any) {
     return (
-        <a href="#">
-            <div className="w-72 h-72 bg-white rounded-3xl drop-shadow-2xl">
-                <img className="rounded-3xl" src={props.image} alt="" />
+        <div>
+            <div className="w-72 h-72 bg-white rounded-3xl drop-shadow-lg">
+                <div className="flex flex-col items-center justify-center">
+                    <img className="rounded-3xl" src={props.image} style={{ width: '288 px', height: '152px' }} alt="" />
+                </div>
                 <div className="mt-3 px-4">
                     <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900">
                         {props.name}
@@ -18,11 +20,14 @@ export default function MenuCard(props: any) {
                         </span>
                     </div>
                     <div className="flex flex-col items-center justify-center">
-                        <button type="button" className="w-44 h-8 mx-2 my-4 text-white bg-mealshub-blue hover:bg-green-900 focus:outline-none focus:ring-4 focus:ring-green-300 font-lato-light rounded-full text-m" >Edit Menu</button>
+                        <div>
+                            <button type="button" className="w-28 h-8 mx-2 my-4 text-white bg-mealshub-blue hover:bg-green-900 focus:outline-none focus:ring-4 focus:ring-green-300 font-lato-light rounded-full text-m" onClick={props.onEditClick}>Edit Menu</button>
+                            <button type="button" className="w-28 h-8 mx-2 my-4 text-mealshub-red bg-white border-2 border-mealshub-red hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-red-300 font-lato-light rounded-full text-m" onClick={props.onDeleteClick}>Delete Menu</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </a>
+        </div>
     )
 }
 
