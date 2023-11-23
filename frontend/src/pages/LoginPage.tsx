@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import Input from "../components/Input";
 import LoginForm from "../components/LoginForm";
 
 interface LoginFormInput {
