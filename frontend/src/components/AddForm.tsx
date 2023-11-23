@@ -6,9 +6,9 @@ interface AddFormProps {
 
 const AddForm: React.FC<AddFormProps> = (props) => {
     return (
-        <div className="flex items-center overflow-y-auto overflow-x-hidden fixed justify-center items-center w-full md:inset-0 min-h-full">
+        <div className="flex overflow-y-auto overflow-x-hidden fixed justify-center items-center w-full md:inset-0 min-h-full">
             <div className="relative p-4 w-full max-w-md max-h-full">
-                <div className="relative bg-gray-100 rounded-lg">
+                <div className="relative bg-gray-200 rounded-2xl">
                     <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-lg" >
                         <h3 className="text-lg font-semibold text-gray-900">
                             Create New Product

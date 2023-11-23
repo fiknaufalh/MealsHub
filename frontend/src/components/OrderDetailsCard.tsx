@@ -19,9 +19,9 @@ const OrderDetails: OrderDetailsCardProps[] = [
 ];
 
 export default function OrderDetailsCard() {
-    const orderdetails = OrderDetails.map(({orderid, code, tableid, time, orderstatus, paymentstatus}) => {
+    const orderdetails = OrderDetails.map(({ orderid, code, tableid, time, orderstatus, paymentstatus }) => {
         return (
-            <div className="flex bg-white justify-start py-10 md:flex-row mx-16">
+            <div className="font-nunito flex bg-white justify-start py-10 md:flex-row mx-16">
                 <div className="flex flex-col w-40 leading-normal">
                     <p className="mb-3 font-semibold text-lg text-gray-900 w-5/6">Order ID</p>
                     <p className="my-3 font-semibold text-lg text-gray-900 w-5/6">Unique Code</p>
