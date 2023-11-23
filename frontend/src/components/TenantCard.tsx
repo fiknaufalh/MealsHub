@@ -12,7 +12,7 @@ interface TenantCardProps {
 const Tenant: TenantCardProps[] = [
     {
         id: 1,
-        image: "../../public/images/McDonalds.jpg",
+        image: "McDonalds.jpg",
         name: "McDonald's",
         rating: 4.5,
         openinghour: "08.00",
@@ -22,7 +22,7 @@ const Tenant: TenantCardProps[] = [
     },
     {
         id: 2,
-        image: "../../public/images/Chatime.jpg",
+        image: "Chatime.jpg",
         name: "Chatime",
         rating: 4.5,
         openinghour: "07.00",
@@ -32,7 +32,7 @@ const Tenant: TenantCardProps[] = [
     },
     {
         id: 3,
-        image: "../../public/images/BurgerKing.png",
+        image: "BurgerKing.png",
         name: "Burger King",
         rating: 4.5,
         openinghour: "08.00",
@@ -42,7 +42,7 @@ const Tenant: TenantCardProps[] = [
     },
     {
         id: 4,
-        image: "../../public/images/Mixue.jpg",
+        image: "Mixue.jpg",
         name: "Mixue",
         rating: 4.5,
         openinghour: "08.00",
@@ -52,7 +52,7 @@ const Tenant: TenantCardProps[] = [
     },
     {
         id: 5,
-        image: "../../public/images/FlashCoffee.png",
+        image: "FlashCoffee.png",
         name: "Flash Coffee",
         rating: 4.5,
         openinghour: "08.00",
@@ -62,7 +62,7 @@ const Tenant: TenantCardProps[] = [
     },
     {
         id: 6,
-        image: "../../public/images/Gyukaku.jpg",
+        image: "Gyukaku.jpg",
         name: "Gyukaku",
         rating: 4.5,
         openinghour: "08.00",
@@ -72,7 +72,7 @@ const Tenant: TenantCardProps[] = [
     },
     {
         id: 7,
-        image: "../../public/images/PepperLunch.png",
+        image: "PepperLunch.png",
         name: "Pepper Lunch",
         rating: 4.5,
         openinghour: "08.00",
@@ -82,7 +82,7 @@ const Tenant: TenantCardProps[] = [
     },
     {
         id: 8,
-        image: "../../public/images/Subway.jpg",
+        image: "Subway.jpg",
         name: "Subway",
         rating: 4.5,
         openinghour: "08.00",
@@ -100,7 +100,7 @@ export default function TenantCard() {
             <a href="#">
                 <div className="w-72 h-80 bg-white rounded-3xl shadow-xl">
                     <div className="flex items-center h-48 w-full">
-                        <img className="object-cover h-full w-full rounded-3xl" src={image} alt="" />
+                        <img className="object-cover h-full w-full rounded-3xl" src={`../../public/images/${image}`} alt="" />
                     </div>
                     <div className="mt-3 px-4">
                         <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900">{name}</h5>
