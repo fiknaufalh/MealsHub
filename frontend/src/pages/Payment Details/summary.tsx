@@ -6,13 +6,22 @@ import Welcome from '../../components/Welcome';
 import Profile from '../../components/Profile';
 import ProfileDropDown from '../../components/ProfileDropDown';
 import { useState } from "react";
+import ConfirmPopUp from '../../components/ConfirmPopUp';
 
 const Summary = () => {
     const [showProfileDropDown, setShowProfileDropDown] = useState(false);
+    const [showConfirmPopUp, setShowConfirmPopUp] = useState(false);
 
     const handleProfileClick = () => {
         setShowProfileDropDown(!showProfileDropDown);
     };
+    const handleConfirmPayment = () => {
+      setShowConfirmPopUp(true); 
+  };
+
+  const handleCloseConfirmPopUp = () => {
+      setShowConfirmPopUp(false); 
+  };
     return (
         // Create grid layout for sidebard, header, and main content
         <div className="grid grid-cols-5 grid-rows-8 bg-mealshub-cream min-h-screen">
@@ -40,10 +49,13 @@ const Summary = () => {
                         <OrderDetailsCard />
                         <OrderSummaryCard />
                         <div className="flex mx-16 justify-center">
-                          <button className="max-w-xs text-white bg-mealshub-red font-bold text-lg rounded-full px-2 py-1 text-center shadow-xl">
+                          <button className="max-w-xs text-white bg-mealshub-red font-bold text-lg rounded-full px-2 py-1 text-center shadow-xl" onClick={handleConfirmPayment}>
                             Confirm Payment
                           </button>
-                    </div>
+                        </div>
+                        {showConfirmPopUp && (
+                <ConfirmPopUp onClose={handleCloseConfirmPopUp} />
+            )}
                     </div>
                 </div>
             </div>

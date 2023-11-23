@@ -6,7 +6,7 @@ import Summary from './pages/Payment Details/summary'
 
 const App = () => {
   return (
-    <div><Confirm/></div>
+    <div><Summary/></div>
   )
 }
 
