@@ -1,5 +1,7 @@
 import TenantInfo from "./pages/TenantInfo";
 import ShoppingCart from "./pages/ShoppingCart";
+import AppRoutes from "./AppRoutes";
+import Login from "./pages/LoginPage";
 import { ShoppingCartProvider } from "./contexts/ShoppingCartContext";
 import PageManageOrder from "./pages/PageManageOrder";
 import PageManageMenu from "./pages/PageManageMenu";
@@ -10,17 +12,8 @@ import Testing from "./pages/Testing";
 
 export default function App() {
     return (
-        <div>
-            {/* <ShoppingCartProvider>
-                <TenantInfo />
-                <ShoppingCart />
-            </ShoppingCartProvider> */}
-            {/* <PageManageMenu /> */}
-            {/* <PageManageOrder /> */}
-            {/* <OrderSummary /> */}
-            {/* <OrderDetails /> */}
-            <Homepage />
-            {/* <Testing /> */}
-        </div>
+        <>
+            <AppRoutes />
+        </>
     );
 }
