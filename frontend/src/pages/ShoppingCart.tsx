@@ -32,7 +32,7 @@ interface TenantCardProps {
 const Tenant: TenantCardProps[] = [
     {
         id: 1,
-        image: "../../public/images/McDonalds.jpg",
+        image: "McDonalds.jpg",
         name: "McDonald's",
         rating: 4.5,
         openinghour: "08.00",
@@ -42,7 +42,7 @@ const Tenant: TenantCardProps[] = [
     },
     {
         id: 2,
-        image: "../../public/images/Chatime.jpg",
+        image: "Chatime.jpg",
         name: "Chatime",
         rating: 4.5,
         openinghour: "07.00",
@@ -52,7 +52,7 @@ const Tenant: TenantCardProps[] = [
     },
     {
         id: 3,
-        image: "../../public/images/BurgerKing.png",
+        image: "BurgerKing.png",
         name: "Burger King",
         rating: 4.5,
         openinghour: "08.00",
@@ -62,7 +62,7 @@ const Tenant: TenantCardProps[] = [
     },
     {
         id: 4,
-        image: "../../public/images/Mixue.jpg",
+        image: "Mixue.jpg",
         name: "Mixue",
         rating: 4.5,
         openinghour: "08.00",
@@ -72,7 +72,7 @@ const Tenant: TenantCardProps[] = [
     },
     {
         id: 5,
-        image: "../../public/images/FlashCoffee.png",
+        image: "FlashCoffee.png",
         name: "Flash Coffee",
         rating: 4.5,
         openinghour: "08.00",
@@ -82,7 +82,7 @@ const Tenant: TenantCardProps[] = [
     },
     {
         id: 6,
-        image: "../../public/images/Gyukaku.jpg",
+        image: "Gyukaku.jpg",
         name: "Gyukaku",
         rating: 4.5,
         openinghour: "08.00",
@@ -92,7 +92,7 @@ const Tenant: TenantCardProps[] = [
     },
     {
         id: 7,
-        image: "../../public/images/PepperLunch.png",
+        image: "PepperLunch.png",
         name: "Pepper Lunch",
         rating: 4.5,
         openinghour: "08.00",
@@ -102,7 +102,7 @@ const Tenant: TenantCardProps[] = [
     },
     {
         id: 8,
-        image: "../../public/images/Subway.jpg",
+        image: "Subway.jpg",
         name: "Subway",
         rating: 4.5,
         openinghour: "08.00",
@@ -114,7 +114,7 @@ const Tenant: TenantCardProps[] = [
 const Product: ProductCardProps[] = [
     {
         id: 1,
-        image: "../../public/images/Cheeseburger.png",
+        image: "Cheeseburger.png",
         name: "Cheeseburger",
         description: "Enjoy the cheesy deliciousness of a McDonald's Cheeseburger! Our simple, classic cheeseburger begins with a 100% pure beef burger patty seasoned with just a pinch of salt and pepper.",
         price: 40000,
@@ -122,7 +122,7 @@ const Product: ProductCardProps[] = [
     },
     {
         id : 2,
-        image: "../../public/images/BigMac.jfif",
+        image: "BigMac.jfif",
         name: "Big Mac",
         description: "The McDonald's Big Mac® is a 100% beef burger with a taste like no other. The mouthwatering perfection starts with two 100% pure all beef patties and Big Mac® sauce sandwiched between a sesame seed bun.",
         price: 50000,
@@ -130,7 +130,7 @@ const Product: ProductCardProps[] = [
     },
     {
         id : 3,
-        image: "../../public/images/ChickenMcNuggets.jfif",
+        image: "ChickenMcNuggets.jfif",
         name: "Chicken McNuggets",
         description: "Enjoy tender, juicy Chicken McNuggets® with your favorite dipping sauces. Chicken McNuggets® are made with all white meat chicken and no artificial colors, flavors, or preservatives. ",
         price: 20000,
@@ -138,7 +138,7 @@ const Product: ProductCardProps[] = [
     },
     {
         id : 4,
-        image: "../../public/images/EggMcMuffin.jfif",
+        image: "EggMcMuffin.jfif",
         name: "Egg McMuffin",
         description: "Satisfy your McDonald's breakfast cravings with our Egg McMuffin® breakfast sandwich—it’s an excellent source of protein and oh so delicious.",
         price: 30000,
@@ -146,7 +146,7 @@ const Product: ProductCardProps[] = [
     },
     {
         id : 5,
-        image: "../../public/images/FilletOFish.jfif",
+        image: "FilletOFish.jfif",
         name: "Fillet-O-Fish",
         description: "Dive into our wild-caught Filet-O-Fish, a classic McDonald's fish sandwich! Our fish sandwich recipe features a crispy fish filet patty on melty American cheese and is topped with creamy McDonald’s tartar sauce, all served on a soft, steamed bun.",
         price: 30000,
@@ -154,7 +154,7 @@ const Product: ProductCardProps[] = [
     },
     {
         id : 6,
-        image: "../../public/images/McCrispy.jfif",
+        image: "McCrispy.jfif",
         name: "McCripsy",
         description: "The McDonald’s McCrispy™ is a southern-style fried chicken sandwich that's crispy, juicy and tender perfection. It’s topped with crinkle-cut pickles and served on a toasted, buttered potato roll. The McCrispy™ has 470 calories.",
         price: 40000,
