@@ -10,7 +10,7 @@ export default {
         extend: {
             fontFamily: {
                 lato: ["Lato", "Helvetica", "sans-serif"],
-                nunito: ["nunito", "sans-serif", "sans"]
+                nunito: ["nunito", "sans-serif", "sans"],
             },
             colors: {
                 "mealshub-cream": "#FBD8AA",
@@ -24,5 +24,3 @@ export default {
     },
     plugins: [require("flowbite/plugin")],
 };
-
-
