@@ -3,6 +3,7 @@ import ShoppingCart from "./pages/ShoppingCart";
 import { ShoppingCartProvider } from "./contexts/ShoppingCartContext";
 import PageManageOrder from "./pages/PageManageOrder";
 import PageManageMenu from "./pages/PageManageMenu";
+import OrderList from "./pages/OrderList";
 import OrderSummary from "./pages/OrderSummary";
 import OrderDetails from "./pages/OrderDetailsTenant";
 import Homepage from "./pages/Homepage";
@@ -16,11 +17,12 @@ export default function App() {
                 <ShoppingCart />
             </ShoppingCartProvider> */}
             {/* <PageManageMenu /> */}
-            <PageManageOrder />
-            {/* <OrderSummary /> */}
+            {/* <PageManageOrder /> */}
+            <OrderSummary orderid={3}/>
             {/* <OrderDetails /> */}
             {/* <Homepage /> */}
             {/* <Testing /> */}
+            {/* <OrderList /> */}
         </div>
     );
 }

@@ -61,6 +61,13 @@ __decorate([
     __metadata("design:type", Object)
 ], Tenants.prototype, "rating", void 0);
 __decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING(255),
+        field: "image",
+    }),
+    __metadata("design:type", Object)
+], Tenants.prototype, "image", void 0);
+__decorate([
     (0, sequelize_typescript_1.ForeignKey)(() => Users_1.Users),
     (0, sequelize_typescript_1.BelongsTo)(() => Users_1.Users, "id"),
     __metadata("design:type", Users_1.Users)

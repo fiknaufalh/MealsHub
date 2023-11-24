@@ -3,8 +3,132 @@ import OrderDetailsCard from "../components/OrderDetailsCard";
 import OrderSummaryCard from "../components/OrderSummaryCard";
 import WelcomingText from "../components/WelcomingText";
 import BackButton from "../components/BackButton";
+import { useEffect, useState } from "react";
+import Axios from "axios";
+import JoinedOrderPayment from "../../../backend/src/services/api/joinedOrderPayment";
 
-export default function OrderSummary() {
+type id = number;
+
+interface Order {
+    id: number,
+    status: string,
+    time: Date,
+    id_table: number,
+    id_tenant: number
+}
+
+interface OrderProduct {
+    num_product: number,
+    id_product: number,
+    id_order: number
+}
+
+interface Product {
+    id: number,
+    name: string,
+    price: number
+}
+
+interface Tenant {
+    id: number,
+    name: string
+}
+
+interface Payment {
+    id: number,
+    status: string,
+    id_order: number
+}
+
+interface OrderSummary {
+    name: string,
+    orderlist: (string | number)[][]
+}
+
+interface OrderDetails {
+    orderid: number,
+    code: number,
+    tableid: number,
+    time: Date,
+    orderstatus: string,
+    paymentstatus: string
+}
+
+export default function OrderSummary({orderid}: {orderid: id}) {
+    const [joinedOrderSummaryData, setJoinedOrderSummaryData] = useState<OrderSummary[]>([]);
+
+    const getOrderSummaryData = async () => {
+        const orderResponse = await Axios.get(`http://localhost:8000/orders/${orderid}`);
+        const productResponse = await Axios.get("http://localhost:8000/products");
+        const orderProductResponse = await Axios.get("http://localhost:8000/orderproduct");
+        const tenantResponse = await Axios.get("http://localhost:8000/tenants");
+
+        const orderData = orderResponse.data.data;
+        const productData = productResponse.data.data;
+        const orderProductData = orderProductResponse.data.data;
+        const tenantData = tenantResponse.data.data;
+
+        // Perform the join based on the specified conditions
+        // OrderData is not an array, so we need to convert it into an array
+        const orderDataArray = [orderData];
+        const result = orderDataArray.map((order: Order) => {
+            const tenant = tenantData.find((tenant: Tenant) => tenant.id === order.id_tenant);
+            const orderproduct = orderProductData.filter((orderProduct: OrderProduct) => orderProduct.id_order === order.id);
+            const listproduct = orderproduct.map((orderProduct: OrderProduct) => {
+                const product = productData.find((product: Product) => product.id === orderProduct.id_product);
+                return [product.name, orderProduct.num_product, product.price];
+            })
+
+            return {
+                name: tenant.name,
+                orderlist: listproduct
+            }
+        });
+
+        setJoinedOrderSummaryData(result);
+
+    };
+
+    useEffect(() => {
+        getOrderSummaryData();
+    }, []);
+
+    console.log(joinedOrderSummaryData);
+
+    const [joinedOrderDetailsData, setJoinedOrderDetailsData] = useState<OrderDetails[]>([]);
+
+    const getOrderDetailsData = async () => {
+        const orderResponse = await Axios.get(`http://localhost:8000/orders/${orderid}`);
+        const paymentResponse = await Axios.get("http://localhost:8000/payments");
+
+        const orderData = orderResponse.data.data;
+        const paymentData = paymentResponse.data.data;
+
+        // Perform the join based on the specified conditions
+        const OrderDataArray = [orderData];
+        const result = OrderDataArray.map((order: Order) => {
+            const matchingPayment = paymentData.find((payment: Payment) => payment.id_order === order.id);
+
+            return {
+                orderid: order.id,
+                code: matchingPayment.id,
+                tableid: order.id_table,
+                time: order.time,
+                orderstatus: order.status,
+                paymentstatus: matchingPayment.status
+            };
+        });
+
+        setJoinedOrderDetailsData(result);
+
+    };
+
+    useEffect(() => {
+        getOrderDetailsData();
+    }, []);
+
+    console.log(joinedOrderDetailsData);
+
     return (
         // Create grid layout for sidebard, header, and main content
         <div className="grid grid-cols-5 grid-rows-8 bg-mealshub-cream">
@@ -23,8 +147,8 @@ export default function OrderSummary() {
                     </div>
                     <div className="ms-20 py-12 bg-white rounded-3xl">
                         <h2 className="text-mealshub-red text-3xl font-bold ms-16">Order Summary</h2>
-                        <OrderDetailsCard />
-                        <OrderSummaryCard />
+                        <OrderDetailsCard data={joinedOrderDetailsData} />
+                        <OrderSummaryCard data={joinedOrderSummaryData} />
                     </div>
                 </div>
             </div>

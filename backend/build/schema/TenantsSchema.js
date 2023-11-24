@@ -12,6 +12,7 @@ exports.createTenantSchema = zod_1.z.object({
         open_hour: zod_1.z.string().nullable(),
         description: zod_1.z.string().nullable(),
         rating: zod_1.z.number().nullable(),
+        image: zod_1.z.string().nullable(),
     }),
 });
 exports.updateTenantSchema = zod_1.z.object({
@@ -25,6 +26,7 @@ exports.updateTenantSchema = zod_1.z.object({
         open_hour: zod_1.z.string().nullable(),
         description: zod_1.z.string().nullable(),
         rating: zod_1.z.number().nullable(),
+        image: zod_1.z.string().nullable(),
     })
         .partial(),
 });

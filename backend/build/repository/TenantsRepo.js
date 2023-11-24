@@ -47,6 +47,7 @@ class TenantRepo {
                     open_hour: tenant.open_hour,
                     description: tenant.description,
                     rating: tenant.rating,
+                    image: tenant.image,
                 });
             }
             catch (error) {
@@ -68,6 +69,7 @@ class TenantRepo {
                 existingTenant.open_hour = tenant.open_hour;
                 existingTenant.description = tenant.description;
                 existingTenant.rating = tenant.rating;
+                existingTenant.image = tenant.image;
                 yield existingTenant.save();
             }
             catch (error) {

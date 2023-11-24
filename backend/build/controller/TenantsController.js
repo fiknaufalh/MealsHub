@@ -25,6 +25,7 @@ class TenantController {
                 new_tenant.open_hour = req.body.open_hour;
                 new_tenant.description = req.body.description;
                 new_tenant.rating = req.body.rating;
+                new_tenant.image = req.body.image;
                 yield new TenantsRepo_1.default().createTenant(new_tenant);
                 res.status(201).json({
                     status: "Created!",
@@ -32,6 +33,7 @@ class TenantController {
                 });
             }
             catch (err) {
+                console.log(err);
                 res.status(500).json({
                     status: "Internal Server Error!",
                     message: "Internal Server Error!",
@@ -87,6 +89,7 @@ class TenantController {
                 });
             }
             catch (err) {
+                console.log(err);
                 res.status(500).json({
                     status: "Internal Server Error!",
                     message: "Internal Server Error!",
@@ -105,6 +108,7 @@ class TenantController {
                 tenant.open_hour = req.body.open_hour;
                 tenant.description = req.body.description;
                 tenant.rating = req.body.rating;
+                tenant.image = req.body.image;
                 yield new TenantsRepo_1.default().updateTenant(tenant);
                 res.status(200).json({
                     status: "Ok!",
