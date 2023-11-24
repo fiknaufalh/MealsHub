@@ -3,7 +3,6 @@ import BaseRoutes from "./base/BaseRouter";
 import UsersController from "../controller/UsersController";
 import validate from "../helper/validate";
 import { createUserSchema, updateUserSchema } from "../schema/UsersSchema";
-import router from "./food.router";
 
 class UsersRoutes extends BaseRoutes {
     public routes(): void {
