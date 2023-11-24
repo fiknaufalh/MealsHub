@@ -13,6 +13,7 @@ class TenantController {
             new_tenant.open_hour = req.body.open_hour;
             new_tenant.description = req.body.description;
             new_tenant.rating = req.body.rating;
+            new_tenant.image = req.body.image;
 
             await new TenantsRepo().createTenant(new_tenant);
 
@@ -21,6 +22,7 @@ class TenantController {
                 message: "Successfully created tenant!",
             });
         } catch (err) {
+            console.log(err);
             res.status(500).json({
                 status: "Internal Server Error!",
                 message: "Internal Server Error!",
@@ -73,6 +75,7 @@ class TenantController {
                 data: tenants,
             });
         } catch (err) {
+            console.log(err);
             res.status(500).json({
                 status: "Internal Server Error!",
                 message: "Internal Server Error!",
@@ -91,6 +94,7 @@ class TenantController {
             tenant.open_hour = req.body.open_hour;
             tenant.description = req.body.description;
             tenant.rating = req.body.rating;
+            tenant.image = req.body.image;
 
             await new TenantsRepo().updateTenant(tenant);
 
