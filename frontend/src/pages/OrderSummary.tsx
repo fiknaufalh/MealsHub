@@ -5,7 +5,6 @@ import WelcomingText from "../components/WelcomingText";
 import BackButton from "../components/BackButton";
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import JoinedOrderPayment from "../../../backend/src/services/api/joinedOrderPayment";
 
 type id = number;
 
