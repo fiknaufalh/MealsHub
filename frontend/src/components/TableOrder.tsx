@@ -126,7 +126,7 @@ function TableOrder({ data }: { data: Data }) {
     }
 
     return (
-        <div className="mx-12 w-11/12">
+        <div className="mx-12">
             <div className="my-4">
                 <form>
                     <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only">
@@ -171,8 +171,8 @@ function TableOrder({ data }: { data: Data }) {
                 </form>
             </div>
             <div className="font-nunito relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
-                <table className="w-full text-sm text-left rtl:text-right">
-                    <thead className="text-s text-mealshub-golden bg-mealshub-blue">
+                <table className="w-full text-xs text-left rtl:text-right">
+                    <thead className="text-xs text-mealshub-golden bg-mealshub-blue">
                         <tr>
                             <th scope="col" className="px-6 py-3 font-semibold whitespace-nowrap">
                                 No
@@ -264,45 +264,46 @@ function TableOrder({ data }: { data: Data }) {
                     </tbody>
                 </table>
             </div>
-            <div className='absolute bottom-12'>
-                <nav aria-label="Page Navigation">
-                    <ul className="pagination flex items-center -space-x-px h-8 text-sm" style={{
-                        width: '316px',
-                        height: '34px',
-                    }}>
-                        <li className='page-item'>
-                            <a href="#" className="page-link flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 mx-4" onClick={prePage}>
-                                <span className="sr-only">Previous</span>
-                                <svg className="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
-                                </svg>
-                            </a>
-                        </li>
-                        {numbers.map((n, i) => (
-                            <li>
-                                <a
-                                    href="#"
-                                    className={`page-item ${currentPage === n ? 'z-10 flex items-center justify-center px-3 h-8 leading-tight text-mealshub-blue rounded-lg bg-mealshub-greenpalet hover:bg-blue-100 hover:text-blue-700 mx-1' : 'flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 mx-1'}`} key={i}
-                                    onClick={() => setCurrentPage(n)}
-                                >
-                                    {n}
+            <div className="grid grid-cols-2 mt-4">
+                <div className="justify-self-start">
+                    <nav aria-label="Page Navigation">
+                        <ul className="pagination flex items-center  h-8 text-sm" style={{
+                            width: '316px',
+                            height: '34px',
+                        }}>
+                            <li className='page-item'>
+                                <a href="#" className="page-link flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 mr-4" onClick={prePage}>
+                                    <span className="sr-only">Previous</span>
+                                    <svg className="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+                                    </svg>
                                 </a>
                             </li>
-                        ))}
-                        <li className='page-item' >
-                            <a href="#" className="page-link flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 mx-4" onClick={nextPage}>
-                                <span className="sr-only">Next</span>
-                                <svg className="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-
-            </div>
-            <div className="font-nunito text-sm text-gray-700 absolute bottom-12 right-48">
-                Showing <span className="font-semibold text-black">{startNumber()}</span> to <span className="font-semibold text-black">{endNumber()}</span> of <span className="font-semibold text-black">{filteredRecords.length}</span> Entries
+                            {numbers.map((n, i) => (
+                                <li>
+                                    <a
+                                        href="#"
+                                        className={`page-item ${currentPage === n ? 'z-10 flex items-center justify-center px-3 h-8 leading-tight text-mealshub-blue rounded-lg bg-mealshub-greenpalet hover:bg-blue-100 hover:text-blue-700 mx-1' : 'flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 mx-1'}`} key={i}
+                                        onClick={() => setCurrentPage(n)}
+                                    >
+                                        {n}
+                                    </a>
+                                </li>
+                            ))}
+                            <li className='page-item' >
+                                <a href="#" className="page-link flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 mx-4" onClick={nextPage}>
+                                    <span className="sr-only">Next</span>
+                                    <svg className="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div className="font-nunito text-sm text-gray-700 justify-self-end mt-4">
+                    Showing <span className="font-semibold text-black">{startNumber()}</span> to <span className="font-semibold text-black">{endNumber()}</span> of <span className="font-semibold text-black">{filteredRecords.length}</span> Entries
+                </div>
             </div>
         </div>
     );

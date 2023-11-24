@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 interface ProductCardProps {
     id : number,
@@ -12,42 +13,42 @@ interface ProductCardProps {
 const Product: ProductCardProps[] = [
     {
         id: 1,
-        image: "../../public/images/Cheeseburger.png",
+        image: "Cheeseburger.png",
         name: "Cheeseburger",
         description: "Enjoy the cheesy deliciousness of a McDonald's Cheeseburger! Our simple, classic cheeseburger begins with a 100% pure beef burger patty seasoned with just a pinch of salt and pepper.",
         price: 40000
     },
     {
         id : 2,
-        image: "../../public/images/BigMac.jfif",
+        image: "BigMac.jfif",
         name: "Big Mac",
         description: "The McDonald's Big Mac® is a 100% beef burger with a taste like no other. The mouthwatering perfection starts with two 100% pure all beef patties and Big Mac® sauce sandwiched between a sesame seed bun.",
         price: 50000
     },
     {
         id : 3,
-        image: "../../public/images/ChickenMcNuggets.jfif",
+        image: "ChickenMcNuggets.jfif",
         name: "Chicken McNuggets",
         description: "Enjoy tender, juicy Chicken McNuggets® with your favorite dipping sauces. Chicken McNuggets® are made with all white meat chicken and no artificial colors, flavors, or preservatives. ",
         price: 20000
     },
     {
         id : 4,
-        image: "../../public/images/EggMcMuffin.jfif",
+        image: "EggMcMuffin.jfif",
         name: "Egg McMuffin",
         description: "Satisfy your McDonald's breakfast cravings with our Egg McMuffin® breakfast sandwich—it’s an excellent source of protein and oh so delicious.",
         price: 30000
     },
     {
         id : 5,
-        image: "../../public/images/FilletOFish.jfif",
+        image: "FilletOFish.jfif",
         name: "Fillet-O-Fish",
         description: "Dive into our wild-caught Filet-O-Fish, a classic McDonald's fish sandwich! Our fish sandwich recipe features a crispy fish filet patty on melty American cheese and is topped with creamy McDonald’s tartar sauce, all served on a soft, steamed bun.",
         price: 30000
     },
     {
         id : 6,
-        image: "../../public/images/McCrispy.jfif",
+        image: "McCrispy.jfif",
         name: "McCripsy",
         description: "The McDonald’s McCrispy™ is a southern-style fried chicken sandwich that's crispy, juicy and tender perfection. It’s topped with crinkle-cut pickles and served on a toasted, buttered potato roll. The McCrispy™ has 470 calories.",
         price: 40000
@@ -56,13 +57,18 @@ const Product: ProductCardProps[] = [
 
 export default function ProductCard() {
     const productlist = Product.map(({id, image, name, description, price}) => {
-        const { increaseItemQuantity, decreaseItemQuantity } = useShoppingCart();
+        const { getItemQuantity, increaseItemQuantity, removeItem } = useShoppingCart();
         
-        const [isAdded, setIsAdded] = useState(false);
+        const [isAdded, setIsAdded] = useLocalStorage<boolean>(`product-${id}`, false);
+
+        useEffect(() => {
+            const quantity = getItemQuantity(id);
+            setIsAdded(quantity > 0);
+        }, [getItemQuantity]);
 
         const handleClick = () => {
             if (isAdded) {
-                decreaseItemQuantity(id);
+                removeItem(id);
             } else {
                 increaseItemQuantity(id);
             }
@@ -81,7 +87,7 @@ export default function ProductCard() {
                     </div>
                     <div className="flex flex-col justify-center items-center w-1/4 full">
                         <div className="flex flex-row items-center h-36 w-36 rounded-3xl md:h-36 md:w-36 md:rounded-3xl mb-4">
-                            <img src={image} alt="Cheeseburger" className='object-cover h-full w-full rounded-3xl'>
+                            <img src={`../../public/images/${image}`} alt="Cheeseburger" className='object-cover h-full w-full rounded-3xl'>
                             </img>
                         </div>
                         <div className="flex flex-row items-center">
