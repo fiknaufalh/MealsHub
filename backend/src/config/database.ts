@@ -1,12 +1,12 @@
 import { Sequelize } from "sequelize-typescript";
 import * as dotenv from "dotenv";
-// import { OrderProduct } from "../model/OrderProduct";
-// import { Orders } from "../model/Orders";
-// import { Payments } from "../model/Payments";
-// import { Products } from "../model/Products";
+import { OrderProduct } from "../model/OrderProduct";
+import { Orders } from "../model/Orders";
+import { Payments } from "../model/Payments";
+import { Products } from "../model/Products";
 import { Tables } from "../model/Tables";
-// import { Tenants } from "../model/Tenants";
-// import { Users } from "../model/Users";
+import { Tenants } from "../model/Tenants";
+import { Users } from "../model/Users";
 dotenv.config();
 
 class Database {
@@ -32,13 +32,13 @@ class Database {
             port: this.POSTGRES_PORT,
             dialect: "postgres",
             models: [
-                // OrderProduct,
-                // Orders,
-                // Payments,
-                // Products,
+                OrderProduct,
+                Orders,
+                Payments,
+                Products,
                 Tables,
-                // Tenants,
-                // Users,
+                Tenants,
+                Users,
             ],
         });
 

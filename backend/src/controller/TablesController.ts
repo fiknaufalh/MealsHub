@@ -5,7 +5,7 @@ import { Tables } from "../model/Tables";
 class TablesController {
     async getAllTables(req: Request, res: Response) {
         try {
-            const tables = await new TablesRepo().getTables();
+            const tables = await new TablesRepo().getAllTables();
             res.status(200).json({
                 status: "Ok!",
                 message: "Successfully fetched all tables data!",

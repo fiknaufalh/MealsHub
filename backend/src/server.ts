@@ -1,7 +1,13 @@
 import express, { Application, Request, Response } from "express";
 import Database from "./config/database";
 import TablesRouter from "./router/TablesRouter";
-// import NoteRouter from "./router/NoteRouter";
+import OrdersRouter from "./router/OrdersRouter";
+import PaymentsRouter from "./router/PaymentsRouter";
+import UsersRouter from "./router/UsersRouter";
+import ProductsRouter from "./router/ProductsRouter";
+import OrderProductRouter from "./router/OrderProductRouter";
+import TenantsRouter from "./router/TenantsRouter";
+import cors from "cors";
 
 class App {
     public app: Application;
@@ -16,6 +22,7 @@ class App {
     protected plugins(): void {
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
+        this.app.use(cors());
     }
 
     protected databaseSync(): void {
@@ -29,7 +36,12 @@ class App {
         });
         console.log("✅ Routes loaded!");
         this.app.use("/tables", TablesRouter);
-        // this.app.use("/api/v1/note", NoteRouter);
+        this.app.use("/tenants", TenantsRouter);
+        this.app.use("/orders", OrdersRouter);
+        this.app.use("/products", ProductsRouter);
+        this.app.use("/orderproduct", OrderProductRouter);
+        this.app.use("/payments", PaymentsRouter);
+        this.app.use("/users", UsersRouter);
     }
 }
 

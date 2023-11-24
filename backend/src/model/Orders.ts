@@ -50,9 +50,6 @@ export class Orders extends Model {
     })
     id_tenant!: number;
 
-    @BelongsTo(() => Payments, "id_payment")
-    payment!: Payments;
-
     @BelongsTo(() => Tables, "id_table")
     table!: Tables;
 

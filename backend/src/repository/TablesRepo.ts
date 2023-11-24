@@ -2,7 +2,7 @@
 import { Tables } from "../model/Tables";
 
 interface ITablesRepo {
-    getTables(): Promise<Tables[]>;
+    getAllTables(): Promise<Tables[]>;
     getTableById(tableId: number): Promise<Tables>;
     createTable(table: Tables): Promise<void>;
     updateTable(table: Tables): Promise<void>;
@@ -10,7 +10,7 @@ interface ITablesRepo {
 }
 
 export default class TablesRepo implements ITablesRepo {
-    async getTables(): Promise<Tables[]> {
+    async getAllTables(): Promise<Tables[]> {
         try {
             console.log("masuk getTables");
             return await Tables.findAll();
