@@ -1,13 +1,24 @@
-import React from 'react'
-import Confirm from './pages/Confirm Payment/confirm'
-import OrderSummaryCard from './components/OrderSummaryCard'
-import Summary from './pages/Payment Details/summary'
+import TenantInfo from "./pages/TenantInfo"
+import ShoppingCart from "./pages/ShoppingCart";
+import { ShoppingCartProvider } from "./contexts/ShoppingCartContext";
+import PageManageOrder from "./pages/PageManageOrder";
+import PageManageMenu from "./pages/PageManageMenu";
+import OrderSummary from "./pages/OrderSummary";
+import OrderDetails from "./pages/OrderDetailsTenant";
+import Homepage from "./pages/Homepage";
 
-
-const App = () => {
-  return (
-    <div><Summary/></div>
-  )
+export default function App() {
+    return (
+        <div>
+            {/* <ShoppingCartProvider>
+                <TenantInfo />
+                <ShoppingCart />
+            </ShoppingCartProvider> */}
+            <PageManageMenu />
+            {/* <PageManageOrder /> */}
+            {/* <OrderSummary /> */}
+            {/* <OrderDetails /> */}
+            {/* <Homepage /> */}
+        </div>
+    );
 }
-
-export default App

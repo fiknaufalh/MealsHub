@@ -5,13 +5,15 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 2022,
         sourceType: "module",
-        project: "tsconfig.json",
+        // project: "./tsconfig.json",
+        // tsconfigRootDir: __dirname,
     },
     env: {
         es6: true,
         node: true,
     },
     rules: {
+        "prettier/prettier": 0,
         "no-var": "error",
         semi: "error",
         indent: ["error", 4, { SwitchCase: 1 }],

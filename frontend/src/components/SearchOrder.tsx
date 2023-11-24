@@ -1,4 +1,4 @@
-export default function Search() {
+export default function SearchOrder() {
     return (
         <form>
             <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only">
@@ -26,7 +26,7 @@ export default function Search() {
                     type="search"
                     id="default-search"
                     className="flex p ps-12 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-mealshub-blue focus:border-mealshub-blue"
-                    placeholder="Search"
+                    placeholder="Search your orders"
                     required
                     style={{
                         width: '329.6px',
