@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { Database } from "./schema";
+import { Database } from "../../config/schema";
 
 const supabaseUrl: string = "https://jsmobwplkltuacyyfemf.supabase.co";
 const supabaseKey: string = process.env.SUPABASE_KEY || "";

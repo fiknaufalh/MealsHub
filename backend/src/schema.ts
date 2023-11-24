@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export type Json =
     | string
     | number
@@ -9,55 +10,6 @@ export type Json =
 export interface Database {
     public: {
         Tables: {
-            order: {
-                Row: {
-                    id: number;
-                    id_payment: number | null;
-                    id_table: number | null;
-                    id_tenant: number | null;
-                    status: string;
-                    time: string | null;
-                };
-                Insert: {
-                    id?: number;
-                    id_payment?: number | null;
-                    id_table?: number | null;
-                    id_tenant?: number | null;
-                    status: string;
-                    time?: string | null;
-                };
-                Update: {
-                    id?: number;
-                    id_payment?: number | null;
-                    id_table?: number | null;
-                    id_tenant?: number | null;
-                    status?: string;
-                    time?: string | null;
-                };
-                Relationships: [
-                    {
-                        foreignKeyName: "order_id_payment_fkey";
-                        columns: ["id_payment"];
-                        isOneToOne: false;
-                        referencedRelation: "payment";
-                        referencedColumns: ["id"];
-                    },
-                    {
-                        foreignKeyName: "order_id_table_fkey";
-                        columns: ["id_table"];
-                        isOneToOne: false;
-                        referencedRelation: "table";
-                        referencedColumns: ["id"];
-                    },
-                    {
-                        foreignKeyName: "order_id_tenant_fkey";
-                        columns: ["id_tenant"];
-                        isOneToOne: false;
-                        referencedRelation: "tenant";
-                        referencedColumns: ["id"];
-                    },
-                ];
-            };
             order_product: {
                 Row: {
                     id_order: number;
@@ -79,34 +31,84 @@ export interface Database {
                         foreignKeyName: "order_product_id_order_fkey";
                         columns: ["id_order"];
                         isOneToOne: false;
-                        referencedRelation: "order";
+                        referencedRelation: "orders";
                         referencedColumns: ["id"];
                     },
                     {
                         foreignKeyName: "order_product_id_product_fkey";
                         columns: ["id_product"];
                         isOneToOne: false;
-                        referencedRelation: "product";
+                        referencedRelation: "products";
                         referencedColumns: ["id"];
                     },
                 ];
             };
-            payment: {
+            orders: {
                 Row: {
                     id: number;
+                    id_table: number | null;
+                    id_tenant: number | null;
                     status: string;
+                    time: string | null;
                 };
                 Insert: {
                     id?: number;
+                    id_table?: number | null;
+                    id_tenant?: number | null;
                     status: string;
+                    time?: string | null;
                 };
                 Update: {
                     id?: number;
+                    id_table?: number | null;
+                    id_tenant?: number | null;
                     status?: string;
+                    time?: string | null;
                 };
-                Relationships: [];
+                Relationships: [
+                    {
+                        foreignKeyName: "orders_id_table_fkey";
+                        columns: ["id_table"];
+                        isOneToOne: false;
+                        referencedRelation: "tables";
+                        referencedColumns: ["id"];
+                    },
+                    {
+                        foreignKeyName: "orders_id_tenant_fkey";
+                        columns: ["id_tenant"];
+                        isOneToOne: false;
+                        referencedRelation: "tenants";
+                        referencedColumns: ["id"];
+                    },
+                ];
             };
-            product: {
+            payments: {
+                Row: {
+                    id: number;
+                    id_order: number;
+                    status: string | null;
+                };
+                Insert: {
+                    id?: number;
+                    id_order: number;
+                    status?: string | null;
+                };
+                Update: {
+                    id?: number;
+                    id_order?: number;
+                    status?: string | null;
+                };
+                Relationships: [
+                    {
+                        foreignKeyName: "payments_id_order_fkey";
+                        columns: ["id_order"];
+                        isOneToOne: false;
+                        referencedRelation: "orders";
+                        referencedColumns: ["id"];
+                    },
+                ];
+            };
+            products: {
                 Row: {
                     description: string | null;
                     id: number;
@@ -136,15 +138,15 @@ export interface Database {
                 };
                 Relationships: [
                     {
-                        foreignKeyName: "product_id_tenant_fkey";
+                        foreignKeyName: "products_id_tenant_fkey";
                         columns: ["id_tenant"];
                         isOneToOne: false;
-                        referencedRelation: "tenant";
+                        referencedRelation: "tenants";
                         referencedColumns: ["id"];
                     },
                 ];
             };
-            table: {
+            tables: {
                 Row: {
                     id: number;
                     num_seat: number;
@@ -162,11 +164,12 @@ export interface Database {
                 };
                 Relationships: [];
             };
-            tenant: {
+            tenants: {
                 Row: {
                     close_hour: string | null;
                     description: string | null;
                     id: number;
+                    image: string | null;
                     name: string;
                     open_hour: string | null;
                     rating: number | null;
@@ -175,6 +178,7 @@ export interface Database {
                     close_hour?: string | null;
                     description?: string | null;
                     id?: number;
+                    image?: string | null;
                     name: string;
                     open_hour?: string | null;
                     rating?: number | null;
@@ -183,21 +187,22 @@ export interface Database {
                     close_hour?: string | null;
                     description?: string | null;
                     id?: number;
+                    image?: string | null;
                     name?: string;
                     open_hour?: string | null;
                     rating?: number | null;
                 };
                 Relationships: [
                     {
-                        foreignKeyName: "tenant_id_fkey";
+                        foreignKeyName: "tenants_id_fkey";
                         columns: ["id"];
                         isOneToOne: true;
-                        referencedRelation: "user";
+                        referencedRelation: "users";
                         referencedColumns: ["id"];
                     },
                 ];
             };
-            user: {
+            users: {
                 Row: {
                     email: string;
                     fullname: string;
@@ -226,19 +231,15 @@ export interface Database {
             };
         };
         Views: {
-            // eslint-disable-next-line no-unused-vars
             [_ in never]: never;
         };
         Functions: {
-            // eslint-disable-next-line no-unused-vars
             [_ in never]: never;
         };
         Enums: {
-            // eslint-disable-next-line no-unused-vars
             [_ in never]: never;
         };
         CompositeTypes: {
-            // eslint-disable-next-line no-unused-vars
             [_ in never]: never;
         };
     };
