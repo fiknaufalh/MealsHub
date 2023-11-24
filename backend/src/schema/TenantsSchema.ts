@@ -11,6 +11,7 @@ export const createTenantSchema = z.object({
         open_hour: z.string().nullable(),
         description: z.string().nullable(),
         rating: z.number().nullable(),
+        image: z.string().nullable(),
     }),
 });
 
@@ -25,6 +26,7 @@ export const updateTenantSchema = z.object({
             open_hour: z.string().nullable(),
             description: z.string().nullable(),
             rating: z.number().nullable(),
+            image: z.string().nullable(),
         })
         .partial(),
 });
