@@ -88,7 +88,7 @@ export default function CartCard({ id, quantity }: cartItem) {
                       <p className="mx-6 font-normal text-lg text-gray-700">{quantity}</p>
                       <button type="button" className="text-white bg-mealshub-red hover:text-mealshub-red border-2 border-mealshub-red hover:bg-white font-bold text-lg rounded-full text-sm px-2 py-2 text-center shadow-xl" onClick={() => increaseItemQuantity(item.id)}>
                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 21 21" fill="none">
-                              <path d="M10.5003 4.79013V16.4568M4.66699 10.6235H16.3337" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M10.5003 4.79013V16.4568M4.66699 10.6235H16.3337" stroke="currentColor" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>  
                       </button>
                   </div>
