@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 interface LogoProps {
     height?: string;
     width?: string;
+    default: string;
 }
 
 export default function Logo(props: LogoProps) {
     const { height, width } = props;
 
     return (
-        <Link to={"/"}>
+        <a href={props.default}>
             <img
                 src="../../public/images/MealsHub.png"
                 alt="MealsHub"
@@ -17,6 +18,7 @@ export default function Logo(props: LogoProps) {
                     ${height ? `h-${height}` : ""} 
                     ${width ? `w-${width}` : ""}`}
             />
-        </Link>
+        </a>
+
     );
 }
