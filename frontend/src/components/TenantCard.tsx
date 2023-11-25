@@ -1,106 +1,24 @@
-interface TenantCardProps {
+type TenantCardProps = {
     id : number,
     image: string,
     name: string,
     rating: number,
-    openinghour: string,
-    closinghour: string,
+    open_hour: string,
+    close_hour: string,
     lowestprice: number,
-    highestprice: number
+    highestprice: number,
 }
 
-const Tenant: TenantCardProps[] = [
-    {
-        id: 1,
-        image: "McDonalds.jpg",
-        name: "McDonald's",
-        rating: 4.5,
-        openinghour: "08.00",
-        closinghour: "22.00",
-        lowestprice: 20000,
-        highestprice: 100000
-    },
-    {
-        id: 2,
-        image: "Chatime.jpg",
-        name: "Chatime",
-        rating: 4.5,
-        openinghour: "07.00",
-        closinghour: "21.00",
-        lowestprice: 15000,
-        highestprice: 200000
-    },
-    {
-        id: 3,
-        image: "BurgerKing.png",
-        name: "Burger King",
-        rating: 4.5,
-        openinghour: "08.00",
-        closinghour: "22.00",
-        lowestprice: 20000,
-        highestprice: 150000
-    },
-    {
-        id: 4,
-        image: "Mixue.jpg",
-        name: "Mixue",
-        rating: 4.5,
-        openinghour: "08.00",
-        closinghour: "22.00",
-        lowestprice: 20000,
-        highestprice: 75000
-    },
-    {
-        id: 5,
-        image: "FlashCoffee.png",
-        name: "Flash Coffee",
-        rating: 4.5,
-        openinghour: "08.00",
-        closinghour: "22.00",
-        lowestprice: 20000,
-        highestprice: 100000
-    },
-    {
-        id: 6,
-        image: "Gyukaku.jpg",
-        name: "Gyukaku",
-        rating: 4.5,
-        openinghour: "08.00",
-        closinghour: "22.00",
-        lowestprice: 20000,
-        highestprice: 100000
-    },
-    {
-        id: 7,
-        image: "PepperLunch.png",
-        name: "Pepper Lunch",
-        rating: 4.5,
-        openinghour: "08.00",
-        closinghour: "22.00",
-        lowestprice: 20000,
-        highestprice: 100000
-    },
-    {
-        id: 8,
-        image: "Subway.jpg",
-        name: "Subway",
-        rating: 4.5,
-        openinghour: "08.00",
-        closinghour: "22.00",
-        lowestprice: 20000,
-        highestprice: 100000
-    }];
-
-export default function TenantCard() {
-    const tenantlist = Tenant.map(({image, name, rating, openinghour, closinghour, lowestprice, highestprice}) => {
+export default function TenantCard({data} : {data: TenantCardProps[]}) {
+    const tenantlist = data.map(({id, image, name, rating, open_hour, close_hour, lowestprice, highestprice}) => {
         const lowestpriceidr = lowestprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         const highestpriceidr = highestprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     
         return (
-            <a href="#">
+            <a href={`${id}`}>
                 <div className="w-72 h-80 bg-white rounded-3xl shadow-xl">
                     <div className="flex items-center h-48 w-full">
-                        <img className="object-cover h-full w-full rounded-3xl" src={`../../public/images/${image}`} alt="" />
+                        <img className="object-cover h-full w-full rounded-3xl" src={`../../public/images/${image}`} alt={name} />
                     </div>
                     <div className="mt-3 px-4">
                         <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900">{name}</h5>
@@ -112,13 +30,13 @@ export default function TenantCard() {
                             </span>
                             <span  className="px-1.5 mr-1.5 font-light">{rating}</span>
                             <div className="border-r h-4 border-gray-300"></div>
-                            <span className="px-1.5 ml-1.5 font-light">{openinghour} - {closinghour}</span>
+                            <span className="px-1.5 ml-1.5 font-light">{open_hour} - {close_hour}</span>
                         </div>
                         <div className="pl-1.5 mt-2 flex items-center">
                             <svg className="w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 288 512">
                                 <path fill="currentColor" d="m209.2 233.4l-108-31.6C88.7 198.2 80 186.5 80 173.5c0-16.3 13.2-29.5 29.5-29.5h66.3c12.2 0 24.2 3.7 34.2 10.5c6.1 4.1 14.3 3.1 19.5-2l34.8-34c7.1-6.9 6.1-18.4-1.8-24.5C238 74.8 207.4 64.1 176 64V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48h-2.5C45.8 64-5.4 118.7.5 183.6c4.2 46.1 39.4 83.6 83.8 96.6l102.5 30c12.5 3.7 21.2 15.3 21.2 28.3c0 16.3-13.2 29.5-29.5 29.5h-66.3C100 368 88 364.3 78 357.5c-6.1-4.1-14.3-3.1-19.5 2l-34.8 34c-7.1 6.9-6.1 18.4 1.8 24.5c24.5 19.2 55.1 29.9 86.5 30v48c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-48.2c46.6-.9 90.3-28.6 105.7-72.7c21.5-61.6-14.6-124.8-72.5-141.7z"/>
                             </svg>
-                            <span className="px-3">Rp.{lowestpriceidr} - Rp.{highestpriceidr}</span>         
+                            <span className="px-3 font-light">Rp.{lowestpriceidr} - Rp.{highestpriceidr}</span>         
                         </div>
                     </div>
                 </div>

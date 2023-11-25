@@ -114,7 +114,7 @@ export default function Sidebar(props: any) {
             <div className="fixed top-0 left-0 flex flex-col bg-white w-1/5 h-screen md:flex-col md:max-w-1/5 transition-transform -translate-x-full lg:translate-x-0 overflow-y-auto">
                 <a href="" className="flex flex-col items-center">
                     <div className="flex items-center h-48 mb-4">
-                        <Logo />
+                        <Logo height="48" width="48" />
                     </div>
                 </a>
                 <div className="flex flex-col">

@@ -52,6 +52,12 @@ export class Tenants extends Model {
     })
     rating!: number | null;
 
+    @Column({
+        type: DataType.STRING(255),
+        field: "image",
+    })
+    image!: number | null;
+
     @ForeignKey(() => Users)
     @BelongsTo(() => Users, "id")
     user!: Users;

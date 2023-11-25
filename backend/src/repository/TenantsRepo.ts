@@ -40,6 +40,7 @@ export default class TenantRepo implements ITenantRepo {
                 open_hour: tenant.open_hour,
                 description: tenant.description,
                 rating: tenant.rating,
+                image: tenant.image,
             });
         } catch (error: any) {
             throw new Error(`Error while creating tenant: ${error.message}`);
@@ -60,6 +61,7 @@ export default class TenantRepo implements ITenantRepo {
             existingTenant.open_hour = tenant.open_hour;
             existingTenant.description = tenant.description;
             existingTenant.rating = tenant.rating;
+            existingTenant.image = tenant.image;
 
             await existingTenant.save();
         } catch (error: any) {
