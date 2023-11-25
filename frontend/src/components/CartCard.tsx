@@ -1,4 +1,6 @@
 import { useShoppingCart } from "../contexts/ShoppingCartContext";
+import { useState, useEffect } from "react";
+import Axios from "axios";
 
 type cartItem = {
     id: number;
@@ -13,63 +15,50 @@ interface CartCardProps {
     id: number;
 }
 
-const Product: CartCardProps[] = [
-    {
-        image: "../../public/images/Cheeseburger.png",
-        name: "Cheeseburger",
-        description:
-            "Enjoy the cheesy deliciousness of a McDonald's Cheeseburger! Our simple, classic cheeseburger begins with a 100% pure beef burger patty seasoned with just a pinch of salt and pepper.",
-        price: 40000,
-        id: 1,
-    },
-    {
-        id: 2,
-        image: "../../public/images/BigMac.jfif",
-        name: "Big Mac",
-        description:
-            "The McDonald's Big Mac® is a 100% beef burger with a taste like no other. The mouthwatering perfection starts with two 100% pure all beef patties and Big Mac® sauce sandwiched between a sesame seed bun.",
-        price: 50000,
-    },
-    {
-        id: 3,
-        image: "../../public/images/ChickenMcNuggets.jfif",
-        name: "Chicken McNuggets",
-        description:
-            "Enjoy tender, juicy Chicken McNuggets® with your favorite dipping sauces. Chicken McNuggets® are made with all white meat chicken and no artificial colors, flavors, or preservatives. ",
-        price: 20000,
-    },
-    {
-        id: 4,
-        image: "../../public/images/EggMcMuffin.jfif",
-        name: "Egg McMuffin",
-        description:
-            "Satisfy your McDonald's breakfast cravings with our Egg McMuffin® breakfast sandwich—it’s an excellent source of protein and oh so delicious.",
-        price: 30000,
-    },
-    {
-        id: 5,
-        image: "../../public/images/FilletOFish.jfif",
-        name: "Fillet-O-Fish",
-        description:
-            "Dive into our wild-caught Filet-O-Fish, a classic McDonald's fish sandwich! Our fish sandwich recipe features a crispy fish filet patty on melty American cheese and is topped with creamy McDonald’s tartar sauce, all served on a soft, steamed bun.",
-        price: 30000,
-    },
-    {
-        id: 6,
-        image: "../../public/images/McCrispy.jfif",
-        name: "McCripsy",
-        description:
-            "The McDonald’s McCrispy™ is a southern-style fried chicken sandwich that's crispy, juicy and tender perfection. It’s topped with crinkle-cut pickles and served on a toasted, buttered potato roll. The McCrispy™ has 470 calories.",
-        price: 40000,
-    },
-];
-
 export default function CartCard({ id, quantity }: cartItem) {
     const { increaseItemQuantity, decreaseItemQuantity } = useShoppingCart();
-    const item = Product.find((item) => item.id === id);
-    if (item == null) {
-        throw new Error(`Item with id ${id} not found`);
+
+    const [productData, setProductData] = useState<CartCardProps[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const getProductData = async () => {
+        try {
+        const productResponse = await Axios.get(`http://localhost:8000/products/${id}`);
+        const productData = productResponse.data.data;
+
+        const result = [
+            {
+            id: productData.id,
+            image: productData.image,
+            name: productData.name,
+            description: productData.description,
+            price: productData.price,
+            },
+        ];
+
+        setProductData(result);
+        } catch (error) {
+        console.error("Error fetching product data:", error);
+        } finally {
+        setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+        await getProductData(); 
+        };
+
+        fetchData(); 
+    }, []);
+
+    console.log(productData);
+
+    if (loading) {
+        return <p>Loading...</p>; // You can add a loading indicator here if needed
     }
+
+    const item = productData[0];
 
     const price = item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
