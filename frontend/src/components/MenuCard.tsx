@@ -6,7 +6,7 @@ export default function MenuCard(props: any) {
                     <img className="rounded-3xl w-40 h-24" src={props.image} alt="" />
                 </div>
                 <div className="mt-3 px-4">
-                    <h5 className="mb-2 text-m font-bold tracking-tight text-gray-900">
+                    <h5 className="mb-2 text-sm font-bold tracking-tight text-gray-900">
                         {props.name}
                     </h5>
                     <div className="flex items-center">

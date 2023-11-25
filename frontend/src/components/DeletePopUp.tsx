@@ -1,8 +1,9 @@
 interface DeletePopUpProps {
     onClose: () => void;
+    onConfirm: () => void;
 }
 
-const DeletePopUp: React.FC<DeletePopUpProps> = ({ onClose }) => {
+const DeletePopUp: React.FC<DeletePopUpProps> = ({ onClose, onConfirm }) => {
     return (
         <div className="flex items-center overflow-y-auto overflow-x-hidden fixed justify-center items-center w-full md:inset-0 min-h-full">
             <div className="relative p-4 w-full max-w-md max-h-full">
@@ -53,7 +54,10 @@ const DeletePopUp: React.FC<DeletePopUpProps> = ({ onClose }) => {
                             data-modal-hide="popup-modal"
                             type="button"
                             className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm inline-flex items-center px-5 py-2.5 text-center me-2"
-                            onClick={onClose}
+                            onClick={() => {
+                                onConfirm();
+                                onClose();
+                            }}
                         >
                             Yes, I'm sure
                         </button>

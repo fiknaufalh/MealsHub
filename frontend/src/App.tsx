@@ -12,8 +12,17 @@ import Testing from "./pages/Testing";
 
 export default function App() {
     return (
-        <>
-            <AppRoutes />
-        </>
+        <div>
+            {/* <ShoppingCartProvider>
+                <TenantInfo />
+                <ShoppingCart />
+            </ShoppingCartProvider> */}
+            <PageManageMenu />
+            {/* <PageManageOrder /> */}
+            {/* <OrderSummary /> */}
+            {/* <OrderDetails /> */}
+            {/* <Homepage /> */}
+            {/* <Testing /> */}
+        </div>
     );
 }
