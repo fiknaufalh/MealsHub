@@ -8,7 +8,7 @@ interface AddFormProps {
 }
 
 
-const EditForm: React.FC<AddFormProps> = (props) => {
+const AddForm: React.FC<AddFormProps> = (props) => {
 
     const [formData, setFormData] = useState({
         name: "",
@@ -124,4 +124,4 @@ const EditForm: React.FC<AddFormProps> = (props) => {
     )
 }
 
-export default EditForm;
+export default AddForm;
