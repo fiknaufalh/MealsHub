@@ -10,7 +10,7 @@ export default function Sidebar(props: any) {
                 >
                     <div className="flex flex-col w-52">
                         <a
-                            href="#"
+                            href={props[`page${index + 1}`]}
                             className="flex items-center rounded-lg group"
                         >
                             <div className="absolute group text-mealshub-orange">
@@ -60,7 +60,7 @@ export default function Sidebar(props: any) {
                 >
                     <div className="flex w-52">
                         <a
-                            href="#"
+                            href={props[`page${props.current}`]}
                             className="flex items-center rounded-lg group"
                         >
                             <div className="absolute group text-white">
@@ -112,11 +112,11 @@ export default function Sidebar(props: any) {
                 </svg>
             </button>
             <div className="fixed top-0 left-0 flex flex-col bg-white w-1/5 h-screen md:flex-col md:max-w-1/5 transition-transform -translate-x-full lg:translate-x-0 overflow-y-auto">
-                <a href="" className="flex flex-col items-center">
+                <div className="flex flex-col items-center">
                     <div className="flex items-center h-48 mb-4">
-                        <Logo height="48" width="48" />
+                        <Logo height="48" width="48" default={props.default} />
                     </div>
-                </a>
+                </div>
                 <div className="flex flex-col">
                     <ul className="flex flex-col space-y-2 font-medium text-xl text-mealshub-orange">
                         {menuItems}

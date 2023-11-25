@@ -299,7 +299,7 @@ function TableOrder({ data }: { data: Props[] }) {
                                         </td>
                                         <td className="px-6 py-4">
                                             <a
-                                                href="#"
+                                                href={`/tenantpage/orders/${record.orderId}`}
                                                 className="text-mealshub-blue hover:underline"
                                             >
                                                 Click for Details

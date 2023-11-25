@@ -3,17 +3,17 @@ import { useShoppingCart } from '../contexts/ShoppingCartContext';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 interface ProductCardProps {
-    id : number,
+    id: number,
     image: string,
     name: string,
     description: string,
     price: number
 }
 
-export default function ProductCard({data}: {data: ProductCardProps[]}) {
-    const productlist = data.map(({id, image, name, description, price}) => {
+export default function ProductCard({ data }: { data: ProductCardProps[] }) {
+    const productlist = data.map(({ id, image, name, description, price }) => {
         const { getItemQuantity, increaseItemQuantity, removeItem } = useShoppingCart();
-        
+
         const [isAdded, setIsAdded] = useLocalStorage<boolean>(`product-${id}`, false);
 
         useEffect(() => {
@@ -46,18 +46,19 @@ export default function ProductCard({data}: {data: ProductCardProps[]}) {
                             </img>
                         </div>
                         <div className="flex flex-row items-center">
-                        <button
-                            type="button"
-                            className={`${isAdded ? 'text-mealshub-red hover:text-white border-2 border-mealshub-red hover:bg-mealshub-red' : 'text-white bg-mealshub-red hover:text-mealshub-red border-2 border-mealshub-red hover:bg-white'} font-bold text-lg rounded-full text-sm px-5 py-2.5 text-center`}
-                            onClick={handleClick}
-                        >
-                            {isAdded ? "Added" : "Add to Cart"}
-                        </button>
+                            <button
+                                type="button"
+                                className={`${isAdded ? 'text-mealshub-red hover:text-white border-2 border-mealshub-red hover:bg-mealshub-red' : 'text-white bg-mealshub-red hover:text-mealshub-red border-2 border-mealshub-red hover:bg-white'} font-bold text-lg rounded-full text-sm px-5 py-2.5 text-center`}
+                                onClick={handleClick}
+                            >
+                                {isAdded ? "Added" : "Add to Cart"}
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-    )});
+        )
+    });
 
     return productlist;
 }
