@@ -1,28 +1,16 @@
-interface TenantHeaderProps {
-    image: string,
-    name: string,
-    description: string,
-    rating: number,
-    openinghour: string,
-    closinghour: string,
-    lowestprice: number,
-    highestprice: number
+type TenantHeaderProps = {
+    image: string;
+    name: string;
+    description: string;
+    rating: number;
+    openinghour: string;
+    closinghour: string;
+    lowestprice: number;
+    highestprice: number;
 }
 
-const Tenant: TenantHeaderProps[] = [
-    {
-        image: "../../public/images/McDonalds.jpg",
-        name: "McDonald's",
-        description: "Fastfood, Sweets, Snacks",
-        rating: 4.5,
-        openinghour: "08.00",
-        closinghour: "22.00",
-        lowestprice: 20000,
-        highestprice: 100000
-    }];
-
-export default function TenantHeader() {
-    const tenantlist = Tenant.map(({image, name, description, rating, openinghour, closinghour, lowestprice, highestprice}) => {
+export default function TenantHeader({data}: {data: TenantHeaderProps[]}) {
+    const tenantlist = data.map(({image, name, description, rating, openinghour, closinghour, lowestprice, highestprice}) => {
         const lowestpriceidr = lowestprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         const highestpriceidr = highestprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     
@@ -30,7 +18,7 @@ export default function TenantHeader() {
             <div className="flex bg-white md:flex-row mx-16">
                 <div className="flex flex-row leading-normal w-full border-b border-gray-300 pb-10">
                     <div className="flex items-center h-52 w-72">
-                        <img src={image} alt="Cheeseburger" className='object-cover h-full w-full rounded-3xl'>
+                        <img src={`../../public/images/${image}`} alt={name} className='object-cover h-full w-full rounded-3xl'>
                         </img>
                     </div>
                     <div className="flex flex-col ms-12">

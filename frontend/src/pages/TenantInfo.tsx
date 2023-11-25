@@ -3,8 +3,119 @@ import ProductCard from "../components/ProductCard";
 import TenantHeader from "../components/TenantHeader";
 import WelcomingText from "../components/WelcomingText";
 import BackButton from "../components/BackButton";
+import { useState, useEffect } from "react";
+import Axios from "axios";
 
-export default function TenantInfo() {
+type id = number;
+
+interface Tenant {
+    id : number,
+    image: string,
+    name: string,
+    description: string,
+    rating: number,
+    open_hour: string,
+    close_hour: string,
+}
+
+interface Product {
+    id : number,
+    image: string,
+    name: string,
+    description: string,
+    price: number,
+    id_tenant: number
+}
+
+interface TenantHeader {
+    image: string,
+    name: string,
+    description: string,
+    rating: number,
+    openinghour: string,
+    closinghour: string,
+    lowestprice: number,
+    highestprice: number,
+}
+
+interface ProductCard {
+    id : number,
+    image: string,
+    name: string,
+    description: string,
+    price: number
+}
+
+export default function TenantInfo({tenantid}: {tenantid: id}) {
+    const [joinedTenantHeaderData, setJoinedTenantHeaderData] = useState<TenantHeader[]>([]);
+
+    const getTenantHeaderData = async () => {
+        const tenantResponse = await Axios.get(`http://localhost:8000/tenants/${tenantid}`);
+        const productResponse = await Axios.get("http://localhost:8000/products");
+
+        const tenantData = tenantResponse.data.data;
+        const productData = productResponse.data.data;
+
+        // Perform the join based on the specified conditions
+        // OrderData is not an array, so we need to convert it into an array
+        const tenantDataArray = [tenantData];
+        const result = tenantDataArray.map((tenant: Tenant) => {
+            const product = productData.filter((product: Product) => product.id_tenant === tenant.id);
+
+            return {
+                image: tenant.image,
+                name: tenant.name,
+                description: tenant.description,
+                rating: tenant.rating,
+                openinghour: tenant.open_hour,
+                closinghour: tenant.close_hour,
+                lowestprice: Math.min(...product.map((product: Product) => product.price)),
+                highestprice: Math.max(...product.map((product: Product) => product.price))
+            }
+        });
+
+        setJoinedTenantHeaderData(result);
+
+    };
+
+    useEffect(() => {
+        getTenantHeaderData();
+    }, []);
+
+    console.log(joinedTenantHeaderData);
+
+    const [joinedProductCardData, setJoinedProductCardData] = useState<ProductCard[]>([]);
+
+    const getProductCardData = async () => {
+        const tenantResponse = await Axios.get(`http://localhost:8000/tenants/${tenantid}`);
+        const productResponse = await Axios.get("http://localhost:8000/products");
+
+        const tenantData = tenantResponse.data.data;
+        const productData = productResponse.data.data;
+
+        // Perform the join based on the specified conditions
+        // OrderData is not an array, so we need to convert it into an array
+        const producttenant = productData.filter((product: Product) => product.id_tenant === tenantData.id);
+        const result = producttenant.map((product: Product) => {
+            return {
+                id: product.id,
+                image: product.image,
+                name: product.name,
+                description: product.description,
+                price: product.price
+            }
+        });
+
+        setJoinedProductCardData(result);
+
+    };
+
+    useEffect(() => {
+        getProductCardData();
+    }, []);
+
+    console.log(joinedProductCardData);
+
     return (
         // Create grid layout for sidebard, header, and main content
         <div className="grid grid-cols-5 grid-rows-8 bg-mealshub-cream">
@@ -22,8 +133,8 @@ export default function TenantInfo() {
                         <BackButton />
                     </div>
                     <div className="ms-20 py-12 bg-white rounded-3xl">
-                        <TenantHeader />
-                        <ProductCard />
+                        <TenantHeader data={joinedTenantHeaderData}/>
+                        <ProductCard data={joinedProductCardData}/>
                     </div>
                 </div>
             </div>
