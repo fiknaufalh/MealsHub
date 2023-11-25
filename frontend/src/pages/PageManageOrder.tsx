@@ -1,32 +1,19 @@
 import Sidebar from "../components/Sidebar";
 import Welcome from "../components/Welcome";
 import Profile from "../components/Profile";
-// import data from "../dataOrder.json";
 import TableOrder from "../components/TableOrder";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ProfileDropDown from "../components/ProfileDropDown";
+import joinedOrderPayment from "../../../backend/src/services/api/joinedOrderPayment";
 
-import Axios from "axios";
 
 export default function PageManageOrder() {
     const [showProfileDropDown, setShowProfileDropDown] = useState(false);
 
-    const [data, setData] = useState([]);
-
-    const getData = async () => {
-        const res = await Axios.get("http://localhost:8000/orders");
-        setData(res.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
-
-    console.log(data);
-
     const handleProfileClick = () => {
         setShowProfileDropDown(!showProfileDropDown);
     };
+    const data = joinedOrderPayment();
     return (
         // Create grid layout for sidebard, header, and main content
         <div className="grid grid-cols-5 grid-rows-8 min-h-screen bg-mealshub-cream">

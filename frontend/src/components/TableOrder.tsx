@@ -1,7 +1,15 @@
 import { MouseEventHandler, useCallback, useState } from "react";
 // import data from "../dataOrder.json"
+interface Props {
+    orderId: number;
+    paymentId: number;
+    tableId: number;
+    time: number;
+    orderStatus: string;
+    paymentStatus: string;
+}
 
-function TableOrder({ data }: { data: any[] }) {
+function TableOrder({ data }: { data: Props[] }) {
     // Const and func for sort
     type Data = typeof data;
 
@@ -45,11 +53,10 @@ function TableOrder({ data }: { data: any[] }) {
         return (
             <button
                 onClick={onClick}
-                className={`${
-                    sortKey === columnKey && sortOrder === "desc"
-                        ? "sort-button sort-reverse"
-                        : "sort-button"
-                }`}
+                className={`${sortKey === columnKey && sortOrder === "desc"
+                    ? "sort-button sort-reverse"
+                    : "sort-button"
+                    }`}
             >
                 <svg
                     className="w-3 h-3 ms-1.5"
@@ -213,8 +220,8 @@ function TableOrder({ data }: { data: any[] }) {
                                 <div className="flex items-center font-semibold">
                                     Order Time
                                     <SortButton
-                                        columnKey={"orderTime"}
-                                        onClick={() => changeSort("orderTime")}
+                                        columnKey={"time"}
+                                        onClick={() => changeSort("time")}
                                         {...{
                                             sortOrder,
                                             sortKey,
@@ -263,33 +270,33 @@ function TableOrder({ data }: { data: any[] }) {
                     <tbody>
                         {filteredRecords
                             .slice(firstIndex, lastIndex)
-                            .map((order, index) => {
+                            .map((record, index) => {
                                 return (
-                                    <tr className="odd:bg-white even:bg-gray-50 border-b">
+                                    <tr className="odd:bg-white even:bg-gray-50 border-b" key={record.orderId}>
                                         <td className="px-6 py-4">
                                             {index +
                                                 1 +
                                                 (currentPage - 1) *
-                                                    recordsPerPage}
+                                                recordsPerPage}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            {order.id}
+                                            {record.orderId}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            {order.status}
+                                            {record.paymentId}
                                         </td>
                                         <td className="px-6 py-4 whitespace-normal">
-                                            {order.time}
+                                            {record.tableId}
                                         </td>
                                         <td className="px-6 py-4 whitespace-normal">
-                                            {order.id_table}
+                                            {record.time}
                                         </td>
                                         <td className="px-6 py-4 whitespace-normal">
-                                            {order.id_tenant}
+                                            {record.orderStatus}
                                         </td>
-                                        {/* <td className="px-6 py-4 whitespace-normal">
-                                            {order.paymentStatus}
-                                        </td> */}
+                                        <td className="px-6 py-4 whitespace-normal">
+                                            {record.paymentStatus}
+                                        </td>
                                         <td className="px-6 py-4">
                                             <a
                                                 href="#"
@@ -342,11 +349,10 @@ function TableOrder({ data }: { data: any[] }) {
                                 <li>
                                     <a
                                         href="#"
-                                        className={`page-item ${
-                                            currentPage === n
-                                                ? "z-10 flex items-center justify-center px-3 h-8 leading-tight text-mealshub-blue rounded-lg bg-mealshub-greenpalet hover:bg-blue-100 hover:text-blue-700 mx-1"
-                                                : "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 mx-1"
-                                        }`}
+                                        className={`page-item ${currentPage === n
+                                            ? "z-10 flex items-center justify-center px-3 h-8 leading-tight text-mealshub-blue rounded-lg bg-mealshub-greenpalet hover:bg-blue-100 hover:text-blue-700 mx-1"
+                                            : "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 mx-1"
+                                            }`}
                                         key={i}
                                         onClick={() => setCurrentPage(n)}
                                     >

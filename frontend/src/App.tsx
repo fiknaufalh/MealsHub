@@ -1,8 +1,11 @@
 import TenantInfo from "./pages/TenantInfo";
 import ShoppingCart from "./pages/ShoppingCart";
+import AppRoutes from "./AppRoutes";
+import Login from "./pages/LoginPage";
 import { ShoppingCartProvider } from "./contexts/ShoppingCartContext";
 import PageManageOrder from "./pages/PageManageOrder";
 import PageManageMenu from "./pages/PageManageMenu";
+import OrderList from "./pages/OrderList";
 import OrderSummary from "./pages/OrderSummary";
 import OrderDetails from "./pages/OrderDetailsTenant";
 import Homepage from "./pages/Homepage";
@@ -18,10 +21,11 @@ export default function App() {
             </ShoppingCartProvider>
             {/* <PageManageMenu /> */}
             {/* <PageManageOrder /> */}
-            {/* <OrderSummary /> */}
+            {/* <OrderSummary orderid={1}/> */}
             {/* <OrderDetails /> */}
             {/* <Homepage /> */}
             {/* <Testing /> */}
+            <OrderList tableid={1}/>
         </div>
     );
 }
