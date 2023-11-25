@@ -12,7 +12,7 @@ export default function joinedOrderPayment() {
         const paymentData = paymentResponse.data.data;
 
         // Perform the join based on the specified conditions
-        const result = orderData.map((order: { id: number; id_table: number; time: Date; status: string; }) => {
+        const result = orderData.map((order: { id: number; id_table: number; time: Date; status: string; id_tenant: string }) => {
             const matchingPayment = paymentData.find((payment: { id_order: number; }) => payment.id_order === order.id);
 
             return {
@@ -22,6 +22,7 @@ export default function joinedOrderPayment() {
                 time: order.time,
                 orderStatus: order.status,
                 paymentStatus: matchingPayment ? matchingPayment.status : null,
+                tenantId: order.id_tenant,
             };
         });
 

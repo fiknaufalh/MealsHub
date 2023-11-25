@@ -1,7 +1,6 @@
 import Sidebar from "../components/Sidebar";
 import OrderDetailsCard from "../components/OrderDetailsCard";
 import OrderSummaryCard from "../components/OrderSummaryCard";
-import WelcomingText from "../components/WelcomingText";
 import BackButton from "../components/BackButton";
 import Welcome from "../components/Welcome";
 import Profile from "../components/Profile";
@@ -9,8 +8,6 @@ import { useEffect, useState } from "react";
 import ProfileDropDown from "../components/ProfileDropDown";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
-
-type id = number;
 
 interface Order {
     id: number,
@@ -138,6 +135,86 @@ export default function OrderDetails() {
 
     console.log(joinedOrderDetailsData);
 
+    //Const for state Button
+    const [buttonState, setButtonState] = useState({
+        label: "Waiting for Payment",
+        disabled: true,
+        color: "mealshub-greenpalet",
+        onClick: () => { },
+    });
+
+    useEffect(() => {
+        getOrderSummaryData();
+    }, []);
+
+    useEffect(() => {
+        // Update button state based on payment and order status
+        if (joinedOrderDetailsData.length > 0) {
+            const paymentStatus = joinedOrderDetailsData[0].paymentstatus;
+            const orderStatus = joinedOrderDetailsData[0].orderstatus;
+
+            if (paymentStatus === "Waiting for Confirmation") {
+                setButtonState({
+                    label: "Waiting for Payment",
+                    disabled: true,
+                    color: "mealshub-greenpalet",
+                    onClick: () => { },
+                });
+            } else if (paymentStatus === "Confirmed" && orderStatus === "Waiting for Payment") {
+                setButtonState({
+                    label: "Prepare Order",
+                    disabled: false,
+                    color: "mealshub-red",
+                    onClick: handlePrepareOrder,
+                });
+            } else if (paymentStatus === "Confirmed" && orderStatus === "Prepared") {
+                setButtonState({
+                    label: "Complete Order",
+                    disabled: false,
+                    color: "mealshub-red",
+                    onClick: handleCompleteOrder,
+                });
+            }
+            else if (paymentStatus === "Confirmed" && orderStatus === "Completed") {
+                setButtonState({
+                    label: "Completed",
+                    disabled: true,
+                    color: "mealshub-greenpalet",
+                    onClick: handleCompleteOrder,
+                });
+            }
+        }
+    }, [joinedOrderDetailsData]);
+
+    const handlePrepareOrder = async () => {
+        // Call API or perform actions to update order status to "Prepared"
+        await Axios.patch(`http://localhost:8000/orders/${orderid}`, {
+            status: "Prepared"
+        });
+        getOrderDetailsData();
+        // Set button state accordingly
+        setButtonState({
+            label: "Complete Order",
+            disabled: false,
+            color: "mealshub-red",
+            onClick: handleCompleteOrder,
+        });
+    };
+
+    const handleCompleteOrder = async () => {
+        // Call API or perform actions to update order status to "Completed"
+        await Axios.patch(`http://localhost:8000/orders/${orderid}`, {
+            status: "Completed"
+        });
+        getOrderDetailsData();
+        // Set button state accordingly
+        setButtonState({
+            label: "Completed",
+            disabled: true,
+            color: "mealshub-greenpalet",
+            onClick: () => { },
+        });
+    };
     return (
         // Create grid layout for sidebard, header, and main content
         <div className="grid grid-cols-5 grid-rows-8 bg-mealshub-cream min-h-screen">
@@ -174,6 +251,15 @@ export default function OrderDetails() {
                         <h2 className="text-mealshub-red text-3xl font-bold ms-16">Order Details</h2>
                         <OrderDetailsCard data={joinedOrderDetailsData} />
                         <OrderSummaryCard data={joinedOrderSummaryData} />
+                        <div className="flex flex-col items-center">
+                            <button
+                                onClick={buttonState.onClick}
+                                disabled={buttonState.disabled}
+                                className={`mt-4 px-6 py-2 w-1/5 text-white text-lg font-semibold shadow-xl rounded-full bg-${buttonState.color}`}
+                            >
+                                {buttonState.label}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
