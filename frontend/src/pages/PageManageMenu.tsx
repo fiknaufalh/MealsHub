@@ -13,11 +13,12 @@ import ProfileDropDown from "../components/ProfileDropDown";
 import Axios from "axios";
 
 export default function PageManageMenu() {
+    const idTenant = 1;
     const [data, setData] = useState([]);
 
     const getData = async () => {
         const res = await Axios.get("http://localhost:8000/products");
-        setData(res.data);
+        setData(res.data.data);
     };
 
     useEffect(() => {
@@ -26,16 +27,20 @@ export default function PageManageMenu() {
 
     console.log(data);
 
+    const [menuToDelete, setMenuToDelete] = useState(null);
+    const [menuToEdit, setMenuToEdit] = useState(null);
     const [isEditFormVisible, setEditFormVisible] = useState(false);
     const [isDeletePopUpVisible, setDeletePopUpVisible] = useState(false);
     const [showAddMenu, setShowAddMenu] = useState(false);
     const [showProfileDropDown, setShowProfileDropDown] = useState(false);
 
-    const handleEditClick = () => {
+    const handleEditClick = (menuId: any) => {
+        setMenuToEdit(menuId);
         setEditFormVisible(true);
     };
 
-    const handleDeleteClick = () => {
+    const handleDeleteClick = (menuId: any) => {
+        setMenuToDelete(menuId);
         setDeletePopUpVisible(true);
     };
 
@@ -58,6 +63,18 @@ export default function PageManageMenu() {
         setShowProfileDropDown(!showProfileDropDown);
     };
 
+    const handleConfirmDelete = async (menuId: any) => {
+        try {
+            // Lakukan penghapusan menu menggunakan Axios
+            await Axios.delete(`http://localhost:8000/products/${menuId}`);
+            // Perbarui data setelah penghapusan
+            getData();
+        } catch (error) {
+            console.error('Error deleting menu:', error);
+        }
+    };
+
+    const maxId = Math.max(...data.map((menu: any) => menu.id));
     return (
         // Create grid layout for sidebard, header, and main content
         <div className="grid grid-cols-5 grid-rows-8 min-h-screen bg-mealshub-cream">
@@ -97,20 +114,21 @@ export default function PageManageMenu() {
                     </h2>
                     <div className="grid grid-cols-4 gap-6 h-4/5 my-6 mx-9 justify-items-center">
                         {data.map((menus) => (
-                            <div>
+                            <div key={menus.id}>
                                 <MenuCard
                                     image={menus.image}
                                     stock={menus.stock}
                                     name={menus.name}
-                                    onEditClick={handleEditClick}
-                                    onDeleteClick={handleDeleteClick}
+                                    onEditClick={() => handleEditClick(menus.id)}
+                                    onDeleteClick={() => handleDeleteClick(menus.id)}
                                 />
                                 {isEditFormVisible && (
-                                    <EditForm onClose={handleCloseEditForm} />
+                                    <EditForm onClose={handleCloseEditForm} idMenu={menuToEdit} />
                                 )}
                                 {isDeletePopUpVisible && (
                                     <DeletePopUp
                                         onClose={handleCloseDeletePopUp}
+                                        onConfirm={() => handleConfirmDelete(menuToDelete)}
                                     />
                                 )}
                             </div>
@@ -119,7 +137,7 @@ export default function PageManageMenu() {
                     <div className="flex flex-col items-center justify-center">
                         <AddButton onClick={handleAddMenuClick} />
                         {showAddMenu && (
-                            <AddForm onClose={handleCloseAddMenu} />
+                            <AddForm onClose={handleCloseAddMenu} idTenant={idTenant} idProduct={maxId + 1} />
                         )}
                     </div>
                 </div>

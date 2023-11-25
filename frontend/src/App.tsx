@@ -15,8 +15,8 @@ export default function App() {
                 <TenantInfo />
                 <ShoppingCart />
             </ShoppingCartProvider> */}
-            {/* <PageManageMenu /> */}
-            <PageManageOrder />
+            <PageManageMenu />
+            {/* <PageManageOrder /> */}
             {/* <OrderSummary /> */}
             {/* <OrderDetails /> */}
             {/* <Homepage /> */}
