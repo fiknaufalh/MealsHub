@@ -4,6 +4,8 @@ import WelcomingText from "../components/WelcomingText";
 import { useEffect, useState } from "react";
 import Axios from "axios";
 
+type id = number;
+
 interface Tenant {
     id: number,
     name: string,
@@ -26,7 +28,12 @@ interface OrderProduct {
 interface Order {
     id: number,
     status: string,
-    id_tenant: number
+    id_tenant: number,
+    id_table: number
+}
+
+interface Table {
+    id: number,
 }
 
 interface joinedData {
@@ -37,7 +44,7 @@ interface joinedData {
     price: number
 }
 
-export default function OrderList() {
+export default function OrderList({tableid}: {tableid: id}) {
     const [joinedData, setJoinedData] = useState<joinedData[]>([]);
 
     const getData = async () => {
@@ -52,7 +59,8 @@ export default function OrderList() {
         const tenantData = tenantResponse.data.data;
 
         // Perform the join based on the specified conditions
-        const result = orderData.map((order: Order) => {
+        const ordertable = orderData.filter((order: Order) => order.id_table === tableid);
+        const result = ordertable.map((order: Order) => {
             const tenant = tenantData.find((tenant: Tenant) => tenant.id === order.id_tenant);
             const orderproduct = orderProductData.filter((orderProduct: OrderProduct) => orderProduct.id_order === order.id);
             const listproduct = orderproduct.map((orderProduct: OrderProduct) => {

@@ -18,11 +18,11 @@ export default function App() {
             </ShoppingCartProvider> */}
             {/* <PageManageMenu /> */}
             {/* <PageManageOrder /> */}
-            <OrderSummary orderid={3}/>
+            {/* <OrderSummary orderid={1}/> */}
             {/* <OrderDetails /> */}
             {/* <Homepage /> */}
             {/* <Testing /> */}
-            {/* <OrderList /> */}
+            <OrderList tableid={1}/>
         </div>
     );
 }
