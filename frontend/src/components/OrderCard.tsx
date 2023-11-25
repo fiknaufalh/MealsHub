@@ -1,52 +1,15 @@
-interface OrderCardProps {
-    image: string,
-    name: string,
-    status: string,
-    orderlist: string[][],
-    price: number
+type OrderCardProps = {
+    image: string;
+    name: string;
+    status: string;
+    orderlist: (string | number)[][];
+    price: number;
 }
 
-const Order: OrderCardProps[] = [
-    {
-        image: "../../public/images/McDonalds.jpg",
-        name: "McDonald's",
-        status: "Waiting for payment",
-        orderlist: [["Cheeseburger", "2"], ["McSpicy", "1"]],
-        price: 100000
-    },
-    {
-        image: "../../public/images/Chatime.jpg",
-        name: "Chatime",
-        status: "Preparing the order",
-        orderlist: [["Pearl Milk Tea", "2"], ["Mango Smoothie", "1"]],
-        price: 100000
-    },  
-    {
-        image: "../../public/images/BurgerKing.png",
-        name: "Burger King",
-        status: "Completed",
-        orderlist: [["Whopper", "2"], ["Chicken Tenders", "1"]],
-        price: 100000
-    },
-    {
-        image: "../../public/images/Mixue.jpg",
-        name: "Mixue",
-        status: "Completed",
-        orderlist: [["Milk Tea", "2"], ["Mango Smoothie", "1"]],
-        price: 100000
-    },  
-    {
-        image: "../../public/images/FlashCoffee.png",   
-        name: "Flash Coffee",
-        status: "Completed",
-        orderlist: [["Espresso", "2"], ["Cappucino", "1"]],
-        price: 100000
-    }];
-
-export default function OrderCard() {
-    const orderlist = Order.map(({image, name, status, orderlist, price}) => {
+export default function OrderCard({data}: {data: OrderCardProps[]}) {
+    const orderlist = data.map(({image, name, status, orderlist, price}) => {
         const orderStatus = () => {
-            if (status === "Waiting for payment") {
+            if (status === "Waiting for Payment") {
                 return (
                     <div className="flex text-white bg-mealshub-red h-6 w-6 rounded-full text-sm justify-center items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
@@ -54,7 +17,7 @@ export default function OrderCard() {
                         </svg>
                     </div>
                 );
-            } else if (status === "Preparing the order") {
+            } else if (status === "Prepared") {
                 return (
                     <div className="flex text-white bg-mealshub-orange h-6 w-6 rounded-full text-sm justify-center items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
@@ -82,7 +45,7 @@ export default function OrderCard() {
                 }
             }
             return (
-                <p className="mt-2 font-normal text-lg text-gray-700 w-5/6">{orderList}</p>
+                <p className="mt-2 font-normal text-lg text-gray-700 w-11/12">{orderList}</p>
             );
         }
     
@@ -92,15 +55,15 @@ export default function OrderCard() {
             <div className="flex flex-row bg-white border-b border-gray-300 py-10 md:flex-row mx-16 justify-start">
                 <div className="flex">
                     <div className="flex flex-row h-36 w-36 rounded-3xl md:rounded-3xl">
-                        <img src={image} alt="McDonalds" className="object-cover h-full w-full rounded-3xl">
+                        <img src={`../../public/images/${image}`} alt={name} className="object-cover h-full w-full rounded-3xl">
                         </img>
                     </div>
                 </div>
                 <div className="flex flex-col w-full leading-normal ms-12">
-                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 w-5/6">{name}</h5>
+                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 w-11/12">{name}</h5>
                     <div className="flex flex-col md:flex-row items-center my-2">
                         {orderStatus()}
-                        <p className="font-normal text-lg text-gray-700 w-5/6 ms-3">{status}</p>
+                        <p className="font-normal text-lg text-gray-700 w-11/12 ms-3">{status}</p>
                     </div>
                     {orderList()}
                 </div>

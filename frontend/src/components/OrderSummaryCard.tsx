@@ -1,19 +1,10 @@
 interface OrderSummaryCardProps {
     name: string,
-    orderlist: any
+    orderlist: (string | number)[][];
 }
 
-const Order: OrderSummaryCardProps[] = [
-    {
-        name: "McDonald's",
-        orderlist: [
-            ["Cheeseburger", 1, 40000],
-            ["Big Mac", 2, 50000],
-        ]
-    }];
-
-export default function OrderSummaryCard() {
-    const orderdetails = Order.map(({name, orderlist}) => {
+export default function OrderSummaryCard({data}: {data: OrderSummaryCardProps[]}) {
+    const orderdetails = data.map(({name, orderlist}) => {
         const orderList = () => {
             const orderList = orderlist.map((order: any) => {
                 const price = order[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")            
@@ -32,7 +23,7 @@ export default function OrderSummaryCard() {
         const totalPrice = () => {
             let totalPrice = 0
             orderlist.forEach((order: any) => {
-                totalPrice += order[2]
+                totalPrice += order[2] * order[1]
             })
     
             return totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
