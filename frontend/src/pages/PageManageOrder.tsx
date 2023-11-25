@@ -8,12 +8,15 @@ import joinedOrderPayment from "../../../backend/src/services/api/joinedOrderPay
 
 
 export default function PageManageOrder() {
+    const tenantid = 1;
     const [showProfileDropDown, setShowProfileDropDown] = useState(false);
 
     const handleProfileClick = () => {
         setShowProfileDropDown(!showProfileDropDown);
     };
     const data = joinedOrderPayment();
+    console.log(data);
+    const databytenant = data.filter((data: any) => data.tenantId == tenantid);
     return (
         // Create grid layout for sidebard, header, and main content
         <div className="grid grid-cols-5 grid-rows-8 min-h-screen bg-mealshub-cream">
@@ -51,7 +54,7 @@ export default function PageManageOrder() {
                     )}
                 </div>
                 <div className="ms-20 mt-6 mb-9 py-4 w-11/12 bg-white rounded-3xl h-auto">
-                    <TableOrder data={data} />
+                    <TableOrder data={databytenant} />
                 </div>
             </div>
         </div>

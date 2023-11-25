@@ -12,20 +12,57 @@ import ProfileDropDown from "../components/ProfileDropDown";
 
 import Axios from "axios";
 
+interface Product {
+    id: number,
+    image: string,
+    name: string,
+    description: string,
+    price: number,
+    id_tenant: number
+}
+
+interface ProductCard {
+    id: number,
+    image: string,
+    name: string,
+    description: string,
+    price: number
+}
+
 export default function PageManageMenu() {
     const idTenant = 1;
-    const [data, setData] = useState([]);
+    const [MenuData, setMenuData] = useState<ProductCard[]>([]);
 
-    const getData = async () => {
-        const res = await Axios.get("http://localhost:8000/products");
-        setData(res.data.data);
+    const getMenuData = async () => {
+        const tenantResponse = await Axios.get(`http://localhost:8000/tenants/${idTenant}`);
+        const productResponse = await Axios.get("http://localhost:8000/products");
+
+        const tenantData = tenantResponse.data.data;
+        const productData = productResponse.data.data;
+
+        // Perform the join based on the specified conditions
+        // OrderData is not an array, so we need to convert it into an array
+        const producttenant = productData.filter((product: Product) => product.id_tenant === tenantData.id);
+        const result = producttenant.map((product: Product) => {
+            return {
+                id: product.id,
+                image: product.image,
+                name: product.name,
+                description: product.description,
+                price: product.price
+            }
+        });
+
+        setMenuData(result);
+
     };
 
     useEffect(() => {
-        getData();
+        getMenuData();
     }, []);
 
-    console.log(data);
+    console.log(MenuData);
+
 
     const [menuToDelete, setMenuToDelete] = useState(null);
     const [menuToEdit, setMenuToEdit] = useState(null);
@@ -68,13 +105,13 @@ export default function PageManageMenu() {
             // Lakukan penghapusan menu menggunakan Axios
             await Axios.delete(`http://localhost:8000/products/${menuId}`);
             // Perbarui data setelah penghapusan
-            getData();
+            getMenuData();
         } catch (error) {
             console.error('Error deleting menu:', error);
         }
     };
 
-    const maxId = Math.max(...data.map((menu: any) => menu.id));
+    const maxId = Math.max(...MenuData.map((menu: any) => menu.id));
     return (
         // Create grid layout for sidebard, header, and main content
         <div className="grid grid-cols-5 grid-rows-8 min-h-screen bg-mealshub-cream">
@@ -116,7 +153,7 @@ export default function PageManageMenu() {
                         Menu
                     </h2>
                     <div className="grid grid-cols-4 gap-6 h-4/5 my-6 mx-9 justify-items-center">
-                        {data.map((menus) => (
+                        {MenuData.map((menus) => (
                             <div key={menus.id}>
                                 <MenuCard
                                     image={menus.image}
