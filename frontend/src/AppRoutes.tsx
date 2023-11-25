@@ -8,12 +8,20 @@ import OrderList from "./pages/OrderList";
 import OrderSummary from "./pages/OrderSummary";
 import PageManageOrder from "./pages/PageManageOrder";
 import PageManageMenu from "./pages/PageManageMenu";
+import SignUpTenant from "./pages/SignUpTenant";
+import SignUpCashier from "./pages/SignUpCashier";
+import RegisterTable from "./pages/RegisterTable";
+import ChooseRolePage from "./pages/RolePage";
 
 export default function AppRoutes() {
     return (
         <Routes>
             <Route path="/" element={<Homepage />} />
+            <Route path="/role" element={<ChooseRolePage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/login/customer" element={<RegisterTable />} />
+            <Route path="/signup/tenant" element={<SignUpTenant />} />
+            <Route path="/signup/cashier" element={<SignUpCashier />} />
             <Route path="/tenant" element={<TenantInfo />} />
             <Route path="/cart" element={<ShoppingCart />} />
             <Route path="/order/list" element={<OrderList />} />
