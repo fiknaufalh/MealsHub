@@ -2,8 +2,71 @@ import Sidebar from "../components/Sidebar";
 import TenantCard from "../components/TenantCard";
 import Search from "../components/Search";
 import WelcomingText from "../components/WelcomingText";
+import { useState, useEffect } from "react";
+import Axios from "axios";
+
+interface Tenant {
+    id: number;
+    image: string;
+    name: string;
+    rating: number;
+    open_hour: string;
+    close_hour: string;
+}
+
+interface Product {
+    id_tenant: number;
+    price: number;
+}
 
 export default function Homepage() {
+    const [dataTenant, setDataTenant] = useState([]);
+    const [dataProduct, setDataProduct] = useState([]);
+
+    const getDataTenant = async () => {
+        const res = await Axios.get("http://localhost:8000/tenants");
+        setDataTenant(res.data.data);
+    };
+
+    const getDataProduct = async () => {
+        const res = await Axios.get("http://localhost:8000/products");
+        setDataProduct(res.data.data);
+    };
+
+    useEffect(() => {
+        getDataTenant();
+    }, []);
+
+    useEffect(() => {
+        getDataProduct();
+    }, []);
+
+    console.log(dataTenant);
+    console.log(dataProduct);
+
+    const data: Array<{
+        id: number;
+        image: string;
+        name: string;
+        rating: number;
+        open_hour: string;
+        close_hour: string;
+        lowestprice: number;
+        highestprice: number;
+    }> = dataTenant.map((tenant: Tenant) => {
+        const products: Product[] = dataProduct.filter((product: Product) => product.id_tenant === tenant.id);
+        return {
+            id: tenant.id,
+            image: tenant.image,
+            name: tenant.name,
+            rating: tenant.rating,
+            open_hour: tenant.open_hour,
+            close_hour: tenant.close_hour,
+            lowestprice: Math.min(...products.map((product: Product) => product.price)),
+            highestprice: Math.max(...products.map((product: Product) => product.price)),
+        };
+    });
+
     return (
         // Create grid layout for sidebard, header, and main content
         <div className="grid grid-cols-5 grid-rows-8 bg-mealshub-cream">
@@ -23,7 +86,7 @@ export default function Homepage() {
                     <div className="row-span-6 mt-6 mb-9 py-7 w-11/12 bg-white rounded-3xl">
                         <h2 className="text-mealshub-red text-3xl font-bold ps-9">Recommended Tenants</h2>
                         <div className="grid grid-cols-3 grid-rows-2 gap-12 my-6 mx-9 justify-items-center">
-                            <TenantCard />
+                            <TenantCard data={data}/>
                         </div>
                     </div>
                 </div>                

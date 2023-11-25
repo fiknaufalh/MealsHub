@@ -16,10 +16,10 @@ export default function App() {
                 <ShoppingCart />
             </ShoppingCartProvider> */}
             {/* <PageManageMenu /> */}
-            <PageManageOrder />
+            {/* <PageManageOrder /> */}
             {/* <OrderSummary /> */}
             {/* <OrderDetails /> */}
-            {/* <Homepage /> */}
+            <Homepage />
             {/* <Testing /> */}
         </div>
     );
