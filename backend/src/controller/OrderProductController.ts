@@ -24,6 +24,37 @@ class OrderProductController {
         }
     }
 
+    async createOrderProductBulk(req: Request, res: Response) {
+        try {
+            const newOrderProducts = req.body.map(
+                (orderProduct: OrderProduct) => {
+                    const newOrderProduct = new OrderProduct();
+                    newOrderProduct.id_order = orderProduct.id_order;
+                    newOrderProduct.id_product = orderProduct.id_product;
+                    newOrderProduct.num_product = orderProduct.num_product;
+
+                    return newOrderProduct;
+                },
+            );
+
+            console.log(newOrderProducts);
+            await new OrderProductRepo().createOrderProductBulk(
+                newOrderProducts,
+            );
+
+            res.status(201).json({
+                status: "Created!",
+                message: "Successfully created order product batch!",
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                status: "Internal Server Error!",
+                message: "Internal Server Error!",
+            });
+        }
+    }
+
     async deleteOrderProduct(req: Request, res: Response) {
         try {
             const id_order = parseInt(req.params["id_order"]);
