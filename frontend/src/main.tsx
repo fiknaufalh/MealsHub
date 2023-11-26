@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import "./index.css";
 import AppRoutes from "./AppRoutes.tsx";
+import { ShoppingCartProvider } from "./contexts/ShoppingCartContext.tsx";
 // import { AuthProvider } from "./hooks/useAuth.tsx";
 // import { ShoppingCartProvider } from "./contexts/ShoppingCartContext";
 // import { ToastContainer } from "react-toastify";
@@ -12,7 +13,9 @@ import AppRoutes from "./AppRoutes.tsx";
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <BrowserRouter>
-            <AppRoutes />
+            <ShoppingCartProvider>
+                <App />
+            </ShoppingCartProvider>
         </BrowserRouter>
     </React.StrictMode>,
 );

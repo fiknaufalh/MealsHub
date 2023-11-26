@@ -63,23 +63,34 @@ export default function OrderList({tableid}: {tableid: id}) {
         const result = ordertable.map((order: Order) => {
             const tenant = tenantData.find((tenant: Tenant) => tenant.id === order.id_tenant);
             const orderproduct = orderProductData.filter((orderProduct: OrderProduct) => orderProduct.id_order === order.id);
-            const listproduct = orderproduct.map((orderProduct: OrderProduct) => {
-                const product = productData.find((product: Product) => product.id === orderProduct.id_product);
-                return [product.name, orderProduct.num_product];
-            })
-            const totalprice = orderproduct.reduce((total: number, orderProduct: OrderProduct) => {
-                const product = productData.find((product: Product) => product.id === orderProduct.id_product);
-                return total + product.price * orderProduct.num_product;
-            }, 0);
+        const listproduct = orderproduct.map((orderProduct: OrderProduct) => {
+            const product = productData.find((product: Product) => product.id === orderProduct.id_product);
 
-            return {
-                image: tenant.image,
-                name: tenant.name,
-                status: order.status,
-                orderlist: listproduct,
-                price: totalprice
+            if (!product) {
+                return ["Product Not Found", orderProduct.num_product];
             }
+
+            return [product.name, orderProduct.num_product];
         });
+
+        const totalprice = orderproduct.reduce((total: number, orderProduct: OrderProduct) => {
+            const product = productData.find((product: Product) => product.id === orderProduct.id_product);
+
+            if (!product) {
+                return total;
+            }
+
+            return total + product.price * orderProduct.num_product;
+        }, 0);
+
+        return {
+            image: tenant.image,
+            name: tenant.name,
+            status: order.status,
+            orderlist: listproduct,
+            price: totalprice,
+        };
+    });
 
         setJoinedData(result);
 
