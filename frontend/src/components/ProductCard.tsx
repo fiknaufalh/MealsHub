@@ -2,12 +2,12 @@ import { useEffect } from 'react'
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
-interface ProductCardProps {
-    id: number,
-    image: string,
-    name: string,
-    description: string,
-    price: number
+type ProductCardProps = {
+    id: number;
+    image: string;
+    name: string;
+    description: string;
+    price: number;
 }
 
 export default function ProductCard({ data }: { data: ProductCardProps[] }) {

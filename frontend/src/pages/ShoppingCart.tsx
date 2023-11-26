@@ -17,7 +17,7 @@ interface Product {
     name: string,
     description: string,
     price: number
-    tenantid: number
+    id_tenant: number
 }
 
 interface Tenant {
@@ -69,7 +69,7 @@ export default function ShoppingCart() {
                 name: product.name,
                 description: product.description,
                 price: product.price,
-                tenantid: product.tenantid
+                id_tenant: product.id_tenant
             }
         });
 
@@ -84,15 +84,17 @@ export default function ShoppingCart() {
     console.log(productData);
 
     
-    const getProductImage = (cartItem: cartItem) => {
+    const getTenantImage = (cartItem: cartItem) => {
         const item = productData.find((i) => i.id === cartItem.id);
-        const tenant = tenantData.find((t) => t.id === item?.tenantid);
+        const tenant = tenantData.find((t) => t.id === item?.id_tenant);
+        console.log(tenant);
         return tenant?.image || "";
     };
     
-    const getProductName = (cartItem: cartItem) => {
+    const getTenantName = (cartItem: cartItem) => {
         const item = productData.find((i) => i.id === cartItem.id);
-        const tenant = tenantData.find((t) => t.id === item?.tenantid);
+        const tenant = tenantData.find((t) => t.id === item?.id_tenant);
+        console.log(item);
         return tenant?.name || "";
     };
     
@@ -110,8 +112,8 @@ export default function ShoppingCart() {
                         <div className="">
                             <h2 className="text-mealshub-red text-3xl font-bold ms-16">Your Cart</h2>
                             <CartHeader
-                            image={(cartItems[0] && getProductImage(cartItems[0])) || ""}
-                            name={(cartItems[0] && getProductName(cartItems[0])) || ""}
+                            image={(cartItems[0] && getTenantImage(cartItems[0])) || ""}
+                            name={(cartItems[0] && getTenantName(cartItems[0])) || ""}
                             />
                             {cartItems.map((item) => (
                                 <CartCard key={item.id} {...item}/>
