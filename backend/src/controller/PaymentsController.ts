@@ -7,6 +7,11 @@ class PaymentsController {
         try {
             const new_payment = new Payments();
             new_payment.id = req.body.id;
+            if (new_payment.id == null || new_payment.id == undefined) {
+                await new PaymentsRepo().getMaxId().then((value: number) => {
+                    new_payment.id = value + 1;
+                });
+            }
             new_payment.id_order = req.body.id_order;
             new_payment.status = req.body.status;
 

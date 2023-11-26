@@ -8,6 +8,12 @@ class OrdersController {
         try {
             const new_order = new Orders();
             new_order.id = req.body.id;
+            if (new_order.id == null || new_order.id == undefined) {
+                await new OrdersRepo().getMaxId().then((value: number) => {
+                    new_order.id = value + 1;
+                });
+            }
+
             new_order.id_table = req.body.id_table;
             new_order.id_tenant = req.body.id_tenant;
             new_order.status = req.body.status;
