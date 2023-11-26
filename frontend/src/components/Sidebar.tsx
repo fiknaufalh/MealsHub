@@ -122,6 +122,22 @@ export default function Sidebar(props: any) {
                         {menuItems}
                     </ul>
                 </div>
+                {props.customer === true ? (
+                    <div className="flex flex-col px-10 py-3.5 mt-auto mb-10">
+                        <button
+                            type="button"
+                            className="flex text-mealshub-red bg-white hover:bg-mealshub-red hover:text-white font-medium rounded-2xl p-4 inline-flex group"
+                        >
+                            <div className="flex flex-col w-52">
+                                <span className="flex whitespace-nowrap text-lg text-left">
+                                    Log Out
+                                </span>
+                            </div>
+                        </button>
+                    </div>
+                ) : (
+                    null
+                )}
             </div>
         </div>
     );
