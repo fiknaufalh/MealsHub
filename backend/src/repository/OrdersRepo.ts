@@ -1,5 +1,6 @@
 // OrdersRepo.ts
 /* eslint-disable no-unused-vars */
+import { type } from "os";
 import { Orders } from "../model/Orders";
 
 interface IOrdersRepo {
@@ -28,6 +29,18 @@ export default class OrdersRepo implements IOrdersRepo {
             return new_order;
         } catch (error: any) {
             throw new Error(`Error while fetching order: ${error.message}`);
+        }
+    }
+
+    async getMaxId(): Promise<number> {
+        try {
+            const maxId = await Orders.max("id");
+            if (maxId != null && typeof maxId === "number") {
+                return maxId;
+            }
+            return 0;
+        } catch (error: any) {
+            throw new Error(`Error while fetching max id: ${error.message}`);
         }
     }
 

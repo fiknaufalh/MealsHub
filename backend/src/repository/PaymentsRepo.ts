@@ -33,6 +33,18 @@ export default class PaymentsRepo implements IPaymentsRepo {
         }
     }
 
+    async getMaxId(): Promise<number> {
+        try {
+            const maxId = await Payments.max("id");
+            if (maxId != null && typeof maxId === "number") {
+                return maxId;
+            }
+            return 0;
+        } catch (error: any) {
+            throw new Error(`Error while fetching max id: ${error.message}`);
+        }
+    }
+
     async createPayment(payment: Payments): Promise<void> {
         try {
             await Payments.create({
