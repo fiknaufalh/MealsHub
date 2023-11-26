@@ -76,6 +76,28 @@ export default class OrderProductRepo implements IOrderProductRepo {
         }
     }
 
+    async createOrderProductBulk(
+        orderProducts: readonly Partial<OrderProduct>[],
+    ): Promise<void> {
+        try {
+            console.log(orderProducts);
+            const newOrderProducts = orderProducts.map(
+                (orderProduct: Partial<OrderProduct>) => {
+                    return {
+                        id_order: orderProduct.id_order,
+                        id_product: orderProduct.id_product,
+                        num_product: orderProduct.num_product,
+                    };
+                },
+            );
+            await OrderProduct.bulkCreate(newOrderProducts);
+        } catch (error: any) {
+            throw new Error(
+                `Error while creating order product batch: ${error.message}`,
+            );
+        }
+    }
+
     async updateOrderProduct(orderProduct: OrderProduct): Promise<void> {
         try {
             const existingOrderProduct = await OrderProduct.findOne({

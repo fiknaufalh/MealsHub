@@ -14,6 +14,10 @@ class OrderProductRoutes extends BaseRoutes {
             validate(createOrderProductSchema),
             OrderProductController.createOrderProduct,
         );
+        this.router.post(
+            "/bulk",
+            OrderProductController.createOrderProductBulk,
+        );
         this.router.patch(
             "/:orderId/:productId",
             validate(updateOrderProductSchema),
