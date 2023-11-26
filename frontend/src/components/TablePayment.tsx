@@ -7,7 +7,6 @@ interface Props {
     time: number;
     orderStatus: string;
     paymentStatus: string;
-    totalPrice: number;
 }
 
 function TablePayment({ data }: { data: Props[] }) {
@@ -237,6 +236,21 @@ function TablePayment({ data }: { data: Props[] }) {
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 <div className="flex items-center font-semibold">
+                                    Order Status
+                                    <SortButton
+                                        columnKey={"orderStatus"}
+                                        onClick={() =>
+                                            changeSort("orderStatus")
+                                        }
+                                        {...{
+                                            sortOrder,
+                                            sortKey,
+                                        }}
+                                    />
+                                </div>
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                <div className="flex items-center font-semibold">
                                     Payment Status
                                     <SortButton
                                         columnKey={"paymentStatus"}
@@ -248,11 +262,6 @@ function TablePayment({ data }: { data: Props[] }) {
                                             sortKey,
                                         }}
                                     />
-                                </div>
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                <div className="flex items-center font-semibold">
-                                    TotalPrice
                                 </div>
                             </th>
                             <th
@@ -289,10 +298,10 @@ function TablePayment({ data }: { data: Props[] }) {
                                             {date}
                                         </td>
                                         <td className="px-6 py-4 whitespace-normal">
-                                            {record.paymentStatus}
+                                            {record.orderStatus}
                                         </td>
                                         <td className="px-6 py-4 whitespace-normal">
-                                            {record.totalPrice}
+                                            {record.paymentStatus}
                                         </td>
                                         <td className="px-6 py-4">
                                             <a
