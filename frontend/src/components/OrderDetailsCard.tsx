@@ -1,3 +1,4 @@
+import moment from "moment";
 interface OrderDetailsCardProps {
     orderid: number,
     code: number,
@@ -7,8 +8,9 @@ interface OrderDetailsCardProps {
     paymentstatus: string
 }
 
-export default function OrderDetailsCard({data}: {data: OrderDetailsCardProps[]}) {
+export default function OrderDetailsCard({ data }: { data: OrderDetailsCardProps[] }) {
     const orderdetails = data.map(({ orderid, code, tableid, time, orderstatus, paymentstatus }) => {
+        const date = moment(time).format("DD/MM/YYYY hh:mm:ss")
         return (
             <div className="font-nunito flex bg-white justify-start py-10 md:flex-row mx-16">
                 <div className="flex flex-col w-40 leading-normal">
@@ -31,7 +33,7 @@ export default function OrderDetailsCard({data}: {data: OrderDetailsCardProps[]}
                     <p className="mb-3 font-normal text-lg text-gray-900 w-11/12">{orderid}</p>
                     <p className="my-3 font-normal text-lg text-gray-900 w-11/12">{code}</p>
                     <p className="my-3 font-normal text-lg text-gray-900 w-11/12">{tableid}</p>
-                    <p className="my-3 font-normal text-lg text-gray-900 w-11/12">{`${time}`}</p>
+                    <p className="my-3 font-normal text-lg text-gray-900 w-11/12">{date}</p>
                     <p className="my-3 font-normal text-lg text-gray-900 w-11/12">{orderstatus}</p>
                     <p className="mt-3 font-normal text-lg text-gray-900 w-11/12">{paymentstatus}</p>
                 </div>

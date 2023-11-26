@@ -1,5 +1,5 @@
 import { MouseEventHandler, useCallback, useState } from "react";
-// import data from "../dataOrder.json"
+import moment from "moment";
 interface Props {
     orderId: number;
     paymentId: number;
@@ -97,7 +97,7 @@ function TableOrder({ data }: { data: Props[] }) {
             value.toString().toLowerCase().includes(searchTerm.toLowerCase()),
         ),
     );
-
+    console.log(filteredRecords);
     //Const and func for pagination
     const [currentPage, setCurrentPage] = useState(1);
     const recordsPerPage = 11;
@@ -142,7 +142,7 @@ function TableOrder({ data }: { data: Props[] }) {
 
     return (
         <div className="mx-12">
-            <div className="my-4">
+            <div className="w-3/4 my-4">
                 <form>
                     <label
                         htmlFor="default-search"
@@ -184,6 +184,11 @@ function TableOrder({ data }: { data: Props[] }) {
                             }}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                }
+                            }}
                         />
                     </div>
                 </form>
@@ -271,6 +276,7 @@ function TableOrder({ data }: { data: Props[] }) {
                         {filteredRecords
                             .slice(firstIndex, lastIndex)
                             .map((record, index) => {
+                                const date = moment(record.time).format("DD/MM/YYYY hh:mm:ss");
                                 return (
                                     <tr className="odd:bg-white even:bg-gray-50 border-b" key={record.orderId}>
                                         <td className="px-6 py-4">
@@ -289,7 +295,7 @@ function TableOrder({ data }: { data: Props[] }) {
                                             {record.tableId}
                                         </td>
                                         <td className="px-6 py-4 whitespace-normal">
-                                            {record.time}
+                                            {date}
                                         </td>
                                         <td className="px-6 py-4 whitespace-normal">
                                             {record.orderStatus}
