@@ -45,7 +45,7 @@ const EditForm: React.FC<EditFormProps> = (props) => {
             <div className="relative p-4 w-full max-w-md max-h-full">
                 <div className="relative bg-gray-200 opacity-100 rounded-2xl">
                     <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-lg" >
-                        <h3 className="text-lg font-semibold text-gray-900">
+                        <h3 className="font-nunito text-lg font-semibold text-gray-900">
                             Edit Menu Product
                         </h3>
                         <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-full text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" onClick={props.onClose}>
@@ -59,22 +59,22 @@ const EditForm: React.FC<EditFormProps> = (props) => {
                     <form onSubmit={handleSubmit} className="p-4 md:p-5">
                         <div className="grid gap-4 mb-4 grid-cols-2">
                             <div className="col-span-2">
-                                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 ">Name</label>
+                                <label htmlFor="name" className="font-nunito block mb-2 text-sm font-bold text-gray-900">Name</label>
                                 <input type="text" name="name" id="name" value={formData.name}
                                     onChange={(e) => handleInputChange(e)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mealshub-blue focus:border-mealshub-blue block w-full p-2.5" placeholder="Type product name" required />
                             </div>
                             <div className="col-span-2 sm:col-span-1">
-                                <label htmlFor="stock" className="block mb-2 text-sm font-medium text-gray-900 ">Stock</label>
+                                <label htmlFor="stock" className="font-nunito block mb-2 text-sm font-bold text-gray-900">Stock</label>
                                 <input type="number" name="stock" id="stock" value={(formData.stock)}
                                     onChange={handleInputChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mealshub-blue focus:border-mealshub-blue block w-full p-2.5" placeholder="0" required />
                             </div>
                             <div className="col-span-2 sm:col-span-1">
-                                <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 ">Price</label>
+                                <label htmlFor="price" className="font-nunito block mb-2 text-sm font-bold text-gray-900">Price</label>
                                 <input type="number" name="price" id="price" value={formData.price}
                                     onChange={(e) => handleInputChange(e)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mealshub-blue focus:border-mealshub-blue block w-full p-2.5" placeholder="Rp 0" required />
                             </div>
                             <div className="col-span-2">
-                                <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900">Product Description</label>
+                                <label htmlFor="description" className="font-nunito block mb-2 text-sm font-bold text-gray-900">Product Description</label>
                                 <textarea
                                     id="description"
                                     name="description"
@@ -87,7 +87,7 @@ const EditForm: React.FC<EditFormProps> = (props) => {
 
                             </div>
                             <div className="col-span-2">
-                                <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900 ">Image URL</label>
+                                <label htmlFor="image" className="font-nunito block mb-2 text-sm font-bold text-gray-900">Image URL</label>
                                 <input type="text" name="image" id="image" value={formData.image}
                                     onChange={(e) => handleInputChange(e)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mealshub-blue focus:border-mealshub-blue block w-full p-2.5" placeholder="Insert your image URL" required />
                             </div>
