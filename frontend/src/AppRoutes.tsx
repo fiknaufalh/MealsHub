@@ -14,8 +14,10 @@ import RegisterTable from "./pages/RegisterTable";
 import ChooseRolePage from "./pages/RolePage";
 import OrderDetails from "./pages/ManageOrderTenant";
 import { ShoppingCartProvider } from "./contexts/ShoppingCartContext";
-import Summary from "./pages/Summary";
+import Summary from "./pages/ManagePayment";
 import Payment from "./pages/Payment";
+import ViewPaymentHistory from "./pages/ViewPaymentHistory";
+import ManagePayment from "./pages/ManagePayment";
 
 const orderid = 1;
 export default function AppRoutes() {
@@ -40,8 +42,9 @@ export default function AppRoutes() {
                 path="/tenantpage/orders/:orderid"
                 element={<OrderDetails />}
             />
-            <Route path="/summary/orders/:orderid" element={<Summary />} />
+            <Route path="/cashier/payments/:orderid" element={<ManagePayment />} />
             <Route path="/payment/:paymentid" element={<Payment />} />
+            <Route path="/cashier/payments" element={<ViewPaymentHistory />} />
         </Routes>
     );
 }
