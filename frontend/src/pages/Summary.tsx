@@ -5,23 +5,245 @@ import BackButton from "../components/BackButton";
 import Welcome from "../components/Welcome";
 import Profile from "../components/Profile";
 import ProfileDropDown from "../components/ProfileDropDown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ConfirmPopUp from "../components/ConfirmPopUp";
+import Axios from "axios";
+import { useParams } from "react-router-dom";
+
+interface Order {
+    id: number;
+    status: string;
+    time: Date;
+    id_table: number;
+    id_tenant: number;
+}
+
+interface OrderProduct {
+    num_product: number;
+    id_product: number;
+    id_order: number;
+}
+
+interface Product {
+    id: number;
+    name: string;
+    price: number;
+}
+
+interface Tenant {
+    id: number;
+    name: string;
+}
+
+interface Payment {
+    id: number;
+    status: string;
+    id_order: number;
+}
+
+interface OrderSummary {
+    name: string;
+    orderlist: (string | number)[][];
+}
+
+interface OrderDetails {
+    orderid: number;
+    code: number;
+    tableid: number;
+    time: Date;
+    orderstatus: string;
+    paymentstatus: string;
+}
 
 const Summary = () => {
+    const { orderid } = useParams();
+    const [confirmed, setConfirmed] = useState(false);
     const [showProfileDropDown, setShowProfileDropDown] = useState(false);
     const [showConfirmPopUp, setShowConfirmPopUp] = useState(false);
+    const [joinedOrderDetailsData, setJoinedOrderDetailsData] = useState<
+        OrderDetails[]
+    >([]);
+    const [buttonState, setButtonState] = useState({
+        label: "Waiting for Payment",
+        disabled: true,
+        color: "mealshub-greenpalet",
+        onClick: () => {},
+    });
+    const getOrderDetailsData = async () => {
+        const orderResponse = await Axios.get(
+            `http://localhost:8000/orders/${orderid}`,
+        );
+        const paymentResponse = await Axios.get(
+            "http://localhost:8000/payments",
+        );
+
+        const orderData = orderResponse.data.data;
+        const paymentData = paymentResponse.data.data;
+
+        // Perform the join based on the specified conditions
+        const OrderDataArray = [orderData];
+        const result = OrderDataArray.map((order: Order) => {
+            const matchingPayment = paymentData.find(
+                (payment: Payment) => payment.id_order === order.id,
+            );
+
+            return {
+                orderid: order.id,
+                code: matchingPayment.id,
+                tableid: order.id_table,
+                time: order.time,
+                orderstatus: order.status,
+                paymentstatus: matchingPayment.status,
+            };
+        });
+
+        setJoinedOrderDetailsData(result);
+    };
+    const [joinedOrderSummaryData, setJoinedOrderSummaryData] = useState<
+        OrderSummary[]
+    >([]);
 
     const handleProfileClick = () => {
         setShowProfileDropDown(!showProfileDropDown);
     };
-    const handleConfirmPayment = () => {
+
+    const handleConfirmPayment = async () => {
         setShowConfirmPopUp(true);
+
+        // Panggil API untuk memperbarui status order menjadi "Confirmed" atau "Completed"
+        try {
+            console.log("BELOM");
+            await Axios.patch(`http://localhost:8000/orders/${orderid}`, {
+                status: "Confirmed", // Ubah status order ke "Confirmed"
+            });
+            console.log("MAASUK");
+
+            // Dapatkan ulang data order setelah perubahan status
+            getOrderDetailsData();
+
+            // Atur ulang button state setelah konfirmasi
+            setButtonState({
+                label: "Confirmed", // Ganti label tombol menjadi "Confirmed"
+                disabled: true,
+                color: "mealshub-greenpalet",
+                onClick: () => {}, // Fungsi kosong karena tombol akan dinonaktifkan setelah diklik
+            });
+        } catch (error) {
+            // Handle error jika terjadi kesalahan saat memanggil API
+            console.error("Error confirming payment:", error);
+            // Tambahkan penanganan error sesuai kebutuhan aplikasi Anda
+        }
     };
 
-    const handleCloseConfirmPopUp = () => {
+    const handleCloseConfirmPopUp = async () => {
         setShowConfirmPopUp(false);
+    
+        try {
+            // Panggil API untuk memperbarui status order menjadi "Confirmed"
+            await Axios.patch(`http://localhost:8000/orders/${orderid}`, {
+                status: "Completed",
+            });
+    
+            // Dapatkan ulang data order setelah perubahan status
+            getOrderDetailsData();
+    
+            // Atur ulang button state setelah konfirmasi
+            setButtonState({
+                label: "Confirmed",
+                disabled: true,
+                color: "mealshub-greenpalet",
+                onClick: () => {}, // Tombol dinonaktifkan karena status sudah "Confirmed"
+            });
+    
+            setConfirmed(true); // Setelah menutup pop-up, tandai bahwa konfirmasi telah dilakukan
+        } catch (error) {
+            console.error("Error confirming payment:", error);
+            // Tambahkan penanganan error sesuai kebutuhan aplikasi Anda
+        }
     };
+    
+
+    const getOrderSummaryData = async () => {
+        const orderResponse = await Axios.get(
+            `http://localhost:8000/orders/${orderid}`,
+        );
+        const productResponse = await Axios.get(
+            "http://localhost:8000/products",
+        );
+        const orderProductResponse = await Axios.get(
+            "http://localhost:8000/orderproduct",
+        );
+        const tenantResponse = await Axios.get("http://localhost:8000/tenants");
+
+        const orderData = orderResponse.data.data;
+        const productData = productResponse.data.data;
+        const orderProductData = orderProductResponse.data.data;
+        const tenantData = tenantResponse.data.data;
+
+        // Perform the join based on the specified conditions
+        // OrderData is not an array, so we need to convert it into an array
+        const orderDataArray = [orderData];
+        const result = orderDataArray.map((order: Order) => {
+            const tenant = tenantData.find(
+                (tenant: Tenant) => tenant.id === order.id_tenant,
+            );
+            const orderproduct = orderProductData.filter(
+                (orderProduct: OrderProduct) =>
+                    orderProduct.id_order === order.id,
+            );
+            const listproduct = orderproduct.map(
+                (orderProduct: OrderProduct) => {
+                    const product = productData.find(
+                        (product: Product) =>
+                            product.id === orderProduct.id_product,
+                    );
+                    return [
+                        product.name,
+                        orderProduct.num_product,
+                        product.price,
+                    ];
+                },
+            );
+
+            return {
+                name: tenant.name,
+                orderlist: listproduct,
+            };
+        });
+
+        setJoinedOrderSummaryData(result);
+    };
+    useEffect(() => {
+        getOrderDetailsData();
+    }, []);
+    useEffect(() => {
+        getOrderSummaryData();
+    }, []);
+
+    console.log(joinedOrderSummaryData);
+    useEffect(() => {
+        // Update button state based on payment and order status
+        if (joinedOrderDetailsData.length > 0) {
+            const paymentStatus = joinedOrderDetailsData[0].paymentstatus;
+
+            if (paymentStatus === "Waiting for Confirmation") {
+                setButtonState({
+                    label: "Confirm",
+                    disabled: false,
+                    color: "mealshub-red",
+                    onClick: () => setShowConfirmPopUp(true), // Menampilkan pop-up saat tombol diklik
+                });
+            } else if (paymentStatus === "Confirmed") {
+                setButtonState({
+                    label: "Confirmed",
+                    disabled: true,
+                    color: "mealshub-greenpalet",
+                    onClick: () => {}, // Tombol dinonaktifkan karena status sudah "Confirmed"
+                });
+            }
+        }
+    }, [joinedOrderDetailsData]);
+
     return (
         // Create grid layout for sidebard, header, and main content
         <div className="grid grid-cols-5 grid-rows-8 bg-mealshub-cream min-h-screen">
@@ -41,7 +263,7 @@ const Summary = () => {
                 </div>
                 <div className="absolute top-0 right-0 mt-9 mx-12">
                     <Profile
-                        image="/public/images/ProfileDefault.png"
+                        image="/images/ProfileDefault.png"
                         onProfileClick={handleProfileClick}
                     />
                 </div>
@@ -61,14 +283,15 @@ const Summary = () => {
                         <h2 className="text-mealshub-red text-3xl font-bold ms-16">
                             Order Details
                         </h2>
-                        <OrderDetailsCard />
-                        <OrderSummaryCard />
+                        <OrderDetailsCard data={joinedOrderDetailsData} />
+                        <OrderSummaryCard data={joinedOrderSummaryData} />
                         <div className="flex mx-16 justify-center">
                             <button
-                                className="max-w-xs text-white bg-mealshub-red font-bold text-lg rounded-full px-2 py-1 text-center shadow-xl"
-                                onClick={handleConfirmPayment}
+                                onClick={buttonState.onClick}
+                                disabled={buttonState.disabled}
+                                className={`max-w-xs text-white font-bold text-lg rounded-full px-2 py-1 text-center shadow-xl bg-${buttonState.color}`}
                             >
-                                Confirm Payment
+                                {buttonState.label}
                             </button>
                         </div>
                         {showConfirmPopUp && (
