@@ -15,7 +15,7 @@ export default function TenantCard({data} : {data: TenantCardProps[]}) {
         const highestpriceidr = highestprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     
         return (
-            <a href={`${id}`}>
+            <a href={`tenant/${id}`}>
                 <div className="w-72 h-80 bg-white rounded-3xl shadow-xl">
                     <div className="flex items-center h-48 w-full">
                         <img className="object-cover h-full w-full rounded-3xl" src={`../../public/images/${image}`} alt={name} />

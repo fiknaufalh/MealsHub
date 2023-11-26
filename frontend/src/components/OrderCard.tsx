@@ -1,4 +1,5 @@
 type OrderCardProps = {
+    id: number;
     image: string;
     name: string;
     status: string;
@@ -7,7 +8,7 @@ type OrderCardProps = {
 }
 
 export default function OrderCard({data}: {data: OrderCardProps[]}) {
-    const orderlist = data.map(({image, name, status, orderlist, price}) => {
+    const orderlist = data.map(({id, image, name, status, orderlist, price}) => {
         const orderStatus = () => {
             if (status === "Waiting for Payment") {
                 return (
@@ -70,7 +71,9 @@ export default function OrderCard({data}: {data: OrderCardProps[]}) {
                 <div className="flex flex-col w-3/12 justify-between">
                     <p className="font-normal text-lg text-gray-700 text-right">Rp {priceidr},00</p>
                     <div className="flex flex-col items-end">
-                        <button type="button" className="w-24 text-mealshub-blue bg-white hover:text-white border-2 border-mealshub-blue hover:bg-mealshub-blue font-bold text-lg rounded-full text-sm px-5 py-2.5 text-center">Details</button>
+                        <a href={`/order/summary/${id}`}>
+                            <button type="button" className="w-24 text-mealshub-blue bg-white hover:text-white border-2 border-mealshub-blue hover:bg-mealshub-blue font-bold text-lg rounded-full text-sm px-5 py-2.5 text-center">Details</button>
+                        </a>
                     </div>
                 </div>
             </div>
