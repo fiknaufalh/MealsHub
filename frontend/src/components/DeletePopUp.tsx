@@ -53,7 +53,7 @@ const DeletePopUp: React.FC<DeletePopUpProps> = ({ onClose, onConfirm }) => {
                         <button
                             data-modal-hide="popup-modal"
                             type="button"
-                            className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm inline-flex items-center px-5 py-2.5 text-center me-2"
+                            className="font-nunito text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-bold rounded-full text-sm inline-flex items-center px-5 py-2.5 text-center me-2"
                             onClick={() => {
                                 onConfirm();
                                 onClose();
@@ -64,7 +64,7 @@ const DeletePopUp: React.FC<DeletePopUpProps> = ({ onClose, onConfirm }) => {
                         <button
                             data-modal-hide="popup-modal"
                             type="button"
-                            className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-full border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 "
+                            className="font-nunito text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-full border border-gray-200 text-sm font-bold px-5 py-2.5 hover:text-gray-900 focus:z-10 "
                             onClick={onClose}
                         >
                             No, cancel

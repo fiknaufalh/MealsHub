@@ -18,20 +18,22 @@ interface Product {
     name: string,
     description: string,
     price: number,
+    stock: number,
     id_tenant: number
 }
 
-interface ProductCard {
+interface MenuCard {
     id: number,
     image: string,
     name: string,
     description: string,
-    price: number
+    price: number,
+    stock: number
 }
 
 export default function PageManageMenu() {
     const idTenant = 1;
-    const [MenuData, setMenuData] = useState<ProductCard[]>([]);
+    const [MenuData, setMenuData] = useState<MenuCard[]>([]);
 
     const getMenuData = async () => {
         const tenantResponse = await Axios.get(`http://localhost:8000/tenants/${idTenant}`);
@@ -49,7 +51,8 @@ export default function PageManageMenu() {
                 image: product.image,
                 name: product.name,
                 description: product.description,
-                price: product.price
+                price: product.price,
+                stock: product.stock
             }
         });
 
@@ -62,6 +65,18 @@ export default function PageManageMenu() {
     }, []);
 
     console.log(MenuData);
+
+    const [data, setData] = useState([]);
+
+    const getData = async () => {
+        const res = await Axios.get("http://localhost:8000/products");
+        setData(res.data);
+        setData(res.data.data);
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
 
 
     const [menuToDelete, setMenuToDelete] = useState(null);
@@ -111,7 +126,7 @@ export default function PageManageMenu() {
         }
     };
 
-    const maxId = Math.max(...MenuData.map((menu: any) => menu.id));
+    const maxId = Math.max(...data.map((menu: any) => menu.id));
     return (
         // Create grid layout for sidebard, header, and main content
         <div className="grid grid-cols-5 grid-rows-8 min-h-screen bg-mealshub-cream">

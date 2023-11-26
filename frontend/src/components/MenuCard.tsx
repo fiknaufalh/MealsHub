@@ -1,12 +1,12 @@
 export default function MenuCard(props: any) {
     return (
         <div>
-            <div className="w-60 h-52 bg-white rounded-3xl drop-shadow-lg">
+            <div className="w-60 h-52 bg-white rounded-3xl drop-shadow-lg font-nunito">
                 <div className="flex flex-col items-center justify-center">
-                    <img className="rounded-3xl w-40 h-24" src={props.image} alt="" />
+                    <img className="rounded-3xl w-40 h-24 object-contain" src={props.image} alt="" />
                 </div>
                 <div className="mt-3 px-4">
-                    <h5 className="mb-2 text-sm font-bold tracking-tight text-gray-900">
+                    <h5 className="mb-2 text-md font-extrabold tracking-tight text-gray-900">
                         {props.name}
                     </h5>
                     <div className="flex items-center">
@@ -21,8 +21,8 @@ export default function MenuCard(props: any) {
                     </div>
                     <div className="flex flex-col items-center justify-center">
                         <div>
-                            <button type="button" className="w-20 h-8 mx-2 my-2 text-white bg-mealshub-blue hover:bg-green-900 focus:outline-none focus:ring-4 focus:ring-green-300 font-lato font-bold rounded-full text-xs" onClick={props.onEditClick}>Edit</button>
-                            <button type="button" className="w-20 h-8 mx-2 my-2 text-mealshub-red bg-white border-2 border-mealshub-red hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-red-300 font-lato font-bold rounded-full text-xs" onClick={props.onDeleteClick}>Delete</button>
+                            <button type="button" className="w-20 h-8 mx-2 my-2 text-white bg-mealshub-blue hover:bg-green-900 focus:outline-none focus:ring-4 focus:ring-green-300 font-nunito font-bold rounded-full text-xs" onClick={props.onEditClick}>Edit</button>
+                            <button type="button" className="w-20 h-8 mx-2 my-2 text-mealshub-red bg-white border-2 border-mealshub-red hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-red-300 font-nunito font-bold rounded-full text-xs" onClick={props.onDeleteClick}>Delete</button>
                         </div>
                     </div>
                 </div>
