@@ -69,6 +69,25 @@ class OrderProductController {
         }
     }
 
+    async getOrderProductByOrderId(req: Request, res: Response) {
+        try {
+            const id_order = parseInt(req.params["orderId"]);
+            const orderProducts =
+                await new OrderProductRepo().getOrderProductByOrderId(id_order);
+
+            res.status(200).json({
+                status: "Ok!",
+                message: "Successfully fetched order products by order id!",
+                data: orderProducts,
+            });
+        } catch (error) {
+            res.status(500).json({
+                status: "Internal Server Error!",
+                message: "Internal Server Error!",
+            });
+        }
+    }
+
     async getAllOrderProduct(req: Request, res: Response) {
         try {
             const orderProducts =

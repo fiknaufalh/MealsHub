@@ -28,6 +28,10 @@ class OrderProductRoutes extends BaseRoutes {
             "/:orderId/:productId",
             OrderProductController.getOrderProductById,
         );
+        this.router.get(
+            "/:orderId",
+            OrderProductController.getOrderProductByOrderId,
+        );
     }
 }
 
