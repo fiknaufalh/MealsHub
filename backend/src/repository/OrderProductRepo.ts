@@ -44,6 +44,24 @@ export default class OrderProductRepo implements IOrderProductRepo {
         }
     }
 
+    async getOrderProductByOrderId(orderId: number): Promise<OrderProduct[]> {
+        try {
+            const orderProducts = await OrderProduct.findAll({
+                where: { id_order: orderId },
+            });
+            if (!orderProducts) {
+                throw new Error(
+                    `OrderProduct with orderId ${orderId} not found`,
+                );
+            }
+            return orderProducts;
+        } catch (error: any) {
+            throw new Error(
+                `Error while fetching order product: ${error.message}`,
+            );
+        }
+    }
+
     async createOrderProduct(orderProduct: OrderProduct): Promise<void> {
         try {
             await OrderProduct.create({
