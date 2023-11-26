@@ -82,13 +82,13 @@ export default function OrderDetails() {
             const orderproduct = orderProductData.filter((orderProduct: OrderProduct) => orderProduct.id_order === order.id);
             const listproduct = orderproduct.map((orderProduct: OrderProduct) => {
                 const product = productData.find((product: Product) => product.id === orderProduct.id_product);
-                return [product.name, orderProduct.num_product, product.price];
-            })
+                return [product?.name || 'Product Not Found', orderProduct.num_product, product?.price || 0];
+            });
 
             return {
-                name: tenant.name,
+                name: tenant?.name || 'Tenant Not Found',
                 orderlist: listproduct
-            }
+            };
         });
 
         setJoinedOrderSummaryData(result);
@@ -255,7 +255,7 @@ export default function OrderDetails() {
                             <button
                                 onClick={buttonState.onClick}
                                 disabled={buttonState.disabled}
-                                className={`mt-4 px-6 py-2 w-1/5 text-white text-lg font-nunito font-semibold shadow-xl rounded-full bg-${buttonState.color}`}
+                                className={`mt-4 px-6 py-2 w-1/4 text-white text-lg font-nunito font-semibold shadow-xl rounded-full bg-${buttonState.color}`}
                             >
                                 {buttonState.label}
                             </button>
