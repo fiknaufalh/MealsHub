@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import Axios from 'axios';
-
-type cartItem = {
-    id: number;
-    quantity: number;
-}
+import ShoppingCart from '../pages/ShoppingCart';
+import Axios from "axios";
 
 type ProductCardProps = {
     id: number;
@@ -18,111 +14,64 @@ type ProductCardProps = {
 }
 
 interface Product {
-    id : number,
-    image: string,
-    name: string,
-    description: string,
-    price: number
-    id_tenant: number
-}
-
-interface Tenant {
-    id : number,
-    image: string,
-    name: string
+    id: number;
+    id_tenant: number;
 }
 
 export default function ProductCard({ data }: { data: ProductCardProps[] }) {
     const { getItemQuantity, increaseItemQuantity, removeItem, cartItems } = useShoppingCart();
-    const [tenantData, setTenantData] = useLocalStorage<Tenant[]>(`tenant`, []);
 
-    const getTenantData = async () => {
-        const tenantResponse = await Axios.get(`http://localhost:8000/tenants`);
+    const productlist = data.map(({ id, image, name, description, price, id_tenant }) => {
+        const [isAdded, setIsAdded] = useLocalStorage<boolean>(`product-${id}`, false);
 
-        const tenantData = tenantResponse.data.data;
+        // find cartItem id_tenant
 
-        const result = tenantData.map((tenant: Tenant) => {
-            return {
-                id: tenant.id,
-                image: tenant.image,
-                name: tenant.name
+        const [productData, setProductData] = useState<Product[]>([]);
+
+        const getProductData = async () => {
+            const productResponse = await Axios.get("http://localhost:8000/products");
+
+            const productData = productResponse.data.data;
+
+            const result = productData.map((product: Product) => {
+                return {
+                    id: product.id,
+                    id_tenant: product.id_tenant
+                }
+            });
+
+            setProductData(result);
+
+        };
+
+        useEffect(() => {
+            getProductData();
+        }, []);
+
+        console.log(productData);
+
+        useEffect(() => {
+            const quantity = getItemQuantity(id);
+            setIsAdded(quantity > 0);
+        }, [getItemQuantity, id, setIsAdded]);
+
+        const handleClick = () => {
+            if (cartItems.length > 0) {
+                const cartItem = cartItems[0];
+                const cartTenantId = cartItem && productData.find((product: Product) => product.id === cartItem.id)?.id_tenant;
+                if (cartTenantId !== id_tenant) {
+                    alert("You can't add items from different tenants to the cart!");
+                    return;
+                }
             }
-        });
-
-        setTenantData(result);
-
-    };
-
-    useEffect(() => {
-        getTenantData();
-    }, []);
-
-    console.log(tenantData);
-
-    const [productData, setProductData] = useLocalStorage<Product[]>(`product`, []);
-
-    const getProductData = async () => {
-        const productResponse = await Axios.get("http://localhost:8000/products");
-
-        const productData = productResponse.data.data;
-
-        const result = productData.map((product: Product) => {
-            return {
-                id: product.id,
-                image: product.image,
-                name: product.name,
-                description: product.description,
-                price: product.price,
-                id_tenant: product.id_tenant
-            }
-        });
-
-        setProductData(result);
-
-    };
-
-    useEffect(() => {
-        getProductData();
-    }, []);
-
-    console.log(productData);
-
-    const getTenantId = (cartItem: cartItem) => {
-        const item = productData.find((i) => i.id === cartItem.id);
-        const tenant = tenantData.find((t) => t.id === item?.id_tenant);
-        console.log(tenant);
-        return tenant?.id || 0;
-    }
-
-    const [productStates, setProductStates] = useLocalStorage<{ [key: number]: { isAdded: boolean, quantity: number } }>(`product`, {});
-    const getQuantityAndIsAdded = (id: number) => {
-        const quantity = getItemQuantity(id);
-        const isAdded = productStates[id] ? productStates[id].isAdded : quantity > 0;
-        return { quantity, isAdded };
-    };
-
-    const handleClick = (id: number, id_tenant: number) => {
-        const { quantity } = getQuantityAndIsAdded(id);
-
-
-        if (cartItems.length > 0 && getTenantId(cartItems[0]) !== id_tenant) {
-            alert("You can only order from one tenant at a time!");
-        } else {
-            if (quantity > 0) {
+            if (isAdded) {
                 removeItem(id);
             } else {
                 increaseItemQuantity(id);
             }
+            setIsAdded(!isAdded);
+        };
 
-            setProductStates(prevState => ({
-                ...prevState,
-                [id]: { ...prevState[id], isAdded: !prevState[id]?.isAdded, quantity: getItemQuantity(id) }
-            }));
-        }
-    };
-
-    const productlist = data.map(({ id, image, name, description, price, id_tenant }) => {
-        const { isAdded } = getQuantityAndIsAdded(id);
         const priceidr = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
         return (
@@ -142,7 +91,7 @@ export default function ProductCard({ data }: { data: ProductCardProps[] }) {
                             <button
                                 type="button"
                                 className={`${isAdded ? 'text-mealshub-red hover:text-white border-2 border-mealshub-red hover:bg-mealshub-red' : 'text-white bg-mealshub-red hover:text-mealshub-red border-2 border-mealshub-red hover:bg-white'} font-bold text-lg rounded-full text-sm px-5 py-2.5 text-center`}
-                                onClick={() => handleClick(id, id_tenant)}
+                                onClick={handleClick}
                             >
                                 {isAdded ? "Added" : "Add to Cart"}
                             </button>
