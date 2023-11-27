@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 interface LogoProps {
     height?: string;
     width?: string;
-    default: string;
+    default?: string;
 }
 
 export default function Logo(props: LogoProps) {
@@ -19,6 +19,5 @@ export default function Logo(props: LogoProps) {
                     ${width ? `w-${width}` : ""}`}
             />
         </a>
-
     );
 }

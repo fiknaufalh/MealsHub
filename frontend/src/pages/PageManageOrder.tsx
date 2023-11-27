@@ -1,15 +1,27 @@
 import Sidebar from "../components/Sidebar";
 import Welcome from "../components/Welcome";
 import Profile from "../components/Profile";
+import { useAuth } from "../hooks/useAuth";
+// import data from "../dataOrder.json";
 import TableOrder from "../components/TableOrder";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ProfileDropDown from "../components/ProfileDropDown";
 import joinedOrderPayment from "../../../backend/src/services/api/joinedOrderPayment";
-
 
 export default function PageManageOrder() {
     const tenantid = 1;
     const [showProfileDropDown, setShowProfileDropDown] = useState(false);
+
+    // const navigate = useNavigate();
+    const { user, logout } = useAuth();
+    // const [params] = useSearchParams();
+    // const returnUrl = params.get("returnUrl");
+
+    // useEffect(() => {
+    //     if (!user) return;
+    //     returnUrl ? navigate(returnUrl) : navigate(returnUrl);
+    // }, [user]);
 
     const handleProfileClick = () => {
         setShowProfileDropDown(!showProfileDropDown);
@@ -48,8 +60,9 @@ export default function PageManageOrder() {
                 <div className="absolute top-12 right-0 mt-9 mx-12">
                     {showProfileDropDown && (
                         <ProfileDropDown
-                            name="Aldaebaran"
-                            email="Aldaebaran@example.com"
+                            name={user!.fullname}
+                            email={user!.email}
+                            onClick={logout}
                         />
                     )}
                 </div>

@@ -23,24 +23,24 @@ export default function AppRoutes() {
         <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/role" element={<ChooseRolePage />} />
-            {/* <Route path="/login" element={<LoginPage />} /> */}
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/login/customer" element={<RegisterTable />} />
             <Route path="/signup/tenant" element={<SignUpTenant />} />
             <Route path="/signup/cashier" element={<SignUpCashier />} />
             <Route path="/tenant/:tenantid" element={<TenantInfo />} />
             <Route path="/cart" element={<ShoppingCart />} />
             <Route path="/order/list/:tableid" element={<OrderList />} />
-            <Route
-                path="/order/summary/:orderid"
-                element={<OrderSummary />}
-            />
+            <Route path="/order/summary/:orderid" element={<OrderSummary />} />
             <Route path="/tenantpage/orders" element={<PageManageOrder />} />
             <Route path="/tenantpage/menus" element={<PageManageMenu />} />
             <Route
                 path="/tenantpage/orders/:orderid"
                 element={<OrderDetails />}
             />
-            <Route path="/cashier/payments/:orderid" element={<ManagePayment />} />
+            <Route
+                path="/cashier/payments/:orderid"
+                element={<ManagePayment />}
+            />
             <Route path="/payment/:paymentid" element={<Payment />} />
             <Route path="/cashier/payments" element={<ViewPaymentHistory />} />
         </Routes>
