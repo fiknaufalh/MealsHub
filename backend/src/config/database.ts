@@ -1,5 +1,4 @@
 import { Sequelize } from "sequelize-typescript";
-import * as dotenv from "dotenv";
 import { OrderProduct } from "../model/OrderProduct";
 import { Orders } from "../model/Orders";
 import { Payments } from "../model/Payments";
@@ -7,6 +6,7 @@ import { Products } from "../model/Products";
 import { Tables } from "../model/Tables";
 import { Tenants } from "../model/Tenants";
 import { Users } from "../model/Users";
+import * as dotenv from "dotenv";
 dotenv.config();
 
 class Database {

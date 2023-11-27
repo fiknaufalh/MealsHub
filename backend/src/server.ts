@@ -7,6 +7,7 @@ import UsersRouter from "./router/UsersRouter";
 import ProductsRouter from "./router/ProductsRouter";
 import OrderProductRouter from "./router/OrderProductRouter";
 import TenantsRouter from "./router/TenantsRouter";
+import AuthRouter from "./router/AuthRouterstashed";
 import cors from "cors";
 
 class App {
@@ -42,6 +43,7 @@ class App {
         this.app.use("/orderproduct", OrderProductRouter);
         this.app.use("/payments", PaymentsRouter);
         this.app.use("/users", UsersRouter);
+        this.app.use("/auth", AuthRouter);
     }
 }
 
