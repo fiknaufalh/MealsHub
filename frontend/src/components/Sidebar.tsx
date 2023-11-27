@@ -10,7 +10,7 @@ export default function Sidebar(props: any) {
     const returnUrl = params.get("returnUrl");
 
     useEffect(() => {
-        if (!user) navigate("/login");
+        if (!user) navigate("/role");
         // returnUrl ? navigate(returnUrl) : navigate("/");
     }, [user]);
 

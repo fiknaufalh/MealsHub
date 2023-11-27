@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar";
 import TenantCard from "../components/TenantCard";
 import Search from "../components/Search";
 import WelcomingText from "../components/WelcomingText";
+import { useAuth } from "../hooks/useAuth";
 
 interface Tenant {
     id: number;
@@ -20,6 +21,7 @@ interface Product {
 }
 
 export default function Homepage() {
+    const { user } = useAuth();
     const [dataTenant, setDataTenant] = useState<Tenant[]>([]);
     const [dataProduct, setDataProduct] = useState<Product[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>("");
@@ -102,7 +104,7 @@ export default function Homepage() {
             <div className="col-span-4">
                 <div className="ms-20">
                     <div className="row-span-1 mt-9 py-3 w-11/12">
-                        <WelcomingText name="Table 1" />
+                        <WelcomingText name={user ? user!.fullname : ""} />
                     </div>
                     <div className="row-span-1 mt-6 py-3 w-11/12">
                         <Search

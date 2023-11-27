@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
@@ -11,9 +11,6 @@ interface LoginFormInput {
 }
 
 export default function LoginPage() {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-
     const {
         handleSubmit,
         register,
@@ -27,7 +24,7 @@ export default function LoginPage() {
 
     useEffect(() => {
         if (!user) return;
-        returnUrl ? navigate(returnUrl) : navigate("/");
+        returnUrl ? navigate(returnUrl) : navigate("/tenant/menus");
     }, [user]);
 
     const submit: SubmitHandler<LoginFormInput> = async ({
@@ -35,7 +32,7 @@ export default function LoginPage() {
         password,
     }) => {
         console.log(`email: ${email}, password: ${password}. MASUK`);
-        await login(email, password);
+        await login(email, password, "tenant-cashier");
     };
 
     return (

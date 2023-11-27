@@ -5,11 +5,12 @@ export const getUser = () =>
         ? JSON.parse(localStorage.getItem("user")!)
         : null;
 
-export const login = async (email: string, password: string) => {
+export const login = async (email: string, password: string, role: string) => {
     console.log("masuk sini login di user service");
     const { data } = await axios.post("http://localhost:8000/auth/login", {
         email,
         password,
+        role,
     });
     console.log("axios berhasil");
     localStorage.setItem("user", JSON.stringify(data));

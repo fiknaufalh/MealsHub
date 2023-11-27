@@ -31,12 +31,9 @@ export default function AppRoutes() {
             <Route path="/cart" element={<ShoppingCart />} />
             <Route path="/order/list/:tableid" element={<OrderList />} />
             <Route path="/order/summary/:orderid" element={<OrderSummary />} />
-            <Route path="/tenantpage/orders" element={<PageManageOrder />} />
-            <Route path="/tenantpage/menus" element={<PageManageMenu />} />
-            <Route
-                path="/tenantpage/orders/:orderid"
-                element={<OrderDetails />}
-            />
+            <Route path="/tenant/orders" element={<PageManageOrder />} />
+            <Route path="/tenant/menus" element={<PageManageMenu />} />
+            <Route path="/tenant/orders/:orderid" element={<OrderDetails />} />
             <Route
                 path="/cashier/payments/:orderid"
                 element={<ManagePayment />}
