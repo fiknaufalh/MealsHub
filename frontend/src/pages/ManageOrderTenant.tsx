@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import ProfileDropDown from "../components/ProfileDropDown";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
+import crypto from "crypto-js";
 
 interface Order {
     id: number,
@@ -41,13 +42,14 @@ interface Payment {
 }
 
 interface OrderSummary {
+    id: number,
     name: string,
     orderlist: (string | number)[][]
 }
 
 interface OrderDetails {
     orderid: number,
-    code: number,
+    code: string | null,
     tableid: number,
     time: Date,
     orderstatus: string,
@@ -86,6 +88,7 @@ export default function OrderDetails() {
             });
 
             return {
+                id: tenant?.id || 0,
                 name: tenant?.name || 'Tenant Not Found',
                 orderlist: listproduct
             };
@@ -115,18 +118,20 @@ export default function OrderDetails() {
         const result = OrderDataArray.map((order: Order) => {
             const matchingPayment = paymentData.find((payment: Payment) => payment.id_order === order.id);
 
+            // Hash the code (matchingPayment.id) using SHA-256 from crypto-js and take the first 5 characters
+            const hashedCode = matchingPayment ? crypto.SHA256(matchingPayment.id.toString()).toString().substring(0, 5) : null;
+
             return {
                 orderid: order.id,
-                code: matchingPayment.id,
+                code: hashedCode,
                 tableid: order.id_table,
                 time: order.time,
                 orderstatus: order.status,
-                paymentstatus: matchingPayment.status
+                paymentstatus: matchingPayment ? matchingPayment.status : null
             };
         });
 
         setJoinedOrderDetailsData(result);
-
     };
 
     useEffect(() => {
@@ -250,7 +255,7 @@ export default function OrderDetails() {
                     <div className="ms-20 py-12 bg-white rounded-3xl">
                         <h2 className="text-mealshub-red text-3xl font-bold ms-16">Order Details</h2>
                         <OrderDetailsCard data={joinedOrderDetailsData} />
-                        <OrderSummaryCard data={joinedOrderSummaryData} />
+                        <OrderSummaryCard data={joinedOrderSummaryData} customer={false} />
                         <div className="flex flex-col items-center">
                             <button
                                 onClick={buttonState.onClick}
