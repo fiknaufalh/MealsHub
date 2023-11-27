@@ -26,8 +26,7 @@ export default function AppRoutes() {
             <Route path="/role" element={<ChooseRolePage />} />
             <Route path="/login/:role" element={<LoginPage />} />
             <Route path="/login/customer" element={<RegisterTable />} />
-            <Route path="/register/cashier" element={<RegisterPage />} />
-            <Route path="/register/tenant" element={<RegisterPage />} />
+            <Route path="/register/:role" element={<RegisterPage />} />
             <Route path="/register/tenant/data" element={<SignUpTenant />} />
             <Route path="/tenant/:tenantid" element={<TenantInfo />} />
             <Route path="/cart" element={<ShoppingCart />} />

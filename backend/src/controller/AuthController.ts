@@ -82,7 +82,7 @@ class AuthController {
 
     async register(req: Request, res: Response) {
         try {
-            const { name, email, password, address } = req.body;
+            const { fullname, email, username, password, role } = req.body;
 
             const user = await Users.findOne({ where: { email: email } });
 
@@ -93,20 +93,42 @@ class AuthController {
                 return;
             }
 
-            const hashedPassword = await bcrypt.hash(
-                password,
-                PASSWORD_HASH_SALT_ROUNDS,
-            );
+            // const hashedPassword = await bcrypt.hash(
+            //     password,
+            //     PASSWORD_HASH_SALT_ROUNDS,
+            // );
 
-            const newUser = {
-                name,
-                email: email.toLowerCase(),
-                password: hashedPassword,
-                address,
-            };
+            let maxId = 0;
+            if (role === "tenant" || role === "cashier") {
+                maxId = await new UsersRepo().getMaxNonTableId();
+            } else if (role === "customer") {
+                maxId = await new UsersRepo().getMaxTableId();
+            }
 
-            const result = await Users.create(newUser);
-            res.send(this.generateTokenResponse(result));
+            const newUser = new Users();
+            newUser.id = maxId + 1;
+            newUser.fullname = fullname;
+            newUser.email = email.toLowerCase();
+            newUser.username = username;
+            newUser.password = password;
+            newUser.role = role;
+
+            // const newUser = {
+            //     id: maxId,
+            //     fullname: fullname,
+            //     email: email.toLowerCase(),
+            //     username: username,
+            //     password: hashedPassword,
+            //     role: role,
+            // };
+
+            await new UsersRepo().createUser(newUser);
+            res.status(201).json({
+                status: "Created!",
+                message: "Successfully created user!",
+            });
+
+            // res.send(this.generateTokenResponse(result));
         } catch (err) {
             console.error(err);
             res.status(500).json({
