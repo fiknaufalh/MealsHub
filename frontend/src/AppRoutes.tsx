@@ -8,8 +8,8 @@ import OrderList from "./pages/OrderList";
 import OrderSummary from "./pages/OrderSummary";
 import PageManageOrder from "./pages/PageManageOrder";
 import PageManageMenu from "./pages/PageManageMenu";
-import SignUpTenant from "./pages/SignUpTenant";
-import SignUpCashier from "./pages/SignUpCashier";
+import SignUpTenant from "./pages/RegisterTenant";
+import SignUpCashier from "./pages/RegisterPage";
 import RegisterTable from "./pages/RegisterTable";
 import ChooseRolePage from "./pages/RolePage";
 import OrderDetails from "./pages/ManageOrderTenant";
@@ -17,6 +17,7 @@ import Summary from "./pages/ManagePayment";
 import Payment from "./pages/Payment";
 import ViewPaymentHistory from "./pages/ViewPaymentHistory";
 import ManagePayment from "./pages/ManagePayment";
+import RegisterPage from "./pages/RegisterPage";
 
 export default function AppRoutes() {
     return (
@@ -25,8 +26,8 @@ export default function AppRoutes() {
             <Route path="/role" element={<ChooseRolePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/login/customer" element={<RegisterTable />} />
-            <Route path="/signup/tenant" element={<SignUpTenant />} />
-            <Route path="/signup/cashier" element={<SignUpCashier />} />
+            <Route path="/register/" element={<RegisterPage />} />
+            <Route path="/register/tenant" element={<SignUpTenant />} />
             <Route path="/tenant/:tenantid" element={<TenantInfo />} />
             <Route path="/cart" element={<ShoppingCart />} />
             <Route path="/order/list/:tableid" element={<OrderList />} />

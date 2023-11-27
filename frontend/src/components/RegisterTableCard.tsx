@@ -70,7 +70,7 @@ export default function RegisterTableCard() {
 
                     <select
                         id="category"
-                        className="border-2 border-mealshub-orange focus:ring-mealshub-orange focus:border-mealshub-orange text-gray-500 text-normal rounded-xl block w-full p-4"
+                        className="ml-4 border-2 border-mealshub-orange focus:ring-mealshub-orange focus:border-mealshub-orange text-gray-500 text-normal rounded-xl block w-full p-4"
                         onChange={handleSelectNumSeat}
                         defaultValue={numSeat}
                     >
@@ -102,7 +102,7 @@ export default function RegisterTableCard() {
                     </div>
                     <select
                         id="category"
-                        className="border-2 border-mealshub-orange focus:ring-mealshub-orange focus:border-mealshub-orange text-gray-500 text-normal rounded-xl block w-full p-4"
+                        className="ml-4 border-2 border-mealshub-orange focus:ring-mealshub-orange focus:border-mealshub-orange text-gray-500 text-normal rounded-xl block w-full p-4"
                         onChange={handleSelectIdTable}
                         value={idTable}
                     >
@@ -110,7 +110,7 @@ export default function RegisterTableCard() {
                             selected={true}
                             className="hover:bg-mealshub-orange"
                         >
-                            Number of Table
+                            Table Number
                         </option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -121,7 +121,7 @@ export default function RegisterTableCard() {
                 </div>
                 <button
                     type="submit"
-                    className="w-full text-white bg-mealshub-orange font-bold text-xl rounded-full px-5 py-4 text-center shadow-xl mt-8"
+                    className="w-full text-white bg-mealshub-orange font-bold text-xl rounded-full px-5 py-4 text-center shadow-xl mt-8 mt-3 hover:bg-mealshub-cream focus:ring-4 focus:outline-none focus:ring-primary-300 "
                 >
                     Get Table
                 </button>
