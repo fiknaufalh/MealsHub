@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import Logo from "../components/Logo";
 import Input from "../components/Input";
@@ -19,12 +19,22 @@ export default function LoginPage() {
 
     const navigate = useNavigate();
     const { user, login } = useAuth();
-    const [params] = useSearchParams();
-    const returnUrl = params.get("returnUrl");
+    const param = useParams();
+    const [searchParams] = useSearchParams();
+    const returnUrl = searchParams.get("returnUrl");
 
+    const selectedRole = param.role as string;
     useEffect(() => {
         if (!user) return;
-        returnUrl ? navigate(returnUrl) : navigate("/tenant/menus");
+        let targetUrl = "";
+        if (selectedRole === "tenant") {
+            targetUrl = returnUrl ? returnUrl : "/tenant/menus";
+        } else if (selectedRole === "cashier") {
+            targetUrl = returnUrl ? returnUrl : "/cashier/payments";
+        } else if (selectedRole === "customer") {
+            targetUrl = returnUrl ? returnUrl : "/";
+        }
+        returnUrl ? navigate(returnUrl) : navigate(targetUrl);
     }, [user]);
 
     const submit: SubmitHandler<LoginFormInput> = async ({
@@ -32,7 +42,7 @@ export default function LoginPage() {
         password,
     }) => {
         console.log(`email: ${email}, password: ${password}. MASUK`);
-        await login(email, password, "tenant-cashier");
+        await login(email, password, selectedRole);
     };
 
     const handleGoBack = () => {
@@ -40,7 +50,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="grid min-h-screen bg-[url('images/LoginBackground.png')]">
+        <div className="grid min-h-screen bg-[url('../public/images/LoginBackground.png')]">
             <div className="login-container">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                     <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-4xl xl:p-0">
@@ -63,8 +73,6 @@ export default function LoginPage() {
                                                 value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,63}$/i,
                                                 message: "Email is not valid.",
                                             },
-                                            minLength: 8,
-                                            maxLength: 30,
                                         })}
                                         error={errors.email}
                                     />
@@ -73,8 +81,6 @@ export default function LoginPage() {
                                         label="Password"
                                         {...register("password", {
                                             required: true,
-                                            minLength: 6,
-                                            maxLength: 30,
                                         })}
                                         error={errors.password}
                                     />
@@ -88,7 +94,7 @@ export default function LoginPage() {
                                         <p className="text-sm font-light text-gray-500">
                                             Don't have an account yet?{" "}
                                             <a
-                                                href="#"
+                                                href={`/register/${selectedRole}`}
                                                 className="font-medium text-mealshub-blue hover:underline"
                                             >
                                                 Register

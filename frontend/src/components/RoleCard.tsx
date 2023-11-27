@@ -63,7 +63,7 @@ export default function RoleCard() {
                     </div>
                 </button>
             </Link>
-            <Link to="/login">
+            <Link to="/login/tenant/">
                 <button
                     type="button"
                     className="text-white bg-mealshub-orange font-bold rounded-3xl p-4 w-full inline-flex hover:shadow-xl mb-7"
@@ -94,7 +94,7 @@ export default function RoleCard() {
                     </div>
                 </button>
             </Link>
-            <Link to="/login">
+            <Link to="/login/cashier">
                 <button
                     type="button"
                     className="text-white bg-mealshub-orange font-bold rounded-3xl p-4 w-full inline-flex hover:shadow-xl mb-5"
