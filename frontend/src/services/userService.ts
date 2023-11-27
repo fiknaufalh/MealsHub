@@ -22,8 +22,20 @@ export const logout = () => {
     localStorage.removeItem("user");
 };
 
-export const register = async (registerData: any) => {
-    const { data } = await axios.post("users/register", registerData);
+export const register = async (
+    fullname: string,
+    email: string,
+    username: string,
+    password: string,
+    role: string,
+) => {
+    const { data } = await axios.post("http://localhost:8000/auth/register", {
+        fullname,
+        email,
+        username,
+        password,
+        role,
+    });
     localStorage.setItem("user", JSON.stringify(data));
     return data;
 };

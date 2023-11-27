@@ -1,6 +1,7 @@
 // UsersRepo.ts
 /* eslint-disable no-unused-vars */
 import { Users } from "../model/Users";
+import { Op } from "sequelize";
 
 interface IUsersRepo {
     getAllUsers(): Promise<Users[]>;
@@ -43,6 +44,42 @@ export default class UsersRepo implements IUsersRepo {
             return user;
         } catch (error: any) {
             throw new Error(`Error while fetching user: ${error.message}`);
+        }
+    }
+
+    async getMaxTableId(): Promise<number> {
+        try {
+            const users = await Users.findAll({ where: { role: "customer" } });
+
+            if (users.length > 0) {
+                const maxId = Math.max(...users.map((user) => user.id));
+                return maxId;
+            }
+
+            return 0;
+        } catch (error: any) {
+            throw new Error(`Error while fetching max id: ${error.message}`);
+        }
+    }
+
+    async getMaxNonTableId(): Promise<number> {
+        try {
+            const users = await Users.findAll({
+                where: {
+                    role: {
+                        [Op.or]: ["tenant", "cashier"],
+                    },
+                },
+            });
+
+            if (users.length > 0) {
+                const maxId = Math.max(...users.map((user) => user.id));
+                return maxId;
+            }
+
+            return 0;
+        } catch (error: any) {
+            throw new Error(`Error while fetching max id: ${error.message}`);
         }
     }
 

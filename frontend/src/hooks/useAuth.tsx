@@ -19,11 +19,27 @@ export interface AuthTable {
     id: number;
 }
 
+interface newUser {
+    id: number;
+    fullname: string;
+    email: string;
+    username: string;
+    password: string;
+    role: string;
+}
+
 interface AuthContextProps {
     user: AuthUser | AuthTable | null;
     login: (email: string, password: string, role: string) => Promise<void>;
     logout: () => void;
     showUser: () => void;
+    registers: (
+        fullname: string,
+        email: string,
+        username: string,
+        password: string,
+        role: string,
+    ) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextProps | null>(null);
@@ -35,50 +51,40 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     console.log(user);
 
     const login = async (email: string, password: string, role: string) => {
-        if (role === "tenant-cashier") {
-            try {
-                console.log(`email: ${email}, password: ${password}. MASUK`);
-                const loggedInUser = await userService.login(
-                    email,
-                    password,
-                    "tenant-cashier",
-                );
-                setUser(loggedInUser);
-                toast.success("Logged in successfully.");
-            } catch (error: any) {
-                toast.error(
-                    error.response?.data?.message ||
-                        "An error occurred during login.",
-                );
-            }
-        } else if (role === "customer") {
-            try {
-                console.log(`num_seat: ${email}, id_table: ${password}. MASUK`);
-                const loggedInUser = await userService.login(
-                    email,
-                    password,
-                    "customer",
-                );
-                setUser(loggedInUser);
-                toast.success("Logged in successfully.");
-            } catch (error: any) {
-                toast.error(
-                    error.response?.data?.message ||
-                        "An error occurred during login.",
-                );
-            }
+        try {
+            console.log(`email: ${email}, password: ${password}. MASUK`);
+            const loggedInUser = await userService.login(email, password, role);
+            setUser(loggedInUser);
+            toast.success("Logged in successfully.");
+        } catch (error: any) {
+            toast.error(
+                error.response?.data?.message ||
+                    "An error occurred during login.",
+            );
         }
     };
 
-    // const register = async (data) => {
-    //     try {
-    //         const user = await userService.register(data);
-    //         setUser(user);
-    //         toast.success("Register Successful");
-    //     } catch (error: any) {
-    //         toast.error(error.response.data);
-    //     }
-    // };
+    const registers = async (
+        fullname: string,
+        email: string,
+        username: string,
+        password: string,
+        role: string,
+    ) => {
+        try {
+            const user = await userService.register(
+                fullname,
+                email,
+                username,
+                password,
+                role,
+            );
+            setUser(user);
+            toast.success("Register Successful");
+        } catch (error: any) {
+            toast.error(error.response.data);
+        }
+    };
 
     const logout = () => {
         userService.logout();
@@ -107,7 +113,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         login,
         logout,
         showUser,
-        // register,
+        registers,
         // updateProfile,
         // changePassword,
     };

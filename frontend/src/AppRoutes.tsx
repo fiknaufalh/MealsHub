@@ -24,10 +24,10 @@ export default function AppRoutes() {
         <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/role" element={<ChooseRolePage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/login/:role" element={<LoginPage />} />
             <Route path="/login/customer" element={<RegisterTable />} />
-            <Route path="/register/" element={<RegisterPage />} />
-            <Route path="/register/tenant" element={<SignUpTenant />} />
+            <Route path="/register/:role" element={<RegisterPage />} />
+            <Route path="/register/tenant/data" element={<SignUpTenant />} />
             <Route path="/tenant/:tenantid" element={<TenantInfo />} />
             <Route path="/cart" element={<ShoppingCart />} />
             <Route path="/order/list/:tableid" element={<OrderList />} />

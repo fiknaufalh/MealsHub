@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { verify } from "jsonwebtoken";
+import { JwtPayload, verify } from "jsonwebtoken";
 import { UNAUTHORIZED } from "../constant/httpStatus";
 
 interface decodedToken extends Request {
@@ -18,8 +18,11 @@ export default (req: decodedToken, res: Response, next: NextFunction) => {
     }
 
     try {
-        const decoded = verify(token, process.env.JWT_SECRET as string);
-        req.user = decoded;
+        const decoded = verify(
+            token,
+            process.env.JWT_SECRET as string,
+        ) as JwtPayload;
+        req.user = decoded.user;
     } catch (error) {
         return res.status(UNAUTHORIZED).send();
     }

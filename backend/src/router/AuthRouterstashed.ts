@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { BAD_REQUEST } from "../constant/httpStatus";
 import { Users } from "../model/Users";
+import UsersRepo from "../repository/UsersRepo";
 // import auth from "../middleware/auth.mid.js";
 import handler from "express-async-handler";
 import jwt from "jsonwebtoken";
@@ -38,7 +39,7 @@ router.post(
 router.post(
     "/register",
     handler(async (req: Request, res: Response) => {
-        const { name, email, password, address } = req.body;
+        const { fullname, email, username, password, role } = req.body;
 
         const user = await Users.findOne({ where: { email: email } });
 
@@ -52,11 +53,20 @@ router.post(
             PASSWORD_HASH_SALT_ROUNDS,
         );
 
+        let maxId: number;
+        if (role === "customer") {
+            maxId = (await new UsersRepo().getMaxTableId()) + 1;
+        } else {
+            maxId = (await new UsersRepo().getMaxNonTableId()) + 1;
+        }
+
         const newUser = {
-            name,
-            email: email.toLowerCase(),
+            id: maxId,
+            fullname: fullname,
+            email: email,
+            username: username,
             password: hashedPassword,
-            address,
+            role: role,
         };
 
         const result = await Users.create(newUser);
