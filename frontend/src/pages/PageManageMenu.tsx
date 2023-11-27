@@ -151,7 +151,7 @@ export default function PageManageMenu() {
                 </div>
                 <div className="absolute top-0 right-0 mt-9 mx-12">
                     <Profile
-                        image="/public/images/ProfileDefault.png"
+                        image="/public/images/ProfileDefault.jpg"
                         onProfileClick={handleProfileClick}
                     />
                 </div>
