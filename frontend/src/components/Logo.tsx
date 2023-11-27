@@ -1,9 +1,23 @@
 import { Link } from "react-router-dom";
 
-export default function Logo() {
+interface LogoProps {
+    height?: string;
+    width?: string;
+    default?: string;
+}
+
+export default function Logo(props: LogoProps) {
+    const { height, width } = props;
+
     return (
-        <Link to={"/"}>
-            <span>MealsHub</span>
-        </Link>
+        <a href={props.default}>
+            <img
+                src="../../public/images/MealsHub.png"
+                alt="MealsHub"
+                className={`flex object-contain 
+                    ${height ? `h-${height}` : ""} 
+                    ${width ? `w-${width}` : ""}`}
+            />
+        </a>
     );
 }
