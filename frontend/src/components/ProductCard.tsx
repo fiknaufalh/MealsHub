@@ -34,8 +34,7 @@ interface Tenant {
 
 export default function ProductCard({ data }: { data: ProductCardProps[] }) {
     const { getItemQuantity, increaseItemQuantity, removeItem, cartItems } = useShoppingCart();
-    const [isAdded, setIsAdded] = useLocalStorage<boolean>(`product`, false);
-    const [tenantData, setTenantData] = useState<Tenant[]>([]);
+    const [tenantData, setTenantData] = useLocalStorage<Tenant[]>(`tenant`, []);
 
     const getTenantData = async () => {
         const tenantResponse = await Axios.get(`http://localhost:8000/tenants`);
@@ -60,7 +59,7 @@ export default function ProductCard({ data }: { data: ProductCardProps[] }) {
 
     console.log(tenantData);
 
-    const [productData, setProductData] = useState<Product[]>([]);
+    const [productData, setProductData] = useLocalStorage<Product[]>(`product`, []);
 
     const getProductData = async () => {
         const productResponse = await Axios.get("http://localhost:8000/products");
@@ -95,8 +94,7 @@ export default function ProductCard({ data }: { data: ProductCardProps[] }) {
         return tenant?.id || 0;
     }
 
-    const [productStates, setProductStates] = useState<{ [key: number]: { isAdded: boolean, quantity: number } }>({});
-
+    const [productStates, setProductStates] = useLocalStorage<{ [key: number]: { isAdded: boolean, quantity: number } }>(`product`, {});
     const getQuantityAndIsAdded = (id: number) => {
         const quantity = getItemQuantity(id);
         const isAdded = productStates[id] ? productStates[id].isAdded : quantity > 0;
