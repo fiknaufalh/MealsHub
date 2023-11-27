@@ -23,8 +23,6 @@ export default function ProductCard({ data }: { data: ProductCardProps[] }) {
     const productlist = data.map(({ id, image, name, description, price, id_tenant }) => {
         const [isAdded, setIsAdded] = useLocalStorage<boolean>(`product-${id}`, false);
 
-        // find cartItem id_tenant
-
         const [productData, setProductData] = useState<Product[]>([]);
 
         const getProductData = async () => {
@@ -58,6 +56,7 @@ export default function ProductCard({ data }: { data: ProductCardProps[] }) {
             if (cartItems.length > 0) {
                 const cartItem = cartItems[0];
                 const cartTenantId = cartItem && productData.find((product: Product) => product.id === cartItem.id)?.id_tenant;
+                console.log(cartTenantId);
                 if (cartTenantId !== id_tenant) {
                     alert("You can't add items from different tenants to the cart!");
                     return;
