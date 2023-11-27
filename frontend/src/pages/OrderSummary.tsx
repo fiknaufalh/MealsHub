@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
 import crypto from "crypto-js";
+import { useAuth, AuthTable } from "../hooks/useAuth";
 
 interface Order {
     id: number,
@@ -55,6 +56,7 @@ interface OrderDetails {
 }
 
 export default function OrderSummary() {
+    const { user } = useAuth();
     const { orderid } = useParams();
     const [joinedOrderSummaryData, setJoinedOrderSummaryData] = useState<OrderSummary[]>([]);
 
@@ -133,7 +135,7 @@ export default function OrderSummary() {
 
     console.log(joinedOrderDetailsData);
 
-    const tableid = 1;
+    const tableid = (user as AuthTable).id;
 
     return (
         // Create grid layout for sidebard, header, and main content
@@ -145,7 +147,7 @@ export default function OrderSummary() {
             {/* Header */}
             <div className="col-span-4">
                 <div className="row-span-1 ms-20 mt-9 py-3 w-11/12">
-                    <WelcomingText name="Table 1"/>
+                    <WelcomingText name={user ? user!.fullname : ""}/>
                 </div>
                 <div className="row-span-7 mt-6 mb-9 w-11/12">
                     <div className="ms-4">

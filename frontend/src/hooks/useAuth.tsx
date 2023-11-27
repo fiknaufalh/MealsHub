@@ -2,7 +2,7 @@ import React, { useState, createContext, useContext, ReactNode } from "react";
 import * as userService from "../services/userService";
 import { toast } from "react-toastify";
 
-interface AuthUser {
+export interface AuthUser {
     id: number;
     username: string;
     fullname: string;
@@ -11,7 +11,7 @@ interface AuthUser {
     token: string;
 }
 
-interface AuthTable {
+export interface AuthTable {
     num_seat: number;
     id_table: number;
     fullname: string;

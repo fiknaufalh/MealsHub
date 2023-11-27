@@ -9,6 +9,7 @@ import ProfileDropDown from "../components/ProfileDropDown";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
 import crypto from "crypto-js";
+import { useAuth } from "../hooks/useAuth";
 
 interface Order {
     id: number;
@@ -57,6 +58,7 @@ interface OrderDetails {
 }
 
 export default function OrderDetails() {
+    const { user } = useAuth();
     const { orderid } = useParams();
     const [showProfileDropDown, setShowProfileDropDown] = useState(false);
 
@@ -277,7 +279,7 @@ export default function OrderDetails() {
             {/* Header */}
             <div className="col-span-4">
                 <div className="row-span-1 ms-20 mt-9 py-3 w-11/12">
-                    <Welcome user="Aldaebaran" />
+                    <Welcome user={user ? user!.fullname : ""} />
                 </div>
                 <div className="absolute top-0 right-0 mt-9 mx-12">
                     <Profile

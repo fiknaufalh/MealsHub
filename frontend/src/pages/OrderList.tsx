@@ -3,6 +3,8 @@ import OrderCard from "../components/OrderCard";
 import WelcomingText from "../components/WelcomingText";
 import { useEffect, useState } from "react";
 import Axios from "axios";
+import { useAuth, AuthTable } from "../hooks/useAuth";
+import { useParams } from "react-router-dom";
 
 interface Tenant {
     id: number,
@@ -44,7 +46,9 @@ interface joinedData {
 }
 
 export default function OrderList() {
-    const tableid = 101;
+    const { user } = useAuth();
+    const tableid = (user as AuthTable).id;
+
     const [joinedData, setJoinedData] = useState<joinedData[]>([]);
 
     const getData = async () => {
@@ -116,7 +120,7 @@ export default function OrderList() {
             <div className="col-span-4">
                 <div className="ms-20">
                     <div className="row-span-1 mt-9 py-3 w-11/12">
-                        <WelcomingText name="Table 1" />
+                        <WelcomingText name={user ? user!.fullname : ""} />
                     </div>
                     <div className="row-span-7 mt-6 mb-9 py-12 w-11/12 bg-white rounded-3xl">
                         <div className="">

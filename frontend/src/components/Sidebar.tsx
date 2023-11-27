@@ -136,7 +136,7 @@ export default function Sidebar(props: any) {
                     </ul>
                 </div>
                 {props.customer === true ? (
-                    <a onClick={logout}>
+                    <a onClick={logout} href="/role">
                         <div className="flex flex-col px-10 py-3.5 mt-auto mb-8">
                             <button
                                 type="button"

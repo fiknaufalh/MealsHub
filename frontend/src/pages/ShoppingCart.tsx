@@ -5,7 +5,8 @@ import WelcomingText from "../components/WelcomingText";
 import { useShoppingCart } from "../contexts/ShoppingCartContext";
 import { useState, useEffect } from "react";
 import Axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth, AuthTable } from "../hooks/useAuth";
 
 interface cartItem {
     id: number;
@@ -29,6 +30,7 @@ interface Tenant {
   
 
 export default function ShoppingCart() {
+    const { user } = useAuth();
     const { clearCart, cartItems } = useShoppingCart();
 
     const [tenantData, setTenantData] = useState<Tenant[]>([]);
@@ -84,7 +86,8 @@ export default function ShoppingCart() {
 
     console.log(productData);
 
-    const tableid = 1;
+    const tableid = (user as AuthTable).id;
+    console.log(tableid);
 
     const getTenantId = (cartItem: cartItem) => {
         const item = productData.find((i) => i.id === cartItem.id);
@@ -154,7 +157,7 @@ export default function ShoppingCart() {
             <div className="col-span-4">
                 <div className="ms-20">
                     <div className="row-span-1 mt-9 py-3 w-11/12">
-                        <WelcomingText name="Table 1" />
+                        <WelcomingText name={user ? user!.fullname : ""} />
                     </div>
                     <div className="row-span-7 mt-6 mb-9 py-12 w-11/12 bg-white rounded-3xl">
                         <div className="">

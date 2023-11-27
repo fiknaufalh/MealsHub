@@ -6,6 +6,7 @@ import BackButton from "../components/BackButton";
 import { useState, useEffect } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
+import { useAuth, AuthTable } from "../hooks/useAuth";
 
 interface Tenant {
     id : number,
@@ -47,6 +48,7 @@ interface ProductCard {
 }
 
 export default function TenantInfo() {
+    const { user } = useAuth();
     const { tenantid } = useParams();
 
     const [joinedTenantHeaderData, setJoinedTenantHeaderData] = useState<TenantHeader[]>([]);
@@ -119,7 +121,7 @@ export default function TenantInfo() {
 
     console.log(joinedProductCardData);
 
-    const tableid = 1;
+    const tableid = (user as AuthTable).id;
 
     return (
         // Create grid layout for sidebard, header, and main content
@@ -131,7 +133,7 @@ export default function TenantInfo() {
             {/* Header */}
             <div className="col-span-4">
                 <div className="row-span-1 ms-20 mt-9 py-3 w-11/12">
-                    <WelcomingText name="Table 1"/>
+                    <WelcomingText name={user ? user!.fullname : ""}/>
                 </div>
                 <div className="row-span-7 mt-6 mb-9 w-11/12">
                     <div className="ms-4">
