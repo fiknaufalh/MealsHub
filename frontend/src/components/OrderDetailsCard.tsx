@@ -1,7 +1,7 @@
 import moment from "moment";
 interface OrderDetailsCardProps {
     orderid: number,
-    code: number,
+    code: string | null,
     tableid: number,
     time: Date,
     orderstatus: string,

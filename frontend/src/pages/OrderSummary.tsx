@@ -6,6 +6,7 @@ import BackButton from "../components/BackButton";
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
+import crypto from "crypto-js";
 
 interface Order {
     id: number,
@@ -46,7 +47,7 @@ interface OrderSummary {
 
 interface OrderDetails {
     orderid: number,
-    code: number,
+    code: string | null,
     tableid: number,
     time: Date,
     orderstatus: string,
@@ -110,18 +111,20 @@ export default function OrderSummary() {
         const result = OrderDataArray.map((order: Order) => {
             const matchingPayment = paymentData.find((payment: Payment) => payment.id_order === order.id);
 
+            // Hash the code (matchingPayment.id) using SHA-256 from crypto-js and take the first 5 characters
+            const hashedCode = matchingPayment ? crypto.SHA256(matchingPayment.id.toString()).toString().substring(0, 5) : null;
+
             return {
                 orderid: order.id,
-                code: matchingPayment.id,
+                code: hashedCode,
                 tableid: order.id_table,
                 time: order.time,
                 orderstatus: order.status,
-                paymentstatus: matchingPayment.status
+                paymentstatus: matchingPayment ? matchingPayment.status : null
             };
         });
 
         setJoinedOrderDetailsData(result);
-
     };
 
     useEffect(() => {
@@ -151,7 +154,23 @@ export default function OrderSummary() {
                     <div className="ms-20 py-12 bg-white rounded-3xl">
                         <h2 className="text-mealshub-red text-3xl font-bold ms-16">Order Summary</h2>
                         <OrderDetailsCard data={joinedOrderDetailsData} />
+<<<<<<< HEAD
                         <OrderSummaryCard data={joinedOrderSummaryData} />
+=======
+                        <OrderSummaryCard data={joinedOrderSummaryData} customer={true} />
+                        {joinedOrderDetailsData.map((order) => {
+                            if (order.paymentstatus === "Waiting for Confirmation") {
+                                return (
+                                    <div className="ms-16 my-3 font-normal text-lg text-gray-900">
+                                        <span className="text-mealshub-red font-semibold font-italic">
+                                            Your payment is not confirmed yet. Don’t forget to show your Unique Code and pay order to the central cashier!
+                                        </span>
+                                    </div>
+                                )
+                            }
+                            return null;
+                        })}
+>>>>>>> cd14ccc80038e5ec620f4f13cc1d5420599e0ed5
                     </div>
                 </div>
             </div>

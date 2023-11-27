@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import ConfirmPopUp from "../components/ConfirmPopUp";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
+import crypto from "crypto-js";
 
 interface Order {
     id: number;
@@ -42,13 +43,14 @@ interface Payment {
 }
 
 interface OrderSummary {
-    name: string;
-    orderlist: (string | number)[][];
+    id: number,
+    name: string,
+    orderlist: (string | number)[][]
 }
 
 interface OrderDetails {
     orderid: number;
-    code: number;
+    code: string | null;
     tableid: number;
     time: Date;
     orderstatus: string;
@@ -58,25 +60,19 @@ interface OrderDetails {
 const ManagePayment = () => {
     const { orderid } = useParams();
     const paymentid = orderid;
-    const [confirmed, setConfirmed] = useState(false);
     const [showProfileDropDown, setShowProfileDropDown] = useState(false);
-    const [showConfirmPopUp, setShowConfirmPopUp] = useState(false);
-    const [joinedOrderDetailsData, setJoinedOrderDetailsData] = useState<
-        OrderDetails[]
-    >([]);
+
     const [buttonState, setButtonState] = useState({
         label: "Waiting for Payment",
         disabled: true,
         color: "mealshub-greenpalet",
         onClick: () => { },
     });
+    const [joinedOrderDetailsData, setJoinedOrderDetailsData] = useState<OrderDetails[]>([]);
+
     const getOrderDetailsData = async () => {
-        const orderResponse = await Axios.get(
-            `http://localhost:8000/orders/${orderid}`,
-        );
-        const paymentResponse = await Axios.get(
-            "http://localhost:8000/payments",
-        );
+        const orderResponse = await Axios.get(`http://localhost:8000/orders/${orderid}`);
+        const paymentResponse = await Axios.get("http://localhost:8000/payments");
 
         const orderData = orderResponse.data.data;
         const paymentData = paymentResponse.data.data;
@@ -84,25 +80,73 @@ const ManagePayment = () => {
         // Perform the join based on the specified conditions
         const OrderDataArray = [orderData];
         const result = OrderDataArray.map((order: Order) => {
-            const matchingPayment = paymentData.find(
-                (payment: Payment) => payment.id_order === order.id,
-            );
+            const matchingPayment = paymentData.find((payment: Payment) => payment.id_order === order.id);
+
+            // Hash the code (matchingPayment.id) using SHA-256 from crypto-js and take the first 5 characters
+            const hashedCode = matchingPayment ? crypto.SHA256(matchingPayment.id.toString()).toString().substring(0, 5) : null;
 
             return {
                 orderid: order.id,
-                code: matchingPayment.id,
+                code: hashedCode,
                 tableid: order.id_table,
                 time: order.time,
                 orderstatus: order.status,
-                paymentstatus: matchingPayment.status,
+                paymentstatus: matchingPayment ? matchingPayment.status : null
             };
         });
 
         setJoinedOrderDetailsData(result);
     };
-    const [joinedOrderSummaryData, setJoinedOrderSummaryData] = useState<
-        OrderSummary[]
-    >([]);
+
+    useEffect(() => {
+        getOrderDetailsData();
+    }, []);
+
+    console.log(joinedOrderDetailsData);
+
+    const [joinedOrderSummaryData, setJoinedOrderSummaryData] = useState<OrderSummary[]>([]);
+
+    const getOrderSummaryData = async () => {
+        const orderResponse = await Axios.get(`http://localhost:8000/orders/${orderid}`);
+        const productResponse = await Axios.get("http://localhost:8000/products");
+        const orderProductResponse = await Axios.get("http://localhost:8000/orderproduct");
+        const tenantResponse = await Axios.get("http://localhost:8000/tenants");
+
+        const orderData = orderResponse.data.data;
+        const productData = productResponse.data.data;
+        const orderProductData = orderProductResponse.data.data;
+        const tenantData = tenantResponse.data.data;
+
+        // Perform the join based on the specified conditions
+        // OrderData is not an array, so we need to convert it into an array
+        const orderDataArray = [orderData];
+        const result = orderDataArray.map((order: Order) => {
+            const tenant = tenantData.find((tenant: Tenant) => tenant.id === order.id_tenant);
+            const orderproduct = orderProductData.filter((orderProduct: OrderProduct) => orderProduct.id_order === order.id);
+            const listproduct = orderproduct.map((orderProduct: OrderProduct) => {
+                const product = productData.find((product: Product) => product.id === orderProduct.id_product);
+                return [product?.name || 'Product Not Found', orderProduct.num_product, product?.price || 0];
+            });
+
+            return {
+                id: tenant?.id || 0,
+                name: tenant?.name || 'Tenant Not Found',
+                orderlist: listproduct
+            };
+        });
+
+        setJoinedOrderSummaryData(result);
+
+    };
+
+    useEffect(() => {
+        getOrderDetailsData();
+    }, []);
+    useEffect(() => {
+        getOrderSummaryData();
+    }, []);
+
+    console.log(joinedOrderSummaryData);
 
     const handleProfileClick = () => {
         setShowProfileDropDown(!showProfileDropDown);
@@ -135,64 +179,6 @@ const ManagePayment = () => {
         }
     };
 
-    const getOrderSummaryData = async () => {
-        const orderResponse = await Axios.get(
-            `http://localhost:8000/orders/${orderid}`,
-        );
-        const productResponse = await Axios.get(
-            "http://localhost:8000/products",
-        );
-        const orderProductResponse = await Axios.get(
-            "http://localhost:8000/orderproduct",
-        );
-        const tenantResponse = await Axios.get("http://localhost:8000/tenants");
-
-        const orderData = orderResponse.data.data;
-        const productData = productResponse.data.data;
-        const orderProductData = orderProductResponse.data.data;
-        const tenantData = tenantResponse.data.data;
-
-        // Perform the join based on the specified conditions
-        // OrderData is not an array, so we need to convert it into an array
-        const orderDataArray = [orderData];
-        const result = orderDataArray.map((order: Order) => {
-            const tenant = tenantData.find(
-                (tenant: Tenant) => tenant.id === order.id_tenant,
-            );
-            const orderproduct = orderProductData.filter(
-                (orderProduct: OrderProduct) =>
-                    orderProduct.id_order === order.id,
-            );
-            const listproduct = orderproduct.map(
-                (orderProduct: OrderProduct) => {
-                    const product = productData.find(
-                        (product: Product) =>
-                            product.id === orderProduct.id_product,
-                    );
-                    return [
-                        product.name,
-                        orderProduct.num_product,
-                        product.price,
-                    ];
-                },
-            );
-
-            return {
-                name: tenant.name,
-                orderlist: listproduct,
-            };
-        });
-
-        setJoinedOrderSummaryData(result);
-    };
-    useEffect(() => {
-        getOrderDetailsData();
-    }, []);
-    useEffect(() => {
-        getOrderSummaryData();
-    }, []);
-
-    console.log(joinedOrderSummaryData);
     useEffect(() => {
         // Update button state based on payment and order status
         if (joinedOrderDetailsData.length > 0) {
@@ -257,7 +243,7 @@ const ManagePayment = () => {
                             Order Details
                         </h2>
                         <OrderDetailsCard data={joinedOrderDetailsData} />
-                        <OrderSummaryCard data={joinedOrderSummaryData} />
+                        <OrderSummaryCard data={joinedOrderSummaryData} customer={false} />
                         <div className="flex mx-16 justify-center">
                             <button
                                 onClick={buttonState.onClick}
