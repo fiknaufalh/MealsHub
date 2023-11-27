@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { useEffect, useState } from "react";
+import crypto from "crypto-js";
 
 export default function joinedOrderPayment() {
     const [joinedData, setJoinedData] = useState([]);
@@ -15,9 +16,12 @@ export default function joinedOrderPayment() {
         const result = orderData.map((order: { id: number; id_table: number; time: Date; status: string; id_tenant: string }) => {
             const matchingPayment = paymentData.find((payment: { id_order: number; }) => payment.id_order === order.id);
 
+            // Hash the paymentId using SHA-256 from crypto-js and take the first 5 characters
+            const hashedPaymentId = matchingPayment ? crypto.SHA256(matchingPayment.id.toString()).toString().substring(0, 5) : null;
+
             return {
                 orderId: order.id,
-                paymentId: matchingPayment ? matchingPayment.id : null,
+                paymentId: matchingPayment ? hashedPaymentId : null,
                 tableId: order.id_table,
                 time: order.time,
                 orderStatus: order.status,
@@ -27,7 +31,6 @@ export default function joinedOrderPayment() {
         });
 
         setJoinedData(result);
-
     };
 
     useEffect(() => {
