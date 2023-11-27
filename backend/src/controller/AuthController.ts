@@ -39,21 +39,38 @@ class AuthController {
 
     async login(req: Request, res: Response) {
         try {
-            const { email, password } = req.body;
-            const user = await new UsersRepo().getUserByEmail(email);
-            console.log(`User ${user.email} nih! ${user.password}`);
+            const { email, password, role } = req.body;
+            console.log(`role: ${role} email: ${email} password: ${password}`);
 
-            if (
-                user &&
-                password ==
-                    user.password /* && (await bcrypt.compare(password, user.password)) */
-            ) {
-                console.log(`User ${user.email} logged in!`);
-                res.send(this.generateTokenResponse(user));
-                return;
+            if (role === "tenant-cashier") {
+                console.log("masuk tenant-cashier");
+                const user = await new UsersRepo().getUserByEmail(email);
+                console.log(`User ${user.email} nih! ${user.password}`);
+
+                if (
+                    user &&
+                    password ==
+                        user.password /* && (await bcrypt.compare(password, user.password)) */
+                ) {
+                    console.log(`User ${user.email} logged in!`);
+                    res.send(this.generateTokenResponse(user));
+                    return;
+                }
+
+                res.status(BAD_REQUEST).send("Username or password is invalid");
+            } else if (role === "customer") {
+                // email is num_seat, password is id_table
+                console.log("dah bener woi");
+                const user = await new UsersRepo().getUserById(email);
+
+                if (user) {
+                    console.log(`User ${user.email} logged in!`);
+                    res.send(this.generateTokenResponse(user));
+                    return;
+                }
+
+                res.status(BAD_REQUEST).send("Username or password is invalid");
             }
-
-            res.status(BAD_REQUEST).send("Username or password is invalid");
         } catch (err) {
             console.error(err);
             res.status(500).json({

@@ -2,13 +2,13 @@
 import BaseRoutes from "./base/BaseRouter";
 import AuthController from "../controller/AuthController";
 import validate from "../helper/validate";
-import { createUserSchema, loginUserSchema } from "../schema/UsersSchema";
+import { createUserSchema /* loginUserSchema */ } from "../schema/UsersSchema";
 
 class AuthRouter extends BaseRoutes {
     public routes(): void {
         this.router.post(
             "/login",
-            validate(loginUserSchema),
+            // validate(loginUserSchema),
             AuthController.login,
         );
         this.router.post(

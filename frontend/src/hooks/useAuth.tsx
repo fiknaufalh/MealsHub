@@ -11,9 +11,17 @@ interface AuthUser {
     token: string;
 }
 
+interface AuthTable {
+    num_seat: number;
+    id_table: number;
+    fullname: string;
+    email: string;
+    id: number;
+}
+
 interface AuthContextProps {
-    user: AuthUser | null;
-    login: (email: string, password: string) => Promise<void>;
+    user: AuthUser | AuthTable | null;
+    login: (email: string, password: string, role: string) => Promise<void>;
     logout: () => void;
     showUser: () => void;
 }
@@ -26,17 +34,39 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     const [user, setUser] = useState(userService.getUser());
     console.log(user);
 
-    const login = async (email: string, password: string) => {
-        try {
-            console.log(`email: ${email}, password: ${password}. MASUK`);
-            const loggedInUser = await userService.login(email, password);
-            setUser(loggedInUser);
-            toast.success("Logged in successfully.");
-        } catch (error: any) {
-            toast.error(
-                error.response?.data?.message ||
-                    "An error occurred during login.",
-            );
+    const login = async (email: string, password: string, role: string) => {
+        if (role === "tenant-cashier") {
+            try {
+                console.log(`email: ${email}, password: ${password}. MASUK`);
+                const loggedInUser = await userService.login(
+                    email,
+                    password,
+                    "tenant-cashier",
+                );
+                setUser(loggedInUser);
+                toast.success("Logged in successfully.");
+            } catch (error: any) {
+                toast.error(
+                    error.response?.data?.message ||
+                        "An error occurred during login.",
+                );
+            }
+        } else if (role === "customer") {
+            try {
+                console.log(`num_seat: ${email}, id_table: ${password}. MASUK`);
+                const loggedInUser = await userService.login(
+                    email,
+                    password,
+                    "customer",
+                );
+                setUser(loggedInUser);
+                toast.success("Logged in successfully.");
+            } catch (error: any) {
+                toast.error(
+                    error.response?.data?.message ||
+                        "An error occurred during login.",
+                );
+            }
         }
     };
 
