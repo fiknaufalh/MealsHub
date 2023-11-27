@@ -13,10 +13,8 @@ sebuah website bernama
 
 - Author
 - Deskripsi Singkat
-- Sistematika File
-- Requirements
 - Cara Menjalankan Program
-- Daftar Perubahan 
+- Daftar Tabel
 - Project Status
 
 **AUTHOR**
