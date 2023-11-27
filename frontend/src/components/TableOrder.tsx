@@ -53,10 +53,11 @@ function TableOrder({ data }: { data: Props[] }) {
         return (
             <button
                 onClick={onClick}
-                className={`${sortKey === columnKey && sortOrder === "desc"
-                    ? "sort-button sort-reverse"
-                    : "sort-button"
-                    }`}
+                className={`${
+                    sortKey === columnKey && sortOrder === "desc"
+                        ? "sort-button sort-reverse"
+                        : "sort-button"
+                }`}
             >
                 <svg
                     className="w-3 h-3 ms-1.5"
@@ -185,7 +186,7 @@ function TableOrder({ data }: { data: Props[] }) {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             onKeyPress={(e) => {
-                                if (e.key === 'Enter') {
+                                if (e.key === "Enter") {
                                     e.preventDefault();
                                 }
                             }}
@@ -276,14 +277,19 @@ function TableOrder({ data }: { data: Props[] }) {
                         {filteredRecords
                             .slice(firstIndex, lastIndex)
                             .map((record, index) => {
-                                const date = moment(record.time).format("DD/MM/YYYY hh:mm:ss");
+                                const date = moment(record.time).format(
+                                    "DD/MM/YYYY hh:mm:ss",
+                                );
                                 return (
-                                    <tr className="odd:bg-white even:bg-gray-50 border-b" key={record.orderId}>
+                                    <tr
+                                        className="odd:bg-white even:bg-gray-50 border-b"
+                                        key={record.orderId}
+                                    >
                                         <td className="px-6 py-4">
                                             {index +
                                                 1 +
                                                 (currentPage - 1) *
-                                                recordsPerPage}
+                                                    recordsPerPage}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {record.orderId}
@@ -305,7 +311,7 @@ function TableOrder({ data }: { data: Props[] }) {
                                         </td>
                                         <td className="px-6 py-4">
                                             <a
-                                                href={`/tenantpage/orders/${record.orderId}`}
+                                                href={`/tenant/orders/${record.orderId}`}
                                                 className="text-mealshub-blue hover:underline"
                                             >
                                                 Click for Details
@@ -355,10 +361,11 @@ function TableOrder({ data }: { data: Props[] }) {
                                 <li>
                                     <a
                                         href="#"
-                                        className={`page-item ${currentPage === n
-                                            ? "z-10 flex items-center justify-center px-3 h-8 leading-tight text-mealshub-blue rounded-lg bg-mealshub-greenpalet hover:bg-blue-100 hover:text-blue-700 mx-1"
-                                            : "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 mx-1"
-                                            }`}
+                                        className={`page-item ${
+                                            currentPage === n
+                                                ? "z-10 flex items-center justify-center px-3 h-8 leading-tight text-mealshub-blue rounded-lg bg-mealshub-greenpalet hover:bg-blue-100 hover:text-blue-700 mx-1"
+                                                : "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 mx-1"
+                                        }`}
                                         key={i}
                                         onClick={() => setCurrentPage(n)}
                                     >

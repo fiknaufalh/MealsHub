@@ -66,6 +66,27 @@ class UsersController {
         }
     }
 
+    async getUserByEmail(req: Request, res: Response) {
+        try {
+            const email = req.params["email"];
+            console.log(email);
+            console.log("masuk get user by email");
+            const user = await new UsersRepo().getUserByEmail(email);
+
+            res.status(200).json({
+                status: "Ok!",
+                message: "Successfully fetched user by email!",
+                data: user,
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({
+                status: "Internal Server Error!",
+                message: "Internal Server Error!",
+            });
+        }
+    }
+
     async getAllUsers(req: Request, res: Response) {
         try {
             const users = await new UsersRepo().getAllUsers();

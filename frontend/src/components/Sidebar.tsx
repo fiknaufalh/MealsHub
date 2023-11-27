@@ -1,6 +1,19 @@
 import Logo from "./Logo";
+import { useAuth } from "../hooks/useAuth";
+import { useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function Sidebar(props: any) {
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+    const [params] = useSearchParams();
+    const returnUrl = params.get("returnUrl");
+
+    useEffect(() => {
+        if (!user) navigate("/role");
+        // returnUrl ? navigate(returnUrl) : navigate("/");
+    }, [user]);
+
     const menuItems = Array.from({ length: props.number }, (_, index) => (
         <li key={index} className="flex flex-col px-10 py-3.5">
             {
@@ -123,21 +136,21 @@ export default function Sidebar(props: any) {
                     </ul>
                 </div>
                 {props.customer === true ? (
-                    <div className="flex flex-col px-10 py-3.5 mt-auto mb-10">
-                        <button
-                            type="button"
-                            className="flex text-mealshub-red bg-white hover:bg-mealshub-red hover:text-white font-medium rounded-2xl p-4 inline-flex group"
-                        >
-                            <div className="flex flex-col w-52">
-                                <span className="flex whitespace-nowrap text-lg text-left">
-                                    Log Out
-                                </span>
-                            </div>
-                        </button>
-                    </div>
-                ) : (
-                    null
-                )}
+                    <a onClick={logout}>
+                        <div className="flex flex-col px-10 py-3.5 mt-auto mb-10">
+                            <button
+                                type="button"
+                                className="flex text-mealshub-red bg-white hover:bg-mealshub-red hover:text-white font-medium rounded-2xl p-4 inline-flex group"
+                            >
+                                <div className="flex flex-col w-52">
+                                    <span className="flex whitespace-nowrap text-lg text-left">
+                                        Log Out
+                                    </span>
+                                </div>
+                            </button>
+                        </div>
+                    </a>
+                ) : null}
             </div>
         </div>
     );

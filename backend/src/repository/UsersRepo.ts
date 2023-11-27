@@ -31,6 +31,19 @@ export default class UsersRepo implements IUsersRepo {
         }
     }
 
+    async getUserByEmail(email: string): Promise<Users> {
+        try {
+            console.log(email);
+            const user = await Users.findOne({ where: { email } });
+            if (!user) {
+                throw new Error(`User with email ${email} not found`);
+            }
+            return user;
+        } catch (error: any) {
+            throw new Error(`Error while fetching user: ${error.message}`);
+        }
+    }
+
     async createUser(user: Users): Promise<void> {
         try {
             await Users.create({
