@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 import TenantCard from "../components/TenantCard";
 import Search from "../components/Search";
 import WelcomingText from "../components/WelcomingText";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth, AuthTable } from "../hooks/useAuth";
 
 interface Tenant {
     id: number;
@@ -79,7 +79,7 @@ export default function Homepage() {
         }
     };
 
-    const tableid = 1;
+    const tableid = (user as AuthTable).id;
 
     return (
         <div className="grid grid-cols-5 grid-rows-8 bg-mealshub-cream min-h-screen">

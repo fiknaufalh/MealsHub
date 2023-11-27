@@ -5,10 +5,11 @@ import { useState } from "react";
 import ProfileDropDown from "../components/ProfileDropDown";
 import joinedOrderPayment from "../../../backend/src/services/api/joinedOrderPayment";
 import TablePayment from "../components/TablePayment";
+import { useAuth } from "../hooks/useAuth";
 
 
 export default function ViewPaymentHistory() {
-    const cashierid = 1;
+    const { user } = useAuth();
     const [showProfileDropDown, setShowProfileDropDown] = useState(false);
 
     const handleProfileClick = () => {
@@ -32,7 +33,7 @@ export default function ViewPaymentHistory() {
             {/* Header */}
             <div className="col-span-4">
                 <div className="ms-20 row-span-1 mt-9 py-3 w-11/12">
-                    <Welcome user="Aldaebaran" />
+                    <Welcome user={user ? user!.fullname : ""} />
                 </div>
                 <div className="absolute top-0 right-0 mt-9 mx-12">
                     <Profile

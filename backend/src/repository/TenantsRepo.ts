@@ -13,7 +13,9 @@ interface ITenantRepo {
 export default class TenantRepo implements ITenantRepo {
     async getAllTenants(): Promise<Tenants[]> {
         try {
-            return await Tenants.findAll();
+            return await Tenants.findAll({
+                order: [["id", "ASC"]],
+            });
         } catch (error: any) {
             throw new Error(`Error while fetching tenants: ${error.message}`);
         }

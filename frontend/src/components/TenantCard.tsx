@@ -39,7 +39,8 @@ export default function TenantCard({ data }: { data: TenantCardProps[] }) {
                             <span className="px-3 font-light">Rp.{lowestpriceidr} - Rp.{highestpriceidr}</span>
                         </div>
                     </div>
-                </a>
+                </div>
+            </a>
             );
         },
     );

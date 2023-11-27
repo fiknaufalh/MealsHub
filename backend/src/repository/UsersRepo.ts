@@ -14,7 +14,9 @@ interface IUsersRepo {
 export default class UsersRepo implements IUsersRepo {
     async getAllUsers(): Promise<Users[]> {
         try {
-            return await Users.findAll();
+            return await Users.findAll({
+                order: [["id", "ASC"]],
+            });
         } catch (error: any) {
             throw new Error(`Error while fetching users: ${error.message}`);
         }

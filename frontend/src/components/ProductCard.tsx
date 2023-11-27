@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
-import { useShoppingCart } from "../contexts/ShoppingCartContext";
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import ShoppingCart from "../pages/ShoppingCart";
+import { useState, useEffect } from 'react'
+import { useShoppingCart } from '../contexts/ShoppingCartContext';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import Axios from "axios";
 
 type ProductCardProps = {
@@ -29,9 +28,7 @@ export default function ProductCard({ data }: { data: ProductCardProps[] }) {
                 false,
             );
 
-            // find cartItem id_tenant
-
-            const [productData, setProductData] = useState<Product[]>([]);
+        const [productData, setProductData] = useState<Product[]>([]);
 
             const getProductData = async () => {
                 const productResponse = await Axios.get(
@@ -76,13 +73,40 @@ export default function ProductCard({ data }: { data: ProductCardProps[] }) {
                         return;
                     }
                 }
-                if (isAdded) {
-                    removeItem(id);
-                } else {
-                    increaseItemQuantity(id);
+            });
+
+            setProductData(result);
+
+        };
+
+        useEffect(() => {
+            getProductData();
+        }, []);
+
+        console.log(productData);
+
+        useEffect(() => {
+            const quantity = getItemQuantity(id);
+            setIsAdded(quantity > 0);
+        }, [getItemQuantity, id, setIsAdded]);
+
+        const handleClick = () => {
+            if (cartItems.length > 0) {
+                const cartItem = cartItems[0];
+                const cartTenantId = cartItem && productData.find((product: Product) => product.id === cartItem.id)?.id_tenant;
+                console.log(cartTenantId);
+                if (cartTenantId !== id_tenant) {
+                    alert("You can't add items from different tenants to the cart!");
+                    return;
                 }
-                setIsAdded(!isAdded);
-            };
+            }
+            if (isAdded) {
+                removeItem(id);
+            } else {
+                increaseItemQuantity(id);
+            }
+            setIsAdded(!isAdded);
+        };
 
             const priceidr = price
                 .toString()
