@@ -12,7 +12,7 @@ export default function CartHeader({ image, name }: CartHeaderProps) {
                         {image && (
                             <div className="flex items-center h-20 w-20">
                                 <img
-                                    src={`../../public/images/${image}`}
+                                    src={image}
                                     alt=""
                                     className="object-cover h-full w-full rounded-3xl"
                                 />
