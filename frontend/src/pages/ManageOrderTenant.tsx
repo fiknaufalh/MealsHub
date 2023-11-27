@@ -238,7 +238,7 @@ export default function OrderDetails() {
                     <Welcome user="Aldaebaran" />
                 </div>
                 <div className="absolute top-0 right-0 mt-9 mx-12">
-                    <Profile image="/public/images/ProfileDefault.png" onProfileClick={handleProfileClick} />
+                    <Profile image="/public/images/ProfileDefault.jpg" onProfileClick={handleProfileClick} />
                 </div>
                 <div className="absolute top-12 right-0 mt-9 mx-12">
                     {showProfileDropDown && <ProfileDropDown name="Aldaebaran" email="Aldaebaran@example.com" />}

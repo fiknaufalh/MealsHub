@@ -236,7 +236,7 @@ const ManagePayment = () => {
                 </div>
                 <div className="absolute top-0 right-0 mt-9 mx-12">
                     <Profile
-                        image="/images/ProfileDefault.png"
+                        image="/images/ProfileDefault.jpg"
                         onProfileClick={handleProfileClick}
                     />
                 </div>
