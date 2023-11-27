@@ -13,7 +13,9 @@ interface IPaymentsRepo {
 export default class PaymentsRepo implements IPaymentsRepo {
     async getAllPayments(): Promise<Payments[]> {
         try {
-            return await Payments.findAll();
+            return await Payments.findAll({
+                order: [['id', 'ASC']],
+            });
         } catch (error: any) {
             throw new Error(`Error while fetching payments: ${error.message}`);
         }

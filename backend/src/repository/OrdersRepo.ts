@@ -14,7 +14,9 @@ interface IOrdersRepo {
 export default class OrdersRepo implements IOrdersRepo {
     async getAllOrders(): Promise<Orders[]> {
         try {
-            return await Orders.findAll();
+            return await Orders.findAll({
+                order: [['id', 'ASC']],
+            });
         } catch (error: any) {
             throw new Error(`Error while fetching orders: ${error.message}`);
         }

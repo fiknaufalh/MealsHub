@@ -12,8 +12,9 @@ interface ITablesRepo {
 export default class TablesRepo implements ITablesRepo {
     async getAllTables(): Promise<Tables[]> {
         try {
-            console.log("masuk getTables");
-            return await Tables.findAll();
+            return await Tables.findAll({
+                order: [['id', 'ASC']],
+            });
         } catch (error: any) {
             throw new Error(`Error while fetching tables: ${error.message}`);
         }

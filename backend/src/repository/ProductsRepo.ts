@@ -13,7 +13,9 @@ interface IProductsRepo {
 export default class ProductsRepo implements IProductsRepo {
     async getAllProducts(): Promise<Products[]> {
         try {
-            return await Products.findAll();
+            return await Products.findAll({
+                order: [['id', 'ASC']],
+            });
         } catch (error: any) {
             throw new Error(`Error while fetching products: ${error.message}`);
         }
