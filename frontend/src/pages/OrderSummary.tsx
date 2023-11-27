@@ -154,9 +154,6 @@ export default function OrderSummary() {
                     <div className="ms-20 py-12 bg-white rounded-3xl">
                         <h2 className="text-mealshub-red text-3xl font-bold ms-16">Order Summary</h2>
                         <OrderDetailsCard data={joinedOrderDetailsData} />
-<<<<<<< HEAD
-                        <OrderSummaryCard data={joinedOrderSummaryData} />
-=======
                         <OrderSummaryCard data={joinedOrderSummaryData} customer={true} />
                         {joinedOrderDetailsData.map((order) => {
                             if (order.paymentstatus === "Waiting for Confirmation") {
@@ -170,7 +167,6 @@ export default function OrderSummary() {
                             }
                             return null;
                         })}
->>>>>>> cd14ccc80038e5ec620f4f13cc1d5420599e0ed5
                     </div>
                 </div>
             </div>

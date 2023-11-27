@@ -1,11 +1,7 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-<<<<<<< HEAD
-=======
-import ShoppingCart from '../pages/ShoppingCart';
 import Axios from "axios";
->>>>>>> cd14ccc80038e5ec620f4f13cc1d5420599e0ed5
 
 type ProductCardProps = {
     id: number;
@@ -13,16 +9,6 @@ type ProductCardProps = {
     name: string;
     description: string;
     price: number;
-<<<<<<< HEAD
-}
-
-export default function ProductCard({ data }: { data: ProductCardProps[] }) {
-    const productlist = data.map(({ id, image, name, description, price }) => {
-        const { getItemQuantity, increaseItemQuantity, removeItem } = useShoppingCart();
-
-        const [isAdded, setIsAdded] = useLocalStorage<boolean>(`product-${id}`, false);
-
-=======
     id_tenant: number;
 }
 
@@ -63,15 +49,12 @@ export default function ProductCard({ data }: { data: ProductCardProps[] }) {
 
         console.log(productData);
 
->>>>>>> cd14ccc80038e5ec620f4f13cc1d5420599e0ed5
         useEffect(() => {
             const quantity = getItemQuantity(id);
             setIsAdded(quantity > 0);
         }, [getItemQuantity, id, setIsAdded]);
 
         const handleClick = () => {
-<<<<<<< HEAD
-=======
             if (cartItems.length > 0) {
                 const cartItem = cartItems[0];
                 const cartTenantId = cartItem && productData.find((product: Product) => product.id === cartItem.id)?.id_tenant;
@@ -80,7 +63,6 @@ export default function ProductCard({ data }: { data: ProductCardProps[] }) {
                     return;
                 }
             }
->>>>>>> cd14ccc80038e5ec620f4f13cc1d5420599e0ed5
             if (isAdded) {
                 removeItem(id);
             } else {
