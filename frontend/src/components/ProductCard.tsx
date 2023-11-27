@@ -1,6 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import Axios from 'axios';
+
+type cartItem = {
+    id: number;
+    quantity: number;
+}
 
 type ProductCardProps = {
     id: number;
@@ -8,28 +14,117 @@ type ProductCardProps = {
     name: string;
     description: string;
     price: number;
+    id_tenant: number;
+}
+
+interface Product {
+    id : number,
+    image: string,
+    name: string,
+    description: string,
+    price: number
+    id_tenant: number
+}
+
+interface Tenant {
+    id : number,
+    image: string,
+    name: string
 }
 
 export default function ProductCard({ data }: { data: ProductCardProps[] }) {
-    const productlist = data.map(({ id, image, name, description, price }) => {
-        const { getItemQuantity, increaseItemQuantity, removeItem } = useShoppingCart();
+    const { getItemQuantity, increaseItemQuantity, removeItem, cartItems } = useShoppingCart();
+    const [isAdded, setIsAdded] = useLocalStorage<boolean>(`product`, false);
+    const [tenantData, setTenantData] = useState<Tenant[]>([]);
 
-        const [isAdded, setIsAdded] = useLocalStorage<boolean>(`product-${id}`, false);
+    const getTenantData = async () => {
+        const tenantResponse = await Axios.get(`http://localhost:8000/tenants`);
 
-        useEffect(() => {
-            const quantity = getItemQuantity(id);
-            setIsAdded(quantity > 0);
-        }, [getItemQuantity, id, setIsAdded]);
+        const tenantData = tenantResponse.data.data;
 
-        const handleClick = () => {
-            if (isAdded) {
+        const result = tenantData.map((tenant: Tenant) => {
+            return {
+                id: tenant.id,
+                image: tenant.image,
+                name: tenant.name
+            }
+        });
+
+        setTenantData(result);
+
+    };
+
+    useEffect(() => {
+        getTenantData();
+    }, []);
+
+    console.log(tenantData);
+
+    const [productData, setProductData] = useState<Product[]>([]);
+
+    const getProductData = async () => {
+        const productResponse = await Axios.get("http://localhost:8000/products");
+
+        const productData = productResponse.data.data;
+
+        const result = productData.map((product: Product) => {
+            return {
+                id: product.id,
+                image: product.image,
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                id_tenant: product.id_tenant
+            }
+        });
+
+        setProductData(result);
+
+    };
+
+    useEffect(() => {
+        getProductData();
+    }, []);
+
+    console.log(productData);
+
+    const getTenantId = (cartItem: cartItem) => {
+        const item = productData.find((i) => i.id === cartItem.id);
+        const tenant = tenantData.find((t) => t.id === item?.id_tenant);
+        console.log(tenant);
+        return tenant?.id || 0;
+    }
+
+    const [productStates, setProductStates] = useState<{ [key: number]: { isAdded: boolean, quantity: number } }>({});
+
+    const getQuantityAndIsAdded = (id: number) => {
+        const quantity = getItemQuantity(id);
+        const isAdded = productStates[id] ? productStates[id].isAdded : quantity > 0;
+        return { quantity, isAdded };
+    };
+
+    const handleClick = (id: number, id_tenant: number) => {
+        const { quantity } = getQuantityAndIsAdded(id);
+
+
+        if (cartItems.length > 0 && getTenantId(cartItems[0]) !== id_tenant) {
+            alert("You can only order from one tenant at a time!");
+        } else {
+            if (quantity > 0) {
                 removeItem(id);
             } else {
                 increaseItemQuantity(id);
             }
-            setIsAdded(!isAdded);
-        };
 
+            setProductStates(prevState => ({
+                ...prevState,
+                [id]: { ...prevState[id], isAdded: !prevState[id]?.isAdded, quantity: getItemQuantity(id) }
+            }));
+        }
+    };
+
+    const productlist = data.map(({ id, image, name, description, price, id_tenant }) => {
+        const { isAdded } = getQuantityAndIsAdded(id);
         const priceidr = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
         return (
@@ -49,7 +144,7 @@ export default function ProductCard({ data }: { data: ProductCardProps[] }) {
                             <button
                                 type="button"
                                 className={`${isAdded ? 'text-mealshub-red hover:text-white border-2 border-mealshub-red hover:bg-mealshub-red' : 'text-white bg-mealshub-red hover:text-mealshub-red border-2 border-mealshub-red hover:bg-white'} font-bold text-lg rounded-full text-sm px-5 py-2.5 text-center`}
-                                onClick={handleClick}
+                                onClick={() => handleClick(id, id_tenant)}
                             >
                                 {isAdded ? "Added" : "Add to Cart"}
                             </button>

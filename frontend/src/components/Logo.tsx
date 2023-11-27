@@ -14,7 +14,7 @@ export default function Logo(props: LogoProps) {
             <img
                 src="../../public/images/MealsHub.png"
                 alt="MealsHub"
-                className={`flex object-contain 
+                className={`flex object-cover 
                     ${height ? `h-${height}` : ""} 
                     ${width ? `w-${width}` : ""}`}
             />

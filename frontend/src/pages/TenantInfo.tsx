@@ -42,7 +42,8 @@ interface ProductCard {
     image: string,
     name: string,
     description: string,
-    price: number
+    price: number,
+    id_tenant: number
 }
 
 export default function TenantInfo() {
@@ -103,7 +104,8 @@ export default function TenantInfo() {
                 image: product.image,
                 name: product.name,
                 description: product.description,
-                price: product.price
+                price: product.price,
+                id_tenant: product.id_tenant
             }
         });
 

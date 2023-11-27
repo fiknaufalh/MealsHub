@@ -3,7 +3,7 @@ export default function MenuCard(props: any) {
         <div>
             <div className="w-60 h-52 bg-white rounded-3xl drop-shadow-lg font-nunito">
                 <div className="flex flex-col items-center justify-center">
-                    <img className="rounded-3xl w-40 h-24 object-contain" src={props.image} alt="" />
+                    <img className="rounded-3xl w-40 h-24 object-cover" src={props.image} alt="" />
                 </div>
                 <div className="mt-3 px-4">
                     <h5 className="mb-2 text-md font-extrabold tracking-tight text-gray-900">
