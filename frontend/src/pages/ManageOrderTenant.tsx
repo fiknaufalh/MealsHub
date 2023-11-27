@@ -143,7 +143,9 @@ export default function OrderDetails() {
         // Perform the join based on the specified conditions
         const OrderDataArray = [orderData];
         const result = OrderDataArray.map((order: Order) => {
-            const matchingPayment = paymentData.find((payment: Payment) => payment.id_order === order.id);
+            const matchingPayment = paymentData.find(
+                (payment: Payment) => payment.id_order === order.id,
+            );
 
             // Hash the code (matchingPayment.id) using SHA-256 from crypto-js and take the first 5 characters
             const hashedCode = matchingPayment ? crypto.SHA256(matchingPayment.id.toString()).toString().substring(0, 5) : null;
